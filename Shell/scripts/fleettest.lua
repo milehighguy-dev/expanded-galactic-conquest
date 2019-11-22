@@ -61,7 +61,8 @@ planetFleet = {
     },
     ["cor"] = {
         fleet:makeNewFleet(nil, IMP)
-    }
+    },
+    ["dag"] = {}
 }
 
 print("length of planetFleet " .. #planetFleet)
@@ -73,6 +74,10 @@ print("length of planetFleet " .. #planetFleet)
 print("length of planetFleet with function" .. #planetFleet)
 
 table.insert(planetFleet['geo'], fleet:makeNewFleet(nil, REP))
+
+table.insert(planetFleet['dag'], fleet:makeNewFleet(nil, REP))
+
+print("dagobah fleet name is " .. tostring(planetFleet['dag'][1].name))
 
 fleetPtr = { [1] = {}, [2] = {}, [3] = {}, [4] = {} }
 for planet, fleetList in pairs(planetFleet) do

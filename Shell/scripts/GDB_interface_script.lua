@@ -3,10 +3,12 @@
 
 -- load all scripts needed for your custom gc match here
 ScriptCB_DoFile("ifs_freeform_init_gdb")
+ScriptCB_DoFile("ai_override")
+ScriptCB_DoFile("multiteam_scripts")
 ScriptCB_DoFile("ifs_freeform_start_gdb")
 ScriptCB_DoFile("game_testscript")
 
-ScriptCB_DoFile("overrides")
+
 
 ----only override tables when we start the game, not just load this script
 ----otherwise it would change for all galactic conquests

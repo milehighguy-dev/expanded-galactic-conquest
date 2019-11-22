@@ -129,6 +129,11 @@ ifs_freeform_main.fleet = {
 
 --check if the fleets at the planet contain the given team's fleet
 ifs_freeform_main.fleetOnTeamIsPresent = function(this, fleetList, team)
+
+    if fleetList == nil then
+        return false
+    end
+
     for fleetIndex, fleetObj in ipairs(fleetList) do
         if fleetObj.team == team then
             return true
@@ -139,6 +144,14 @@ end
 
 --check if the fleets at the planet contain the given team's fleet
 ifs_freeform_main.getEnemyFleetToTeam = function(this, fleetList, team)
+
+    print("ifs_freeform_main.getEnemyFleetToTeam")
+
+    if fleetList == nil then
+        print("ERROR fleetList is nil")
+        return nil
+    end
+
     for fleetIndex, fleetObj in ipairs(fleetList) do
         if fleetObj.team ~= team then
             return fleetObj.team
@@ -147,8 +160,31 @@ ifs_freeform_main.getEnemyFleetToTeam = function(this, fleetList, team)
     return nil
 end
 
+--check if the fleets at the planet contain the given team's fleet
+ifs_freeform_main.thereIsMoreThanOneFleet = function(this, fleetList)
+    print("ifs_freeform_main.thereIsMoreThanOneFleet")
+
+    if fleetList == nil then
+        return false
+    end
+
+    if table.getn(fleetList) > 1 then
+        return true
+    else
+        return false
+    end
+
+end
+
 --check if the fleets at the planet contain the given team's fleet and none other are there
 ifs_freeform_main.fleetOnTeamIsOnlyPresent = function(this, fleetList, team)
+
+    print("ifs_freeform_main.fleetOnTeamIsOnlyPresent")
+
+    if fleetList == nil then
+        print("ifs_freeform_main.fleetOnTeamIsOnlyPresent planet has no fleets")
+        return false
+    end
 
     if table.getn(fleetList) > 1 then
         return false
@@ -164,6 +200,7 @@ end
 
 ifs_freeform_main.Enter = function(this, bFwd)
     gIFShellScreenTemplate_fnEnter(this, bFwd)
+    print("ifs_freeform_main.Enter")
 
     if bFwd then
         -- stop any playing movie
@@ -202,7 +239,7 @@ ifs_freeform_main.Enter = function(this, bFwd)
             this.lastFleet = {}
             for planet, fleetList in pairs(this.planetFleet) do
                 for fleetIndex, fleetObj in ipairs(fleetList) do
-                    if table.getn(fleetList) > 1 then
+                    if this:thereIsMoreThanOneFleet(fleetList) then
                         this.lastSelected[fleetObj.team] = planet
                         this.lastFleet[fleetObj.team] = planet
                     end
@@ -226,7 +263,7 @@ ifs_freeform_main.Enter = function(this, bFwd)
 
         -- if the last battle had a winner...
         local winner = ScriptCB_GetLastBattleVictory()
-        local loser
+        local loser = 2
 
         if winner == 1 then
             winner = this.attackTeam
@@ -235,7 +272,7 @@ ifs_freeform_main.Enter = function(this, bFwd)
             winner = this.defendTeam
             loser = this.attackTeam
         else
-            print("ERROR could not determine winner")
+            print("ERROR could not determine winner, is " .. tostring(winner))
         end
 
         if this.soakMode and ScriptCB_IsMetagameStateSaved() then
@@ -295,6 +332,8 @@ ifs_freeform_main.Enter = function(this, bFwd)
                 -- go to the fleet screen
                 ScriptCB_PushScreen("ifs_freeform_fleet")
             else
+
+                print("ifs_freeform_main.Enter going to AI move")
                 -- go to ai move
                 ScriptCB_PushScreen("ifs_freeform_ai")
             end
@@ -304,6 +343,7 @@ ifs_freeform_main.Enter = function(this, bFwd)
         -- set up build screen
         ifs_purchase_build_screen()
 
+        print("ifs_freeform_main.Enter initializing AI...")
         -- initialize ai state (HACK)
         ifs_freeform_ai:Init()
 
@@ -323,9 +363,11 @@ ifs_freeform_main.Enter = function(this, bFwd)
             end
         end
         --TODO make this dynamic dependent on teamCode table
+        print("ifs_freeform_main.Enter creating fleetPtr...")
         this.fleetPtr = { [1] = {}, [2] = {}, [3] = {}, [4] = {} }
         for planet, fleetList in pairs(this.planetFleet) do
             for fleetIndex, fleetObj in ipairs(fleetList) do
+                    print("fleetObj.team is " .. tostring(fleetObj.team) .. " planet is " .. tostring(planet))
                     this.fleetPtr[fleetObj.team][planet] = CreateEntity(this.fleetClass[fleetObj.team], this.modelMatrix[planet][fleetObj.team])
             end
         end
@@ -345,6 +387,7 @@ ifs_freeform_main.Enter = function(this, bFwd)
 end
 
 ifs_freeform_main.OneTimeInit = function(this, showLoadDisplay)
+    print("ifs_freeform_main.OneTimeInit")
     -- restore any saved metagame state
     if ScriptCB_IsMetagameStateSaved() then
         this:LoadState()
@@ -422,8 +465,8 @@ ifs_freeform_main.OneTimeInit = function(this, showLoadDisplay)
             this.modelMatrix[planet] = {}
             this.modelMatrix[planet][1] = GetEntityMatrix(planet .. "_fleet1") or this.planetMatrix[planet][1]
             this.modelMatrix[planet][2] = GetEntityMatrix(planet .. "_fleet2") or this.planetMatrix[planet][2]
-            this.modelMatrix[planet][3] = GetEntityMatrix(planet .. "_fleet2") or this.planetMatrix[planet][4]
-            this.modelMatrix[planet][3] = GetEntityMatrix(planet .. "_fleet2") or this.planetMatrix[planet][4]
+            this.modelMatrix[planet][3] = GetEntityMatrix(planet .. "_fleet3") or this.planetMatrix[planet][3]
+            this.modelMatrix[planet][4] = GetEntityMatrix(planet .. "_fleet4") or this.planetMatrix[planet][4]
         end
 
         -- show side setup screen?
@@ -436,12 +479,17 @@ end
 
 -- create a fleet with the specified team on the specified planet
 ifs_freeform_main.CreateFleet = function(this, team, planet)
+    print("ifs_freeform_main.CreateFleet")
     -- add the fleet to the planet
     --if not this.planetFleet[planet] then
     --    this.planetFleet[planet] = team
     --elseif this.planetFleet[planet] == 3 - team then
     --    this.planetFleet[planet] = 0
     --end
+
+    if not this.planetFleet[planet] then
+        this.planetFleet[planet] = {}
+    end
 
     table.insert(this.planetFleet[planet], this.fleet:makeNewFleet(nil, team))
 
@@ -456,6 +504,7 @@ end
 
 -- destroy a fleet with the specified team on the specified planet
 ifs_freeform_main.DestroyFleet = function(this, team, planet)
+    print("ifs_freeform_main.DestroyFleet")
     -- remove the fleet from the planet
     --if this.planetFleet[planet] == 0 then
     --    this.planetFleet[planet] = 3 - team
@@ -478,18 +527,24 @@ end
 
 -- move a fleet with the specified planet from the start planet to the next planet
 ifs_freeform_main.MoveFleet = function(this, team, start, next)
+    print("ifs_freeform_main.MoveFleet " .. tostring(team) .. " " .. tostring(start) .. " " .. tostring(next))
+
     -- save the fleet objects
     -- fleetPtr is the fleet icon, myFleet is the fleet object that holds gameplay info
     local fleetPtr = this.fleetPtr[team][start]
-    local myFleet
+    local myFleet = nil
 
+    print("about to remove fleet object from begin planet")
     --removes all fleets from planet that match team. can update it to delete by fleet id
     for fleetIndex, fleetObj in ipairs(this.planetFleet[start]) do
+        print("fleet index is " .. tostring(fleetIndex))
+        print("fleet object is " .. tostring(fleetObj))
         if fleetObj.team == team then
             myFleet = this.planetFleet[start][fleetIndex]
             this.planetFleet[start][fleetIndex] = nil
         end
     end
+    print("after remove fleet object from begin planet")
 
     -- remove the fleet from the start planet
     this.fleetPtr[team][start] = nil
@@ -514,7 +569,12 @@ ifs_freeform_main.MoveFleet = function(this, team, start, next)
     --    this.planetFleet[next] = 0
     --end
 
-    table.insert(this.planetFleet[planet], myFleet)
+    print("about to insert fleet myfleet " .. tostring(myFleet))
+    if not this.planetFleet[next] then
+        this.planetFleet[next] = {}
+    end
+    table.insert(this.planetFleet[next], myFleet)
+
 
     -- update the last fleet
     this.lastFleet[team] = next
@@ -522,19 +582,23 @@ end
 
 -- set the active team
 ifs_freeform_main.SetActiveTeam = function(this, team)
+    print("ifs_freeform_main.SetActiveTeam")
     this.playerTeam = team
     this.playerSide = this.teamCode[team]
     this.joystick = this.teamController[team]
     --TODO figure out how to set joystick_other
     this.joystick_other = this.teamController[3 - team]
+    print(">>>>>>>>>>>>>>>>>>>>> joystick_other is " .. tostring(joystick_other))
     ScriptCB_SetHotController((this.joystick or this.joystick_other or 0)+1)
 
+    print("about to go to SetActiveSide")
     -- update dependent values
     ifs_freeform_purchase_unit:SetActiveSide()
 end
 
 -- save mission setup. Will send info to the mission about units, team, etc
 ifs_freeform_main.SaveMissionSetup = function(this)
+    print("ifs_freeform_main.SaveMissionSetup")
     -- create mission setup table
     local missionSetup = {}
 
@@ -563,11 +627,12 @@ end
 
 -- apply battle results for the specified planet
 ifs_freeform_main.ApplyBattleResult = function(this, planet, winner, loser)
+    print("ifs_freeform_main.ApplyBattleResult")
     -- save which team won
     this.winnerTeam = winner
 
     -- save whether the battle was a fleet battle
-    this.fleetBattle = table.getn(this.planetFleet[planet]) > 1
+    this.fleetBattle = this:thereIsMoreThanOneFleet(this.planetFleet[planet])
 
     -- create if necessary
     this.planetResources = this.planetResources or {}
@@ -619,6 +684,7 @@ end
 
 -- go to the next turn
 ifs_freeform_main.NextTurn = function(this)
+    print("ifs_freeform_main.NextTurn")
     -- clear the screen stack
     ScriptCB_PopScreen("ifs_freeform_main")
 
@@ -667,6 +733,8 @@ ifs_freeform_main.NextTurn = function(this)
             -- go to the fleet screen
             ScriptCB_PushScreen("ifs_freeform_fleet")
         else
+
+            print("ifs_freeform_main.NextTurn going to AI move")
             -- go to ai move
             ScriptCB_PushScreen("ifs_freeform_ai")
         end
@@ -675,6 +743,7 @@ end
 
 -- set up team colors
 ifs_freeform_main.InitTeamColor = function(this)
+    print("ifs_freeform_main.InitTeamColor")
     -- precomputed colors
     local colorWhite = { r=255, g=255, b=255 }
     local colorBlue = { r=32, g=96, b=255 }
@@ -694,6 +763,7 @@ ifs_freeform_main.InitTeamColor = function(this)
     --    this.teamColor[2] = { [0] = colorWhite, [1] = colorBlue, [2] = colorRed }
     --end
 
+    this.teamColor = {}
     --TODO make this dynamic dependent on teamCode table
     this.teamColor[1] = { [0] = colorWhite, [1] = colorBlue, [2] = colorOrange, [3] = colorGreen, [4] = colorRed }
     this.teamColor[2] = { [0] = colorWhite, [1] = colorBlue, [2] = colorOrange, [3] = colorGreen, [4] = colorRed }
@@ -703,6 +773,7 @@ end
 
 -- get the next planet based on player input
 ifs_freeform_main.UpdateNextPlanet = function(this)
+    print("ifs_freeform_main.UpdateNextPlanet")
     if not this.joystick then
         return
     end
@@ -803,6 +874,7 @@ end
 
 -- save metagame state
 ifs_freeform_main.SaveState = function(this)
+    print("ifs_freeform_main.SaveState")
     -- what's the current screen?
     if ScriptCB_IsScreenInStack("ifs_freeform_summary") then
         if ScriptCB_IsScreenInStack("ifs_freeform_result") then
@@ -873,6 +945,7 @@ end
 
 -- load metagame state
 ifs_freeform_main.LoadState = function(this)
+    print("ifs_freeform_main.LoadState")
     local profileTeam
     local screen
 
@@ -953,6 +1026,7 @@ end
 ---------------------------
 
 ifs_freeform_fleet.Enter = function(this, bFwd)
+    print("ifs_freeform_fleet.Enter")
     gIFShellScreenTemplate_fnEnter(this, bFwd)
 
     ifs_freeform_main:PlayVoice(string.format(ifs_fleet_entry_sound, ifs_freeform_main.playerSide))
@@ -1053,6 +1127,7 @@ ifs_freeform_fleet.Enter = function(this, bFwd)
 end
 
 ifs_freeform_fleet.UpdateAction = function(this)
+    print("ifs_freeform_fleet.UpdateAction")
     local team = ifs_freeform_main.playerTeam
     local selected = ifs_freeform_main.planetSelected
     local next = ifs_freeform_main.planetNext
@@ -1158,6 +1233,7 @@ ifs_freeform_fleet.UpdateAction = function(this)
 end
 
 ifs_freeform_fleet.GetSuggestedMove = function(this, team, planet)
+    print("ifs_freeform_fleet.GetSuggestedMove")
     -- use the AI to calculate weights
     ifs_freeform_ai:CalculateWeights(team)
 
@@ -1194,6 +1270,7 @@ end
 
 -- calculate fleet cost
 ifs_freeform_fleet.UpdateFleetCost = function(this)
+    print("ifs_freeform_fleet.UpdateFleetCost")
     -- count fleets
     local fleets = 0
     for planet, fleetList in pairs(ifs_freeform_main.planetFleet) do
@@ -1208,6 +1285,7 @@ ifs_freeform_fleet.UpdateFleetCost = function(this)
 end
 
 ifs_freeform_fleet.SelectFleet = function(this, team, planet)
+    print("ifs_freeform_fleet.SelectFleet")
     -- if the planet has a friendly fleet...
     if ifs_freeform_main:fleetOnTeamIsOnlyPresent(ifs_freeform_main.planetFleet[planet], team) then
         -- select the fleet
@@ -1222,6 +1300,7 @@ ifs_freeform_fleet.SelectFleet = function(this, team, planet)
 end
 
 ifs_freeform_fleet.IsValidMove = function(this, team, start, next)
+    print("ifs_freeform_fleet.IsValidMove")
     -- check if the next location is valid...
     local valid = false
     for _, destination in ipairs(ifs_freeform_main.planetDestination[start]) do
@@ -1244,6 +1323,7 @@ ifs_freeform_fleet.IsValidMove = function(this, team, start, next)
 end
 
 ifs_freeform_fleet.AttemptMove = function(this, team, start, next)
+    print("ifs_freeform_fleet.AttemptMove")
     -- fail invalid move
     if not this:IsValidMove(team, start, next) then
         return false
@@ -1265,7 +1345,7 @@ ifs_freeform_fleet.AttemptMove = function(this, team, start, next)
             and ifs_freeform_main.planetTeam[next] ~= 0
             and ifs_freeform_main.planetTeam[next] ~= nil
             or
-            table.getn(ifs_freeform_main.planetFleet[next]) > 1 then
+            ifs_freeform_main:thereIsMoreThanOneFleet(ifs_freeform_main.planetFleet[next]) then
 
 
         -- set up the attacking and defending team. the attacker is the player team (current turn team) since it is moving to attack
@@ -1303,6 +1383,7 @@ end
 
 -- calculate fleet cost
 ifs_freeform_purchase_fleet.UpdateFleetCost = function(this)
+    print("ifs_freeform_purchase_fleet.UpdateFleetCost")
     -- count fleets
     local fleets = 0
     for planet, fleetList in pairs(ifs_freeform_main.planetFleet) do
@@ -1317,6 +1398,7 @@ ifs_freeform_purchase_fleet.UpdateFleetCost = function(this)
 end
 
 ifs_freeform_purchase_fleet.UpdateAction = function(this)
+    print("ifs_freeform_purchase_fleet.UpdateAction")
     local team = ifs_freeform_main.playerTeam
     local selected = ifs_freeform_main.planetSelected
 
@@ -1390,6 +1472,7 @@ ifs_freeform_purchase_fleet.UpdateAction = function(this)
 end
 
 ifs_freeform_purchase_fleet.Input_Accept = function(this, joystick)
+    print("ifs_freeform_purchase_fleet.Input_Accept")
     if(gPlatformStr == "PC") then
         --print( "this.CurButton = ", this.CurButton )
         if( this.CurButton == "_accept" ) then
@@ -1465,6 +1548,7 @@ end
 ---------------------------
 
 ifs_freeform_focus.Update = function(this, fDt)
+    print("ifs_freeform_focus.Update")
     gIFShellScreenTemplate_fnUpdate(this, fDt) -- call base class
 
     -- update zoom values
@@ -1499,6 +1583,7 @@ end
 ---------------------------
 
 ifs_freeform_battle.Enter = function(this, bFwd)
+    print("ifs_freeform_battle.Enter")
     gIFShellScreenTemplate_fnEnter(this, bFwd) -- call default enter function
 
     ifs_freeform_main:SetZoom(2)
@@ -1535,7 +1620,7 @@ ifs_freeform_battle.Enter = function(this, bFwd)
         IFText_fnSetString(this.info.caption, "ifs.freeform.spacebattle")
         IFObj_fnSetVis(this.info.text, false)
         --if it's a space battle over a planet
-    elseif table.getn(ifs_freeform_main.planetFleet[ifs_freeform_main.planetSelected]) > 1 then
+    elseif ifs_freeform_main:thereIsMoreThanOneFleet(ifs_freeform_main.planetFleet[ifs_freeform_main.planetSelected]) then
         if ifs_freeform_main.joystick then
             ifs_freeform_main:PlayVoice(string.format(ifs_battle_fleet_sound, ifs_freeform_main.playerSide, "us"))
         else
@@ -1581,6 +1666,7 @@ end
 --  begin ifs_freeform_battle_mode
 ---------------------------
 ifs_freeform_battle_mode.Enter = function(this, bFwd)
+    print("ifs_freeform_battle_mode.Enter")
     gIFShellScreenTemplate_fnEnter(this, bFwd) -- call default enter function
 
     ifs_freeform_SetButtonVis( this, "back", nil )
@@ -1589,7 +1675,7 @@ ifs_freeform_battle_mode.Enter = function(this, bFwd)
     ifs_freeform_SetButtonName( this, "accept", "ifs.freeform.pickmode" )
 
     -- get the appropriate map mode list
-    this.modes = (table.getn(ifs_freeform_main.planetFleet[ifs_freeform_main.planetSelected]) > 1)
+    this.modes = (ifs_freeform_main:thereIsMoreThanOneFleet(ifs_freeform_main.planetFleet[ifs_freeform_main.planetSelected]))
             and ifs_freeform_main.spaceMission or ifs_freeform_main.planetMission[ifs_freeform_main.planetSelected]
 
     -- switch to other player
@@ -1639,6 +1725,7 @@ end
 ---------------------------
 
 ifs_freeform_battle_card.Next = function(this)
+    print("ifs_freeform_battle_card.Next")
     if this.defending then
         -- switch to the attacker
         this.defending = nil
@@ -1680,6 +1767,7 @@ end
 ---------------------------
 
 ifs_freeform_result.Enter = function(this, bFwd)
+    print("ifs_freeform_result.Enter")
     gIFShellScreenTemplate_fnEnter(this, bFwd) -- call default enter function
 
     ifs_freeform_main:SetZoom(2)
@@ -1765,6 +1853,7 @@ end
 
 -- Input_Accept
 ifs_freeform_result.Input_Accept = function(this, joystick)
+    print("ifs_freeform_result.Input_Accept")
     if(gPlatformStr == "PC") then
         --print( "this.CurButton = ", this.CurButton )
         if( this.CurButton == "_accept" ) then
@@ -1796,408 +1885,11 @@ end
 ---------------------------
 
 ---------------------------
---  begin ifs_freeform_ai
----------------------------
-
--- calculate weights for each planet
-ifs_freeform_ai.CalculateWeights = function(this, myteam)
-    -- clear out planet weights
-    for planet, _ in pairs(ifs_freeform_main.planetDestination) do
-        this.planetValue[planet] = 0
-        this.defenseValue[planet] = { [false] = 0, [true] = 0 }
-    end
-
-    -- for each planet...
-    for planet, team in pairs(ifs_freeform_main.planetTeam) do
-        local weight = 0
-        local defense = false
-
-        -- if the planet is not neutral...
-        if team > 0 then
-            -- use defense value if mine
-            defense = team == myteam
-
-            -- get odds of planet victory
-            -- (should calculate based on purchases)
-            local planetwin = 0.5
-
-            -- get planet value
-            local value = ifs_freeform_main.planetValue[planet]
-
-            -- win gets:
-            -- planet victory value
-            -- intrinsic value of the planet
-            -- scaled value of any port
-            local winvalue = value.victory + value.turn * this.turncount
-            --				if ifs_freeform_main.planetPort[planet] then
-            --					winvalue = winvalue + this.portscore * this.enemyvaluescale
-            --				end
-
-            -- lose gets:
-            -- planet defeat value
-            -- negative value of my fleet
-            local losevalue = value.defeat - this.fleetscore
-
-            -- calculate conditional value
-            weight = planetwin * winvalue + (1 - planetwin) * losevalue
-        end
-
-        -- if the planet has a fleet...
-        fleet = ifs_freeform_main.planetFleet[planet]
-        if fleet then
-            -- use defense value if mine
-            defense = ifs_freeform_main:fleetOnTeamIsOnlyPresent(fleet, myteam)
-
-            -- get odds of fleet victory
-            -- (should calculate based on purchases)
-            local fleetwin = 0.5
-
-            -- get space value
-            local value = ifs_freeform_main.spaceValue
-
-            -- win gets:
-            -- space victory value
-            -- scaled value of enemy fleet
-            -- underlying planet value
-            local winvalue = value.victory + this.fleetscore * this.enemyvaluescale + weight
-
-            -- lose gets:
-            -- space defeat value
-            -- negative value of my fleet
-            local losevalue = value.defeat - this.fleetscore
-
-            -- calculate conditional value
-            weight = fleetwin * winvalue + (1 - fleetwin) * losevalue
-        end
-
-        -- scale weight by battle recency
-        for i, p in ipairs(ifs_freeform_main.recentPlanets) do
-            if p == planet then
-                weight = weight * math.pow(2, i-4)		-- 1/8, 1/4, 1/2
-                break
-            end
-        end
-
-        -- if the planet is worth anything...
-        if weight > 0 then
-            -- spread weight around
-            for p, scale in pairs(this.weightScale[planet]) do
-                this.defenseValue[p][defense] = this.defenseValue[p][defense] + weight * scale
-            end
-        end
-    end
-
-    -- for each fleet...
-    local fleetThreat = { }
-    for planet, fleetList in pairs(ifs_freeform_main.planetFleet) do
-        -- use defense value if mine
-        local defense = ifs_freeform_main:fleetOnTeamIsOnlyPresent(fleetList, myteam)
-
-        -- calculate threat value
-        -- (use the offensive value the fleet sees at that location)
-        local threat = this.threatscale * this.defenseValue[planet][not defense]
-
-        -- save fleet threat
-        fleetThreat[planet] = { defense, threat }
-    end
-
-    -- for each fleet threat...
-    for planet, values in pairs(fleetThreat) do
-        local defense = values[1]
-        local threat = values[2]
-
-        -- spread weight around
-        for p, scale in pairs(this.weightScale[planet]) do
-            this.defenseValue[p][defense] = this.defenseValue[p][defense] + threat * scale
-        end
-    end
-
-    -- create combined value
-    for planet, value in pairs(this.defenseValue) do
-        this.planetValue[planet] = value[false] * this.aggression + value[true] * (1-this.aggression)
-    end
-end
-
--- determine if and where to build a fleet
-ifs_freeform_ai.CalculateBuildFleet = function(this, fDt)
-    -- default to calculate move fleet
-    this.displayTime = -1
-    this.Update = this.CalculateMoveFleet
-
-    -- get my team
-    local myteam = ifs_freeform_main.playerTeam
-
-    -- update fleet cost
-    ifs_freeform_fleet:UpdateFleetCost()
-
-    -- if there is enough resources to build a fleet...
-    local funds = ifs_freeform_main.teamResources[myteam]
-    local cost = ifs_freeform_fleet.fleetCost
-    print("funds:", funds, "fleet cost:", cost)
-    if cost and funds >= cost then
-        print("purchase fleet?")
-
-        -- create baseline value for my non-fleet planets
-        local fleetWeight = {}
-        for planet, team in pairs(ifs_freeform_main.planetTeam) do
-            if team == myteam and not ifs_freeform_main.planetFleet[planet] then
-                fleetWeight[planet] = 1
-            end
-        end
-
-        -- for each fleet in the galaxy...
-        for planet, fleetList in pairs(ifs_freeform_main.planetFleet) do
-            -- decrease weight for friendly fleets, increase for enemy fleets
-            local weight = ifs_freeform_main:fleetOnTeamIsOnlyPresent(fleetList, myteam) and -1 or 1
-            -- spread weight around
-            for p, scale in pairs(this.weightScale[planet]) do
-                if fleetWeight[p] then
-                    fleetWeight[p] = fleetWeight[p] + weight * scale
-                end
-            end
-        end
-
-        -- for each potential location...
-        local totalWeight = 0
-        for planet, weight in pairs(fleetWeight) do
-            -- scale by planet value
-            fleetWeight[planet] = math.pow(2, 0.2 * this.planetValue[planet] + 2 * fleetWeight[planet])
-            print ("planet weight", planet, weight, fleetWeight[planet])
-            totalWeight = totalWeight + fleetWeight[planet]
-        end
-        print ("total weight:", totalWeight)
-
-        -- pick a location
-        local scaledWeight = cost == 0 and totalWeight or totalWeight * funds / (funds - cost * 0.75)	--+ (cost - ifs_freeform_fleet_cost[0]) * cost / funds
-        local randomWeight = math.random() * scaledWeight
-        print ("scaled weight:", scaledWeight, randomWeight)
-        for planet, weight in pairs(fleetWeight) do
-            randomWeight = randomWeight - weight
-            if randomWeight <= 0 then
-                print ("purchase fleet:", planet)
-
-                -- go to update build port
-                ifs_freeform_main:SelectPlanet(nil, planet)
-                this.displayTime = 2.0
-                this.Update = this.UpdateBuildFleet
-                break
-            end
-        end
-    end
-
-    -- perform visible update
-    this:Update(fDt)
-end
-
--- pick a fleet movement
-ifs_freeform_ai.CalculateMoveFleet = function(this, fDt)
-    -- default to done
-    this.displayTime = -1
-    this.Update = this.UpdateDone
-
-    -- get my team
-    local myteam = ifs_freeform_main.playerTeam
-
-    -- get weighted move values
-    local moveWeight = {}
-    local totalWeight = 0
-    for planet, fleetList in pairs(ifs_freeform_main.planetFleet) do
-        for fleetIndex, fleetObj in ipairs(fleetList) do
-            if fleetObj.team == myteam then
-                local reference = this.planetValue[planet]
-                for _, destination in ipairs(ifs_freeform_main.planetDestination[planet]) do
-                    if not ifs_freeform_main:fleetOnTeamIsOnlyPresent(ifs_freeform_main.planetFleet[destination], myteam) then
-                        local weight = math.pow(2, 0.2 * (this.planetValue[destination] - reference))
-                        moveWeight[{planet, destination}] = weight
-                        print(planet, destination, weight)
-                        totalWeight = totalWeight + weight
-                    end
-                end
-            end
-
-        end
-    end
-
-    -- get a random move
-    local randomWeight = math.random() * totalWeight
-
-    -- for each possible move...
-    for move, weight in pairs(moveWeight) do
-        -- deduct the move's weight
-        randomWeight = randomWeight - weight
-
-        -- if this move is the selected one...
-        if randomWeight <= 0 then
-            -- get the start and next planets
-            local start = move[1]
-            local next = move[2]
-
-            -- select the start planet
-            ifs_freeform_main:SelectPlanet(nil, start)
-
-            -- aim towards the next planet
-            ifs_freeform_main.planetNext = next
-
-            -- go to update move fleet
-            this.displayTime = 2.0
-            this.Update = this.UpdateMoveFleet
-            break
-        end
-    end
-
-    -- perform visible updtae
-    this:Update(fDt)
-end
-
--- update build fleet
-ifs_freeform_ai.UpdateBuildFleet = function(this, fDt)
-    -- get my team
-    local myteam = ifs_freeform_main.playerTeam
-
-    -- get the selected planet
-    local selected = ifs_freeform_main.planetSelected
-
-    -- if the display time elapses...
-    this.displayTime = this.displayTime - fDt
-    if this.displayTime <= 0 then
-        -- if there is a fleet...
-        if ifs_freeform_main.planetFleet[selected] then
-            -- go to calculate move fleet
-            this.Update = this.CalculateMoveFleet
-        else
-            -- build the fleet and show it
-            ifs_freeform_fleet:BuildFleet(myteam, selected)
-            this.displayTime = 1.0
-        end
-    end
-
-    if not ifs_freeform_main.planetFleet[selected] then
-        ifs_freeform_main:DrawFleetIcon(selected, myteam, true, true)
-    end
-
-    -- for each starting planet...
-    for planet1, destinations in pairs(ifs_freeform_main.planetDestination) do
-        -- for each potential destination...
-        for _, planet2 in ipairs(destinations) do
-            if planet1 < planet2 then
-                -- draw a white link
-                DrawBeamBetween(
-                        ifs_freeform_main.planetMatrix[planet1][0],
-                        ifs_freeform_main.planetMatrix[planet2][0],
-                        "lane_selected", 1.0, 255, 255, 255, 32
-                )
-            end
-        end
-    end
-
-    -- call common update
-    this:UpdateCommon(fDt)
-end
-
-ifs_freeform_ai.UpdateMoveFleet = function(this, fDt)
-    -- get the start and next planet
-    local start = ifs_freeform_main.planetSelected
-    local next = ifs_freeform_main.planetNext
-
-    -- for each starting planet...
-    local playerTeam = ifs_freeform_main.playerTeam
-    for planet1, destinations in pairs(ifs_freeform_main.planetDestination) do
-        -- for each potential destination...
-        for _, planet2 in ipairs(destinations) do
-            if planet1 < planet2 then
-                --					-- get the link team
-                --					local planet1Team = ifs_freeform_main.planetFleet[planet1] or ifs_freeform_main.planetTeam[planet1]
-                --					local planet2Team = ifs_freeform_main.planetFleet[planet2] or ifs_freeform_main.planetTeam[planet2]
-                --					local linkTeam
-                --					if planet1Team == planet2Team then
-                --						linkTeam = planet1Team
-                --					elseif planet1Team == enemyTeam or planet2Team == enemyTeam then
-                --						linkTeam = enemyTeam
-                --					else
-                --						linkTeam = 0
-                --					end
-                -- color the lane based on the link team
-                --					local r,g,b = ifs_freeform_main:GetTeamColor(linkTeam)
-                local a = 200
-                local shift = 0
-                local repetitions = 1
-                if planet1 ~= start and planet2 ~= start then
-                    a = 32
-                elseif next ~= start and (planet1 == next or planet2 == next) then
-                    a = 255
-                    if planet1 == next then
-                        shift = 2 * ScriptCB_GetMissionTime()
-                    else
-                        shift = -2 * ScriptCB_GetMissionTime()
-                    end
-                    repetitions = 8
-                end
-                DrawBeamBetween(
-                        ifs_freeform_main.planetMatrix[planet1][0],
-                        ifs_freeform_main.planetMatrix[planet2][0],
-                        "lane_selected", 1.0, 255, 255, 255, a, shift, repetitions
-                )
-            end
-        end
-    end
-
-    this.displayTime = this.displayTime - fDt
-    if this.displayTime <= 0 then
-        if start ~= next then
-            -- move the fleet
-            ifs_freeform_main:MoveFleet(playerTeam, start, next)
-            ifs_freeform_main:SelectPlanet(nil, next)
-
-            -- show the result
-            if this.autoaccept then
-                this.displayTime = 1.0
-            else
-                this.displayTime = 1e38
-            end
-        else
-            -- if the destination planet is an enemy, or there is a fleet battle...
-            if ifs_freeform_main.planetTeam[next] ~= playerTeam
-                    and ifs_freeform_main.planetTeam[next] ~= playerTeam
-                    and ifs_freeform_main.planetTeam[next] ~= 0
-                    and ifs_freeform_main.planetTeam[next] ~= nil
-                    or
-                    table.getn(ifs_freeform_main.planetFleet[next]) > 1 then
-
-                ifs_freeform_main.attackTeam = ifs_freeform_main.playerTeam
-
-                -- set up the attacking and defending team. the attacker is the player team (current turn team) since it is moving to attack
-                if ifs_freeform_main:getEnemyFleetToTeam(ifs_freeform_main.planetFleet[next], playerTeam) then
-                    ifs_freeform_main.defendTeam = ifs_freeform_main:getEnemyFleetToTeam(ifs_freeform_main.planetFleet[next], playerTeam)
-                elseif ifs_freeform_main.planetTeam[next] then
-                    ifs_freeform_main.defendTeam = ifs_freeform_main.planetTeam[next]
-                end
-
-                -- jump to the battle screen
-                ScriptCB_PushScreen("ifs_freeform_battle")
-            else
-                -- jump to the summary page
-                ScriptCB_PushScreen("ifs_freeform_summary")
-            end
-        end
-    else
-        if start ~= next then
-            ifs_freeform_main:DrawFleetIcon(next, playerTeam, true, true)
-        end
-    end
-
-    -- call common update
-    this:UpdateCommon(fDt)
-end
-
----------------------------
---  end ifs_freeform_ai
----------------------------
-
----------------------------
 --  begin ifs_freeform_sides
 ---------------------------
 
 ifs_freeform_sides.Enter = function(this, bFwd)
+    print("ifs_freeform_sides.Enter")
     gIFShellScreenTemplate_fnEnter(this, bFwd) -- call default enter function
 
     -- read all controllers
@@ -2248,6 +1940,7 @@ end
 ---------------------------
 
 ifs_freeform_end.Enter = function(this)
+    print("ifs_freeform_end.Enter")
     gIFShellScreenTemplate_fnEnter(this, bFwd)
 
     -- switch teams if on the AI's turn
