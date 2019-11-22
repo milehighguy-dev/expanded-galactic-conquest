@@ -1,0 +1,14 @@
+ucft
+{
+    
+    REQN
+    {
+        "script"
+		"GDB_interface_script"
+        "ifs_freeform_init_gdb"
+        "ifs_freeform_start_gdb"
+        "overrides"
+        "game_testscript"
+    }
+
+}
