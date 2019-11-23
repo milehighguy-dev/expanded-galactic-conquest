@@ -71,7 +71,7 @@ ifs_freeform_ai.CalculateWeights = function(this, myteam)
 
         -- if the planet has a fleet...
         fleet = ifs_freeform_main.planetFleet[planet]
-        if fleet then
+        if fleet ~= nil and table.getn(fleet) > 0 then
             -- use defense value if mine
             defense = ifs_freeform_main:fleetOnTeamIsOnlyPresent(fleet, myteam)
 
@@ -168,7 +168,7 @@ ifs_freeform_ai.CalculateBuildFleet = function(this, fDt)
         -- create baseline value for my non-fleet planets
         local fleetWeight = {}
         for planet, team in pairs(ifs_freeform_main.planetTeam) do
-            if team == myteam and not ifs_freeform_main.planetFleet[planet] then
+            if team == myteam and not ifs_freeform_main.planetFleet[planet] or ifs_freeform_main.planetFleet[planet] == {} then
                 fleetWeight[planet] = 1
             end
         end
@@ -410,7 +410,7 @@ ifs_freeform_ai.UpdateBuildFleet = function(this, fDt)
     this.displayTime = this.displayTime - fDt
     if this.displayTime <= 0 then
         -- if there is a fleet...
-        if ifs_freeform_main.planetFleet[selected] then
+        if ifs_freeform_main.planetFleet[selected] ~= nil and  ifs_freeform_main.planetFleet[selected] ~= {} then
             -- go to calculate move fleet
             this.Update = this.CalculateMoveFleet
         else
@@ -420,7 +420,7 @@ ifs_freeform_ai.UpdateBuildFleet = function(this, fDt)
         end
     end
 
-    if not ifs_freeform_main.planetFleet[selected] then
+    if not ifs_freeform_main.planetFleet[selected] or ifs_freeform_main.planetFleet[selected] == nil then
         ifs_freeform_main:DrawFleetIcon(selected, myteam, true, true)
     end
 

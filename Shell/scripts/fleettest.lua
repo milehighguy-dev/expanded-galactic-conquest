@@ -4,6 +4,7 @@
 --- DateTime: 11/21/2019 5:02 PM
 ---
 
+print("table length is " .. #{})
 
 fleet = {
     id = 0,

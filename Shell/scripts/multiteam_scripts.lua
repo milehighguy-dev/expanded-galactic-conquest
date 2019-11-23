@@ -151,12 +151,17 @@ ifs_freeform_main.getEnemyFleetToTeam = function(this, fleetList, team)
         print("ERROR fleetList is nil")
         return nil
     end
+    print("after first if")
 
     for fleetIndex, fleetObj in ipairs(fleetList) do
+        print("fleet obj team is " .. tostring(fleetObj.team))
         if fleetObj.team ~= team then
+            print("in if. team is " .. tostring(team))
             return fleetObj.team
         end
     end
+
+    print("after loop")
     return nil
 end
 
