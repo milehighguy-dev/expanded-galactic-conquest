@@ -124,7 +124,7 @@ ifs_freeform_init_gdb = function(this, REP, CIS, ALL, IMP)
 				["con"] = "myg1c_con",
 			},
 			["nab"] = {
-				["con"] = "nab2gc_con",
+				["con"] = "nab2c_con",
 			},
 			["pol"] = {
 				["con"] = "pol1c_con",

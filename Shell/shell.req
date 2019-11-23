@@ -7,8 +7,7 @@ ucft
 		"GDB_interface_script"
         "ifs_freeform_init_gdb"
         "ifs_freeform_start_gdb"
-        "multiteam_scripts"
-        "ai_override"
+        "totalconquest_scripts"
         "game_testscript"
     }
 

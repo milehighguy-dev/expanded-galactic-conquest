@@ -111,20 +111,21 @@ function ifs_freeform_start_gdb(this)
 		--	["cor"] = IMP
 		--}
 
+		-- create starting fleets for each team
 		print("initializing planetFleet -----------------")
 		this.planetFleet = {
-			["kam"] = {
-				this.fleet:makeNewFleet(nil, REP)
-			},
-			["geo"] = {
-				this.fleet:makeNewFleet(nil, CIS)
-			},
-			["hot"] = {
-				this.fleet:makeNewFleet(nil, ALL)
-			},
-			["cor"] = {
-				this.fleet:makeNewFleet(nil, IMP)
-			}
+			["kam"] = REP,
+			["geo"] = CIS,
+			["hot"] = ALL,
+			["cor"] = IMP
+		}
+
+		-- create starting fleet information for each team
+		this.planetFleetInfo = {
+			["kam"] = {this.fleet:makeNewFleet(nil,REP)},
+			["geo"] = {this.fleet:makeNewFleet(nil,CIS)},
+			["hot"] = {this.fleet:makeNewFleet(nil,ALL)},
+			["cor"] = {this.fleet:makeNewFleet(nil,IMP)}
 		}
 	end
 end

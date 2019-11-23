@@ -93,16 +93,16 @@ end
 
 
 if ScriptCB_IsMetagameStateSaved() then
-	
+
 	-- load all data
 	local temp = {ScriptCB_LoadMetagameState()}
-	
+
 	-- if it is the database
 	if temp[1] and temp[1].isRemaDatabase then
-		
+
 		print("                             : found..")
 		rema_database = temp[1]
-		
+
 		tprint(temp)
 		if not (next(temp, 1) == nil) then
 			tprint(temp)
@@ -139,7 +139,7 @@ if ScriptCB_IsMetagameStateSaved() then
 			-- there is only the database, clean up
 			ScriptCB_ClearMetagameState()
 		end
-	
+
 		print("                             : run game scripts..")
 		swbf2Remaster_runGameScripts()
 	end
