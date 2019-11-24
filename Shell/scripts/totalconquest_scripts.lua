@@ -110,8 +110,8 @@ ifs_freeform_main.fleet = {
         self.__index = self
 
         -- each new fleet object has an incremented ID
-        self.id = self.id + 1
-        newobject.id = self.id
+        --self.id = self.id + 1
+        --newobject.id = self.id
 
         -- developer selects which team the fleet is
         newobject.team = team
@@ -408,7 +408,7 @@ ifs_freeform_main.CreateFleet = function(this, team, planet)
     -- add the fleet to the planet
     if not this.planetFleet[planet] then
         this.planetFleet[planet] = team
-    elseif this.planetFleet[planet] ~= team and this.planetFleet[planet] == 0 and this.planetFleet[planet] ~= nil then
+    elseif this.planetFleet[planet] ~= team and this.planetFleet[planet] ~= 0 and this.planetFleet[planet] ~= nil then
         this.planetFleet[planet] = 0
     end
 
@@ -453,6 +453,9 @@ ifs_freeform_main.DestroyFleet = function(this, team, planet)
             this.planetFleetInfo[planet][fleetIndex] = nil
         end
     end
+    if this.planetFleetInfo[planet] == {} then
+        this.planetFleetInfo[planet] = nil
+    end
 
     if this.fleetPtr[team][planet] then
         DeleteEntity(this.fleetPtr[team][planet])
@@ -496,7 +499,7 @@ ifs_freeform_main.MoveFleet = function(this, team, start, next)
     this.fleetPtr[team][next] = fleetPtr
     if not this.planetFleet[next] then
         this.planetFleet[next] = team
-    elseif this.planetFleet[next] ~= team and this.planetFleet[next] == 0 and this.planetFleet[next] ~= nil then
+    elseif this.planetFleet[next] ~= team and this.planetFleet[next] ~= 0 and this.planetFleet[next] ~= nil then
         this.planetFleet[next] = 0
     end
 
@@ -517,7 +520,7 @@ ifs_freeform_main.SetActiveTeam = function(this, team)
     this.playerSide = this.teamCode[team]
     this.joystick = this.teamController[team]
     --TODO figure this out
-    this.joystick_other = this.teamController[3 - team]
+    --this.joystick_other = this.teamController[3 - team]
     ScriptCB_SetHotController((this.joystick or this.joystick_other or 0)+1)
 
     -- update dependent values
@@ -983,7 +986,7 @@ ifs_freeform_fleet.AttemptMove = function(this, team, start, next)
     this.planetNext = next
 
     -- if the destination planet is an enemy, or there is a fleet battle...
-    if ifs_freeform_main.planetTeam[next] ~= team 
+    if ifs_freeform_main.planetTeam[next] ~= team
             and ifs_freeform_main.planetTeam[next] ~= 0
             and ifs_freeform_main.planetTeam[next] ~= nil or
             ifs_freeform_main.planetFleet[next] == 0 then
@@ -1126,7 +1129,7 @@ ifs_freeform_battle_mode.Enter = function(this, bFwd)
             and ifs_freeform_main.spaceMission or ifs_freeform_main.planetMission[ifs_freeform_main.planetSelected]
 
     -- switch to other player
-    if ifs_freeform_main.joystick_other then
+    if ifs_freeform_main.teamController[ifs_freeform_main.defendTeam] then
         this.originalTeam = ifs_freeform_main.playerTeam
         --TODO verify this is the right other team to switch to
         ifs_freeform_main:SetActiveTeam(ifs_freeform_main.defendTeam)
@@ -1285,7 +1288,7 @@ ifs_freeform_result.Enter = function(this, bFwd)
 
     -- update player results
     this:UpdateResult(this.player_result, ifs_freeform_main.playerTeam, ifs_freeform_main.joystick)
-    this:UpdateResult(this.enemy_result, ifs_freeform_main.defendTeam, ifs_freeform_main.joystick_other)
+    this:UpdateResult(this.enemy_result, ifs_freeform_main.defendTeam, ifs_freeform_main.teamController[ifs_freeform_main.defendTeam])
 
     -- if in soak mode...
     if ifs_freeform_main.soakMode then
@@ -1629,6 +1632,7 @@ end
 ---------------------------
 
 ifs_freeform_sides.Enter = function(this, bFwd)
+    print("ifs_freeform_sides.Enter")
     gIFShellScreenTemplate_fnEnter(this, bFwd) -- call default enter function
 
     -- read all controllers
@@ -1640,12 +1644,18 @@ ifs_freeform_sides.Enter = function(this, bFwd)
     -- set side titles
     IFText_fnSetString(this.team1.text, ifs_freeform_main.teamName[1])
     IFText_fnSetString(this.team2.text, ifs_freeform_main.teamName[2])
+    IFText_fnSetString(this.team3.text, ifs_freeform_main.teamName[3])
+    IFText_fnSetString(this.team4.text, ifs_freeform_main.teamName[4])
 
     -- set side icons
     IFImage_fnSetTexture(this.team1.icon, "seal_" .. ifs_freeform_main.teamCode[1])
     IFObj_fnSetColor(this.team1.icon, ifs_freeform_main:GetTeamColor(1))
     IFImage_fnSetTexture(this.team2.icon, "seal_" .. ifs_freeform_main.teamCode[2])
     IFObj_fnSetColor(this.team2.icon, ifs_freeform_main:GetTeamColor(2))
+    IFImage_fnSetTexture(this.team3.icon, "seal_" .. ifs_freeform_main.teamCode[3])
+    IFObj_fnSetColor(this.team3.icon, ifs_freeform_main:GetTeamColor(3))
+    IFImage_fnSetTexture(this.team4.icon, "seal_" .. ifs_freeform_main.teamCode[4])
+    IFObj_fnSetColor(this.team4.icon, ifs_freeform_main:GetTeamColor(4))
 
     -- for each controller...
     this.controllerTeam = {}
@@ -1670,6 +1680,56 @@ ifs_freeform_sides.Enter = function(this, bFwd)
     end
 end
 
+ifs_freeform_sides.team3 = NewIFContainer {
+    ScreenRelativeX = 1.0, -- right
+    ScreenRelativeY = 0.2, -- top
+
+    text = NewIFText {
+        font = "gamefont_large",
+        textw = side_w,
+        x = -side_w,
+
+        halign = "hcenter",
+        valign = "vcenter",
+        nocreatebackground = 1
+    },
+
+    icon = NewIFImage {
+        ZPos = 200,
+        alpha = 0.25,
+        localpos_l = -side_w * 0.5 - 32,
+        localpos_t = -32,
+        localpos_r = -side_w * 0.5 + 32,
+        localpos_b = 32,
+        inert = 1,
+    }
+}
+
+ifs_freeform_sides.team4 = NewIFContainer {
+    ScreenRelativeX = 1.0, -- right
+    ScreenRelativeY = 0.2, -- top
+
+    text = NewIFText {
+        font = "gamefont_large",
+        textw = side_w,
+        x = -side_w,
+
+        halign = "hcenter",
+        valign = "vcenter",
+        nocreatebackground = 1
+    },
+
+    icon = NewIFImage {
+        ZPos = 200,
+        alpha = 0.25,
+        localpos_l = -side_w * 0.5 - 32,
+        localpos_t = -32,
+        localpos_r = -side_w * 0.5 + 32,
+        localpos_b = 32,
+        inert = 1,
+    }
+}
+
 ---------------------------
 --  end ifs_freeform_sides
 ---------------------------
@@ -1679,10 +1739,11 @@ end
 ---------------------------
 
 ifs_freeform_end.Enter = function(this)
+    print("ifs_freeform_end.Enter")
     gIFShellScreenTemplate_fnEnter(this, bFwd)
 
     -- switch teams if on the AI's turn
-    if not ifs_freeform_main.joystick and ifs_freeform_main.joystick_other then
+    if not ifs_freeform_main.joystick and ifs_freeform_main.teamController[ifs_freeform_main.defendTeam] then
         --TODO verify this is the right team
         ifs_freeform_main:SetActiveTeam(ifs_freeform_main.defendTeam)
     end
