@@ -1792,3 +1792,145 @@ end
 ---------------------------
 --  end ifs_freeform_end
 ---------------------------
+
+ifs_freeform_purchase_unit.Enter = function(this, bFwd)
+    print("ifs_freeform_purchase_unit.Enter")
+    print("about to call gIFShellScreenTemplate_fnEnter(this, bFwd)")
+    --TODO investigate why below line causes crash
+    --gIFShellScreenTemplate_fnEnter(this, bFwd)
+
+    print("about to call IFText_fnSetString(this.title.text, \"ifs.freeform.navigation.units\")")
+    IFText_fnSetString(this.title.text, "ifs.freeform.navigation.units")
+
+    print("ifs_freeform_purchase_unit.Enter about to update tabs")
+    --Update tabs
+    if (gPlatformStr == "PC") then
+        print("ifs_freeform_purchase_unit.Enter 1")
+        ifelem_tabmanager_SelectTabGroup(this, true)
+        print("ifs_freeform_purchase_unit.Enter 2")
+        ifelem_tabmanager_SetSelected(this, ifs_freeform_tab_layout, "_tab_units")
+        print("ifs_freeform_purchase_unit.Enter 3")
+        ifelem_tabmanager_SetDimmed(this, ifs_freeform_tab_layout, "_tab_bonus", not ifs_freeform_purchase_tech:CanEnter())
+    else
+        IFText_fnSetString(this.tableft.text, "ifs.freeform.navigation.bonus")
+        IFObj_fnSetVis(this.tableft, ifs_freeform_purchase_tech:CanEnter())
+        IFText_fnSetString(this.tabright.text, "ifs.freeform.navigation.move")
+    end
+
+    print("ifs_freeform_purchase_unit.Enter, calling this.main:UpdatePlayerText(this.player)")
+    this.main:UpdatePlayerText(this.player)
+
+    ifs_freeform_SetButtonName(this, "accept", "ifs.freeform.purchase.military.recruit")
+    ifs_freeform_SetButtonName(this, "back", "common.back")
+    ifs_freeform_SetButtonVis(this, "back", gPlatformStr ~= "PC")
+    ifs_freeform_SetButtonVis(this, "misc", false)
+
+
+    lighting_save = ScriptCB_GetIFaceLighting()
+    ScriptCB_SetIFaceLighting(ifs_purchase_lighting)
+
+    print("ifs_freeform_purchase_unit.Enter calling this.main:PlayVoice(string.format(ifs_purchase_unit_entry_sound, this.main.playerSide))")
+    -- play entry voiceover
+    this.main:PlayVoice(string.format(ifs_purchase_unit_entry_sound, this.main.playerSide))
+
+    -- default to no selection
+    if bFwd then
+        this.selected = nil
+    end
+
+    print("ifs_freeform_purchase_unit.Enter looping through purchaseItems")
+    -- for each purchase item...
+    for i, item in ipairs(this.purchaseItems) do
+        -- if the item is available
+        if ifs_purchase_unit_table[item.itemtype] then
+            -- fill in the item
+            IFObj_fnSetVis(item, true)
+            this:FinishEntity(i, item)
+            this:Unselect(item)
+            this:UpdateColor(item)
+            -- select it if there is no selection
+            if not this.selected then
+                this.selected = i
+                -- call SetSelected below, instead--cbb 07/27/05
+                -- 						this:Select(this.purchaseItems[this.selected])
+            end
+        else
+            -- hide the item
+            IFObj_fnSetVis(item, false)
+        end
+    end
+
+    print("ifs_freeform_end.Enter calling this:SetSelected(this.selected)")
+    this:SetSelected(this.selected)
+
+    -- clear mouse state
+    this.lastDoubleClickTime = nil
+    this.bDoubleClicked = nil
+    this.iMouse_x = nil
+    this.iMouse_y = nil
+end
+
+ifs_freeform_purchase_tech.Enter = function(this, bFwd)
+    print("ifs_freeform_purchase_tech.Enter")
+    --TODO this function seems to cause crashes/ error. why do we have it?
+    --gIFShellScreenTemplate_fnEnter(this, bFwd)
+
+    IFText_fnSetString(this.title.text, "ifs.freeform.navigation.bonus")
+
+    --Update tabs
+    if (gPlatformStr == "PC") then
+        ifelem_tabmanager_SelectTabGroup(this, true)
+        ifelem_tabmanager_SetSelected(this, ifs_freeform_tab_layout, "_tab_bonus")
+        ifelem_tabmanager_SetDimmed(this, ifs_freeform_tab_layout, "_tab_units", not ifs_freeform_purchase_unit:CanEnter())
+    else
+        IFText_fnSetString(this.tableft.text, "ifs.freeform.navigation.move")
+        IFText_fnSetString(this.tabright.text, "ifs.freeform.navigation.units")
+        IFObj_fnSetVis(this.tabright, ifs_freeform_purchase_unit:CanEnter())
+    end
+
+    ifs_freeform_SetButtonName(this, "back", "common.back")
+    ifs_freeform_SetButtonVis(this, "back", gPlatformStr ~= "PC")
+    ifs_freeform_SetButtonVis(this, "misc", false)
+
+    this.main:UpdatePlayerText(this.player)
+
+    lighting_save = ScriptCB_GetIFaceLighting()
+    ScriptCB_SetIFaceLighting(ifs_purchase_lighting)
+
+    -- set up all the carousel items
+    local team = this.main.playerTeam
+    for i, item in ipairs(this.purchaseItems) do
+        local owned = ifs_purchase_tech_cards[team][i]
+        local rotate = ifs_purchase_tech_rotate[owned]
+        local tech = ifs_purchase_tech_table[i]
+        if tech then
+            IFModel_fnSetMsh(item.card, tech.mesh)
+            item.spin_interpolator = make_purchase_interpolator(rotate, rotate, 0)
+        else
+            IFModel_fnSetMsh(item.card, nil)
+        end
+    end
+
+    -- set up all the using items
+    for i, item in ipairs(this.useItems) do
+        local using = ifs_purchase_tech_using[team][i]
+        if using > 0 then
+            IFModel_fnSetMsh(item.card, ifs_purchase_tech_table[using].mesh)
+        else
+            IFModel_fnSetMsh(item.card, ifs_purchase_tech_empty)
+        end
+    end
+
+    -- play entry voiceover
+    this.main:PlayVoice(string.format(ifs_purchase_tech_entry_sound, this.main.playerSide))
+
+    -- select the first item
+    this:SetSelected(1)
+    this:FocusCarousel()
+
+    -- clear mouse state
+    this.lastDoubleClickTime = nil
+    this.bDoubleClicked = nil
+    this.iMouse_x = nil
+    this.iMouse_y = nil
+end
