@@ -8,8 +8,8 @@
     ScriptCB_DoFile("dynamic_teams")
 
 --  Empire Attacking (attacker is always #1)
-    CIS = 1
-    REP = 2
+--    CIS = 1
+--    REP = 2
     GAR = 3
 --  These variables do not change
     ATT = 1
