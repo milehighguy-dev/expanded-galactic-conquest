@@ -4,8 +4,8 @@
 
 -- load the gametype script
 ScriptCB_DoFile("ObjectiveConquest")
-ScriptCB_DoFile("dynamic_teams")
 ScriptCB_DoFile("setup_teams")
+ScriptCB_DoFile("dynamic_teams")
 
 ATT = 1
 DEF = 2

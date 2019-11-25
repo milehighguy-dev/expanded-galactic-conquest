@@ -118,25 +118,25 @@ ifs_freeform_init_gdb = function(this, REP, CIS, ALL, IMP)
 				["con"] = "kas2tc_con",
 			},
 			["mus"] = {
-				["con"] = "mus1c_con",
+				["con"] = "mus1tc_con",
 			},
 			["myg"] = {
-				["con"] = "myg1c_con",
+				["con"] = "myg1tc_con",
 			},
 			["nab"] = {
 				["con"] = "nab2tc_con",
 			},
 			["pol"] = {
-				["con"] = "pol1c_con",
+				["con"] = "pol1tc_con",
 			},
 			["tat"] = {
 				["con"] = "tat2tc_con",
 			},
 			["uta"] = {
-				["con"] = "uta1c_con",
+				["con"] = "uta1tc_con",
 			},
 			["yav"] = {
-				["con"] = "yav1c_con",
+				["con"] = "yav1tc_con",
 			},
 			["end"] = {
 				["con"] = "end1tc_con", --TODO, this map still crashes
