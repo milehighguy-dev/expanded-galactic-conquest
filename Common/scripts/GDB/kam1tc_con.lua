@@ -127,6 +127,7 @@ function ScriptInit()
     ReadDataFile("ingame.lvl")
 
     ReadDataFile("sound\\kam.lvl;kam1cw")
+    ReadDataFile("sound\\kam.lvl;kam1gcw")
     --ReadDataFile("SIDE\\rep.lvl",
     --                         "rep_inf_ep3_rifleman",
     --                         "rep_inf_ep3_rocketeer",

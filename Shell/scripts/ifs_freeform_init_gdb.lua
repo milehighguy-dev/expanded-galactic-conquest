@@ -100,22 +100,22 @@ ifs_freeform_init_gdb = function(this, REP, CIS, ALL, IMP)
 		}
 		this.planetMission = {
 			["cor"] = {
-				["con"] = "cor1c_con",
+				["con"] = "cor1tc_con",
 			},
 			["dag"] = {
-				["con"] = "dag1c_con",
+				["con"] = "dag1tc_con",
 			},
 			["fel"] = {
-				["con"] = "fel1c_con",
+				["con"] = "fel1tc_con",
 			},
 			["geo"] = {
-				["con"] = "geo1c_con",
+				["con"] = "geo1tc_con",
 			},
 			["kam"] = {
 				["con"] = "kam1tc_con",
 			},
 			["kas"] = {
-				["con"] = "kas2c_con",
+				["con"] = "kas2tc_con",
 			},
 			["mus"] = {
 				["con"] = "mus1c_con",
