@@ -142,7 +142,7 @@ ifs_freeform_init_gdb = function(this, REP, CIS, ALL, IMP)
 				["con"] = "end1tc_con", --TODO, this map still crashes
 			},
 			["hot"] = {
-				["con"] = "hot1g_con",
+				["con"] = "hot1tc_con",
 				--				["1flag"] = "hot1g_1flag",
 				--TODO change to clone wars
 			},

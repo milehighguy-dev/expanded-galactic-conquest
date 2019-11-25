@@ -42,5 +42,6 @@ ucft
         "cor1tc_con"
         "dag1tc_con"
         "end1tc_con"
+        "hot1tc_con"
     }
 }
