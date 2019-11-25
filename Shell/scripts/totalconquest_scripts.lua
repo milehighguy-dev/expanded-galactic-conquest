@@ -545,8 +545,8 @@ ifs_freeform_main.SaveMissionSetup = function(this)
     missionSetup.world = ifs_freeform_main.planetTeam[selected] and selected or "spa"
 
     missionSetup.teams = {
-        attacker = ifs_freeform_main.attackTeam,
-        defender = ifs_freeform_main.defendTeam
+        attackerName = ifs_freeform_main.teamCode[ifs_freeform_main.attackTeam],
+        defenderName = ifs_freeform_main.teamCode[ifs_freeform_main.defendTeam]
     }
     -- store mission setup table
     ScriptCB_SaveMissionSetup(missionSetup)
@@ -1174,6 +1174,107 @@ end
 ---------------------------
 --  begin ifs_freeform_battle_card
 ---------------------------
+
+ifs_freeform_battle_card.Enter = function(this, bFwd)
+    gIFShellScreenTemplate_fnEnter(this, bFwd) -- call default enter function
+
+    this.PrevButton = nil
+
+    local team = ifs_freeform_main.playerTeam
+
+    ifs_freeform_SetButtonVis( this, "back", nil )
+    ifs_freeform_SetButtonVis( this, "help", nil )
+    ifs_freeform_SetButtonName( this, "misc", "ifs.freeform.skipbonus")
+    ifs_freeform_SetButtonVis( this, "misc", ifs_freeform_main.joystick )
+    ifs_freeform_SetButtonName( this, "accept", "ifs.freeform.pickbonus")
+    ifs_freeform_SetButtonVis( this, "accept", ifs_freeform_main.joystick )
+
+    IFText_fnSetString(this.title.text, "ifs.freeform.usecard")
+
+    --TODO figure out why certain cards crash
+
+    -- map usable cards into slots
+    --this.useActive = { }
+    --local count = 0
+    --local active = nil
+    --for i, using in ipairs(ifs_purchase_tech_using[team]) do
+    --    local item = this.useItems[i]
+    --    item.slot = i
+    --    item.using = using
+    --    if using > 0 then
+    --        local tech = ifs_purchase_tech_table[using]
+    --
+    --        item.weight = 0
+    --        for _, hint in ipairs(tech.hints) do
+    --            if string.find(ifs_freeform_main.launchMission, hint[1]) then
+    --                item.weight = hint[2]
+    --                print(tech.name, item.weight)
+    --                break
+    --            end
+    --        end
+    --
+    --        item.name = tech.name
+    --        item.bonus = tech.bonus
+    --        count = count + 1
+    --        this.useActive[count] = item
+    --        IFModel_fnSetMsh(item, tech.mesh)
+    --        IFObj_fnSetVis(item, 1)
+    --
+    --        if not active and item.weight > 0 then
+    --            active = count
+    --        end
+    --    else
+    --        IFObj_fnSetVis(item, nil)
+    --    end
+    --end
+
+    -- position the usable cards
+    --for i, item in pairs(this.useActive) do
+    --    IFModel_fnSetTranslation(item,
+    --            ifs_freeform_battle_card_x_offset + (i - count * 0.5 - 0.5) * ifs_freeform_battle_card_spacing,
+    --            ifs_freeform_battle_card_y, ifs_freeform_battle_card_z)
+    --    IFObj_fnSetAlpha(item, item.weight > 0 and 0.5 or 0.125)
+    --end
+    --this.selected = nil
+
+
+    -- if any cards are available...
+    --if count > 0 then
+    --    -- if this is a player...
+    --    if ifs_freeform_main.joystick then
+    --        -- select the first available card
+    --        this:SetSelected(active)
+    --        ifs_freeform_SetButtonVis( this, "accept", this.selected )
+    --        ifs_freeform_main:PlayVoice(string.format(ifs_battle_card_enter_sound, ifs_freeform_main.playerSide))
+    --    else
+    --        -- pick a card based on weight
+    --        this.selected = nil
+    --        local totalWeight = 2
+    --        for i, item in ipairs(this.useActive) do
+    --            totalWeight = totalWeight + item.weight
+    --        end
+    --        local randomWeight = math.random() * totalWeight
+    --        print ("scaled weight:", totalWeight, randomWeight)
+    --        for i, item in ipairs(this.useActive) do
+    --            randomWeight = randomWeight - item.weight
+    --            if randomWeight <= 0 then
+    --                this:SetSelected(i)
+    --                break
+    --            end
+    --        end
+    --
+    --        ifelm_shellscreen_fnPlaySound(this.acceptSound)
+    --        this:AcceptBonus()
+    --    end
+    --else
+        -- auto-skip
+        this:Next()
+    --end
+
+    ifs_freeform_main:UpdatePlayerText(this.player)
+
+    this:UpdateAction()
+end
 
 ifs_freeform_battle_card.Next = function(this)
     if this.defending then

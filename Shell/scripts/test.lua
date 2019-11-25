@@ -23,6 +23,16 @@ function tprint(t, indent)
     end
 end
 
+
+
+mytable = {
+    a = "one",
+    b = "two",
+}
+
+mytable.c = mytable.a
+
+print(" testing table " .. tostring(mytable.c))
 --if (true and true and true) or false then
 --    print("true")
 --end

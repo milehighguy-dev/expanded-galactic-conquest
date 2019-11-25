@@ -4,7 +4,8 @@
 
 -- load the gametype script
     Conquest = ScriptCB_DoFile("ObjectiveConquest")
-    ScriptCB_DoFile("setup_teams") 
+    ScriptCB_DoFile("setup_teams")
+    ScriptCB_DoFile("dynamic_teams")
 
 --  Empire Attacking (attacker is always #1)
     CIS = 1
@@ -77,82 +78,35 @@ function ScriptInit()
 
    
 
+    --load all the sounds so no team is missing sounds
     ReadDataFile("sound\\nab.lvl;nab2cw")
+    --ReadDataFile("sound\\nab.lvl;nab2gcw")
+
      ReadDataFile("SIDE\\rep.lvl",
-                "rep_inf_ep3_rifleman",
-                "rep_inf_ep3_rocketeer",
-                "rep_inf_ep3_engineer",
-                "rep_inf_ep3_sniper", 
-                "rep_inf_ep3_officer",
-                "rep_inf_ep3_jettrooper",
-                "rep_hero_obiwan",
+                --"rep_inf_ep3_rifleman",
+                --"rep_inf_ep3_rocketeer",
+                --"rep_inf_ep3_engineer",
+                --"rep_inf_ep3_sniper",
+                --"rep_inf_ep3_officer",
+                --"rep_inf_ep3_jettrooper",
+                --"rep_hero_obiwan",
                 "rep_walk_oneman_atst")
                 
     ReadDataFile("SIDE\\cis.lvl",
-                "cis_inf_rifleman",
-                "cis_inf_rocketeer",
-                "cis_inf_engineer",
-                  "cis_inf_sniper",
-                  "cis_inf_officer",
-                "cis_inf_droideka",
-                "cis_hero_darthmaul",
+                --"cis_inf_rifleman",
+                --"cis_inf_rocketeer",
+                --"cis_inf_engineer",
+                --  "cis_inf_sniper",
+                --  "cis_inf_officer",
+                --"cis_inf_droideka",
+                --"cis_hero_darthmaul",
                 "cis_hover_aat")
                 
     ReadDataFile("SIDE\\tur.lvl", 
                 "tur_bldg_laser")
-                
-                          
---    ReadDataFile("SIDE\\gar.lvl", 
---    			"gar_inf_soldier", 
---    			"gar_inf_vanguard") 
 
-    SetupTeams{
-        rep = {
-            team = REP,
-            units = 32,
-            reinforcements = 150,
-            soldier  = { "rep_inf_ep3_rifleman",9, 25},
-            assault  = { "rep_inf_ep3_rocketeer",1, 4},
-            engineer = { "rep_inf_ep3_engineer",1, 4},
-            sniper   = { "rep_inf_ep3_sniper",1, 4},
-            officer = {"rep_inf_ep3_officer",1, 4},
-            special = { "rep_inf_ep3_jettrooper",1, 4},
-            
-        }
-    }
-    SetupTeams{ 
-        cis = {
-            team = CIS,
-            units = 32,
-            reinforcements = 150,
-            soldier  = { "cis_inf_rifleman",9, 25},
-            assault  = { "cis_inf_rocketeer",1, 4},
-            engineer = { "cis_inf_engineer",1, 4},
-            sniper   = { "cis_inf_sniper",1, 4},
-            officer = {"cis_inf_officer",1, 4},
-            special = { "cis_inf_droideka",1, 4},
-        }
-    }
---    SetupTeams{ 
---        gar = {
---            team = GAR,
---            units = 5,
---            reinforcements = -1,
---           soldier  = { "gar_inf_soldier",6},
---            assault  = { "gar_inf_vanguard",5},
---        }
---    }
-    
 
-    SetHeroClass(CIS, "cis_hero_darthmaul")
-    SetHeroClass(REP, "rep_hero_obiwan")
-    
---    SetTeamAsEnemy(GAR, ATT)
---    SetTeamAsEnemy(ATT, GAR)
---       
---    
---    SetTeamAsFriend(GAR, DEF)
---    SetTeamAsFriend(DEF, GAR)
+    addDynamicSides("default")
 
     --  Level Stats
     ClearWalkers()
@@ -186,49 +140,15 @@ function ScriptInit()
     SetMaxFlyHeight(25)
     SetMaxPlayerFlyHeight (25)
 
-    
 
     --  Sound
-    
-    voiceSlow = OpenAudioStream("sound\\global.lvl", "rep_unit_vo_slow")
-    AudioStreamAppendSegments("sound\\global.lvl", "cis_unit_vo_slow", voiceSlow)
-    AudioStreamAppendSegments("sound\\global.lvl", "all_unit_vo_slow", voiceSlow)
-    AudioStreamAppendSegments("sound\\global.lvl", "global_vo_slow", voiceSlow)
-    
-    voiceQuick = OpenAudioStream("sound\\global.lvl", "rep_unit_vo_quick")
-    AudioStreamAppendSegments("sound\\global.lvl", "cis_unit_vo_quick", voiceQuick)     
-    
-    OpenAudioStream("sound\\global.lvl",  "cw_music")
+
     -- OpenAudioStream("sound\\global.lvl",  "global_vo_quick")
     -- OpenAudioStream("sound\\global.lvl",  "global_vo_slow")
     OpenAudioStream("sound\\nab.lvl",  "nab2")
     OpenAudioStream("sound\\nab.lvl",  "nab2")
     OpenAudioStream("sound\\nab.lvl",  "nab2_emt")
 
-    SetBleedingVoiceOver(REP, REP, "rep_off_com_report_us_overwhelmed", 1)
-    SetBleedingVoiceOver(REP, CIS, "rep_off_com_report_enemy_losing",   1)
-    SetBleedingVoiceOver(CIS, REP, "cis_off_com_report_enemy_losing",   1)
-    SetBleedingVoiceOver(CIS, CIS, "cis_off_com_report_us_overwhelmed", 1)
-    
-    SetLowReinforcementsVoiceOver(REP, REP, "rep_off_defeat_im", .1, 1)
-    SetLowReinforcementsVoiceOver(REP, CIS, "rep_off_victory_im", .1, 1)
-    SetLowReinforcementsVoiceOver(CIS, CIS, "cis_off_defeat_im", .1, 1)
-    SetLowReinforcementsVoiceOver(CIS, REP, "cis_off_victory_im", .1, 1)    
-
-    SetOutOfBoundsVoiceOver(2, "repleaving")
-    SetOutOfBoundsVoiceOver(1, "cisleaving")
-
-    SetAmbientMusic(REP, 1.0, "rep_nab_amb_start",  0,1)
-    SetAmbientMusic(REP, 0.8, "rep_nab_amb_middle", 1,1)
-    SetAmbientMusic(REP, 0.2,"rep_nab_amb_end",    2,1)
-    SetAmbientMusic(CIS, 1.0, "cis_nab_amb_start",  0,1)
-    SetAmbientMusic(CIS, 0.8, "cis_nab_amb_middle", 1,1)
-    SetAmbientMusic(CIS, 0.2,"cis_nab_amb_end",    2,1)
-
-    SetVictoryMusic(REP, "rep_nab_amb_victory")
-    SetDefeatMusic (REP, "rep_nab_amb_defeat")
-    SetVictoryMusic(CIS, "cis_nab_amb_victory")
-    SetDefeatMusic (CIS, "cis_nab_amb_defeat")
 
     SetSoundEffect("ScopeDisplayZoomIn",  "binocularzoomin")
     SetSoundEffect("ScopeDisplayZoomOut", "binocularzoomout")
@@ -239,11 +159,6 @@ function ScriptInit()
     SetSoundEffect("SpawnDisplaySpawnPointChange", "shell_select_change")
     SetSoundEffect("SpawnDisplaySpawnPointAccept", "shell_menu_enter")
     SetSoundEffect("SpawnDisplayBack",             "shell_menu_exit")
-
-
-
-    
-
 
     --  Camera Stats
     --Nab2 Theed

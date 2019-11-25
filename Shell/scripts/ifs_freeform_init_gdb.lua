@@ -112,7 +112,7 @@ ifs_freeform_init_gdb = function(this, REP, CIS, ALL, IMP)
 				["con"] = "geo1c_con",
 			},
 			["kam"] = {
-				["con"] = "kam1c_con",
+				["con"] = "kam1tc_con",
 			},
 			["kas"] = {
 				["con"] = "kas2c_con",
@@ -124,13 +124,13 @@ ifs_freeform_init_gdb = function(this, REP, CIS, ALL, IMP)
 				["con"] = "myg1c_con",
 			},
 			["nab"] = {
-				["con"] = "nab2c_con",
+				["con"] = "nab2tc_con",
 			},
 			["pol"] = {
 				["con"] = "pol1c_con",
 			},
 			["tat"] = {
-				["con"] = "tat2c_con",
+				["con"] = "tat2tc_con",
 			},
 			["uta"] = {
 				["con"] = "uta1c_con",
