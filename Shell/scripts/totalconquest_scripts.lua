@@ -126,9 +126,11 @@ ifs_freeform_main.fleet = {
 }
 
 ifs_freeform_main.Enter = function(this, bFwd)
-    print("ifs_freeform_main.Enter")
+    print("ifs_freeform_main.Enter TEST TEST TEST")
+    print("bFwd is " .. tostring(bFwd))
 
-    gIFShellScreenTemplate_fnEnter(this, bFwd)
+    --TODO find out why this function causes crash
+    --gIFShellScreenTemplate_fnEnter(this, bFwd)
 
     print("ifs_freeform_main.Enter 2")
     if bFwd then
@@ -1811,7 +1813,8 @@ end
 ---------------------------
 
 ifs_freeform_sides.Enter = function(this, bFwd)
-    print("ifs_freeform_sides.Enter")
+    print("ifs_freeform_sides.Enter HELLO")
+    print("bFwd is " .. tostring(bFwd))
     gIFShellScreenTemplate_fnEnter(this, bFwd) -- call default enter function
 
     -- read all controllers
@@ -1976,7 +1979,7 @@ ifs_freeform_purchase_unit.Enter = function(this, bFwd)
     print("ifs_freeform_purchase_unit.Enter")
     print("about to call gIFShellScreenTemplate_fnEnter(this, bFwd)")
     --TODO investigate why below line causes crash
-    gIFShellScreenTemplate_fnEnter(this, bFwd)
+    --gIFShellScreenTemplate_fnEnter(this, bFwd)
 
     print("about to call IFText_fnSetString(this.title.text, \"ifs.freeform.navigation.units\")")
     IFText_fnSetString(this.title.text, "ifs.freeform.navigation.units")
@@ -2052,7 +2055,7 @@ end
 ifs_freeform_purchase_tech.Enter = function(this, bFwd)
     print("ifs_freeform_purchase_tech.Enter")
     --TODO this function seems to cause crashes/ error. why do we have it?
-    gIFShellScreenTemplate_fnEnter(this, bFwd)
+    --gIFShellScreenTemplate_fnEnter(this, bFwd)
 
     IFText_fnSetString(this.title.text, "ifs.freeform.navigation.bonus")
 
