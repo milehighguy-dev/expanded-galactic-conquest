@@ -6,6 +6,7 @@
 
 
 --TODO update planetFleet references to new object
+--TODO fix bug where it crashes if no team is human. force team or skip battle?
 --and update 3 - team references to how they are in overrides.lua
 
 
@@ -345,7 +346,7 @@ ifs_freeform_main.OneTimeInit = function(this, showLoadDisplay)
         end
 
         -- load sides
-        ifs_purchase_load_data(this.teamCode[1], this.teamCode[2])
+        ifs_purchase_load_data(this.teamCode[1], this.teamCode[2], this.teamCode[3], this.teamCode[4])
 
         -- read the galaxy map level
         ReadDataFile("gal\\gal1.lvl")
@@ -380,7 +381,7 @@ ifs_freeform_main.OneTimeInit = function(this, showLoadDisplay)
         this.modelMatrix = {}
         for planet, _ in pairs(this.planetDestination) do
             local planetMatrix = GetEntityMatrix(planet)
-            --planetMatrix is where the fleet icon is over the planer
+            --planetMatrix is where the fleet icon is over the planet
             this.planetMatrix[planet] = {}
             this.planetMatrix[planet][0] = planetMatrix
             this.planetMatrix[planet][1] = CreateMatrix(-2.25, 0.0, 1.0, 0.0, 10.0, 4.0, -8.0, planetMatrix)
@@ -413,7 +414,7 @@ ifs_freeform_main.CreateFleet = function(this, team, planet)
     end
 
     -- add fleet info
-    if not this.planetFleetInfo[planet] then
+    if this.planetFleetInfo[planet] == nil then
         this.planetFleetInfo[planet] = {}
     end
     table.insert(this.planetFleetInfo[planet], this.fleet:makeNewFleet(nil, team))
@@ -431,7 +432,7 @@ end
 ifs_freeform_main.DestroyFleet = function(this, team, planet)
 
     local otherTeam = nil
-    --removes all fleet info from planet that match team. can update it to delete by fleet id
+    --removes all fleet info from planet that matches team. get the other team at the planet
     for fleetIndex, fleetObj in ipairs(this.planetFleetInfo[planet]) do
         if fleetObj.team == team then
             this.planetFleetInfo[planet][fleetIndex] = nil
@@ -439,24 +440,19 @@ ifs_freeform_main.DestroyFleet = function(this, team, planet)
             otherTeam = fleetObj.team
         end
     end
+    -- if it is just and empty table delete it to remove clutter
+    if this.planetFleetInfo[planet] == {} or table.getn(this.planetFleetInfo[planet]) == 0 then
+        this.planetFleetInfo[planet] = nil
+    end
 
-    -- remove the fleet from the planet
+    -- remove the fleet from the planet. Decide which team to leave it to
     if this.planetFleet[planet] == 0 then
         this.planetFleet[planet] = otherTeam
     elseif this.planetFleet[planet] == team then
         this.planetFleet[planet] = nil
     end
 
-    --removes all fleet info from planet that match team. can update it to delete by fleet id
-    for fleetIndex, fleetObj in ipairs(this.planetFleetInfo[planet]) do
-        if fleetObj.team == team then
-            this.planetFleetInfo[planet][fleetIndex] = nil
-        end
-    end
-    if this.planetFleetInfo[planet] == {} then
-        this.planetFleetInfo[planet] = nil
-    end
-
+    --delete the fleet pointer for team at this planet
     if this.fleetPtr[team][planet] then
         DeleteEntity(this.fleetPtr[team][planet])
         this.fleetPtr[team][planet] = nil
@@ -469,7 +465,7 @@ ifs_freeform_main.MoveFleet = function(this, team, start, next)
     local myFleet = nil
     local otherTeam = nil
     print("about to remove fleet object from begin planet")
-    --removes all fleets from planet that match team. can update it to delete by fleet id
+    --removes all fleet info from planet that match team
     for fleetIndex, fleetObj in ipairs(this.planetFleetInfo[start]) do
         print("fleet index is " .. tostring(fleetIndex))
         print("fleet object is " .. tostring(fleetObj))
@@ -482,16 +478,22 @@ ifs_freeform_main.MoveFleet = function(this, team, start, next)
     end
     print("after remove fleet object from begin planet")
 
+    -- if it is just and empty table delete it to remove clutter
+    if this.planetFleetInfo[start] == {} or table.getn(this.planetFleetInfo[start]) == 0 then
+        this.planetFleetInfo[start] = nil
+    end
+
+    -- add the fleet info to the next planet
+    if this.planetFleetInfo[next] == nil then
+        this.planetFleetInfo[next] = {}
+    end
+    table.insert(this.planetFleetInfo[next], myFleet)
+
     -- save the fleet object
     local fleetPtr = this.fleetPtr[team][start]
     print("moving fleetPtr for team ".. tostring(team) .. " planet " .. tostring(start) .. " is " .. tostring(fleetPtr))
     -- remove the fleet from the start planet
     this.fleetPtr[team][start] = nil
-    if this.planetFleet[start] == 0 then
-        this.planetFleet[start] = otherTeam
-    elseif this.planetFleet[start] == team then
-        this.planetFleet[start] = nil
-    end
 
     --TODO fix bug that appears here sometimes
     -- update the fleet's position
@@ -499,16 +501,20 @@ ifs_freeform_main.MoveFleet = function(this, team, start, next)
 
     -- add the fleet to the next planet
     this.fleetPtr[team][next] = fleetPtr
+
+    --decide what team the start planet gets
+    if this.planetFleet[start] == 0 then
+        this.planetFleet[start] = otherTeam
+    elseif this.planetFleet[start] == team then
+        this.planetFleet[start] = nil
+    end
+
+    --decide what team the next planet gets
     if not this.planetFleet[next] then
         this.planetFleet[next] = team
     elseif this.planetFleet[next] ~= team and this.planetFleet[next] ~= 0 and this.planetFleet[next] ~= nil then
         this.planetFleet[next] = 0
     end
-
-    if not this.planetFleetInfo[next] then
-        this.planetFleetInfo[next] = {}
-    end
-    table.insert(this.planetFleetInfo[next], myFleet)
 
     -- update the last fleet
     this.lastFleet[team] = next
@@ -1899,7 +1905,7 @@ ifs_freeform_purchase_unit.Enter = function(this, bFwd)
     print("ifs_freeform_purchase_unit.Enter")
     print("about to call gIFShellScreenTemplate_fnEnter(this, bFwd)")
     --TODO investigate why below line causes crash
-    --gIFShellScreenTemplate_fnEnter(this, bFwd)
+    gIFShellScreenTemplate_fnEnter(this, bFwd)
 
     print("about to call IFText_fnSetString(this.title.text, \"ifs.freeform.navigation.units\")")
     IFText_fnSetString(this.title.text, "ifs.freeform.navigation.units")
@@ -1975,7 +1981,7 @@ end
 ifs_freeform_purchase_tech.Enter = function(this, bFwd)
     print("ifs_freeform_purchase_tech.Enter")
     --TODO this function seems to cause crashes/ error. why do we have it?
-    --gIFShellScreenTemplate_fnEnter(this, bFwd)
+    gIFShellScreenTemplate_fnEnter(this, bFwd)
 
     IFText_fnSetString(this.title.text, "ifs.freeform.navigation.bonus")
 
