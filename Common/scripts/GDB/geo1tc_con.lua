@@ -97,6 +97,14 @@ function ScriptInit()
                              "cis_tread_hailfire",
                              --"cis_hover_stap",
                              "cis_walk_spider")
+
+    ReadDataFile("SIDE\\imp.lvl",
+            "imp_walk_atst",
+            "imp_walk_atat")
+
+    ReadDataFile("SIDE\\all.lvl",
+            "all_hover_combatspeeder")
+
     ReadDataFile("SIDE\\geo.lvl",
                              "gen_inf_geonosian")
                              
@@ -197,6 +205,7 @@ function ScriptInit()
     --SetTeamAsFriend(4, ATT)
 
     ReadDataFile("GEO\\geo1.lvl", "geo1_conquest")
+    ReadDataFile("dc:GDB\\geo1.lvl", "geo1_totalconquest")
 
     SetDenseEnvironment("false")
     SetMinFlyHeight(-65)

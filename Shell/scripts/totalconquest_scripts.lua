@@ -484,6 +484,7 @@ ifs_freeform_main.MoveFleet = function(this, team, start, next)
 
     -- save the fleet object
     local fleetPtr = this.fleetPtr[team][start]
+    print("moving fleetPtr for team ".. tostring(team) .. " planet " .. tostring(start) .. " is " .. tostring(fleetPtr))
     -- remove the fleet from the start planet
     this.fleetPtr[team][start] = nil
     if this.planetFleet[start] == 0 then
@@ -492,6 +493,7 @@ ifs_freeform_main.MoveFleet = function(this, team, start, next)
         this.planetFleet[start] = nil
     end
 
+    --TODO fix bug that appears here sometimes
     -- update the fleet's position
     SetEntityMatrix(fleetPtr, this.modelMatrix[next][team])
 
@@ -503,7 +505,6 @@ ifs_freeform_main.MoveFleet = function(this, team, start, next)
         this.planetFleet[next] = 0
     end
 
-    print("about to insert fleet myfleet " .. tostring(myFleet))
     if not this.planetFleetInfo[next] then
         this.planetFleetInfo[next] = {}
     end
