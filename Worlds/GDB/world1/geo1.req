@@ -1,8 +1,18 @@
 ucft
 {
+    REQN
+    {
+      "config"
+    }
+
 	REQN
 	{
 		"world"
 		"geo1_totalconquest"
 	}
+	REQN
+    {
+        "lvl"
+        "geo1_totalconquest"
+    }
 }

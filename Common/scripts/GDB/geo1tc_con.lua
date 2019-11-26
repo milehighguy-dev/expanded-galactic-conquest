@@ -82,7 +82,9 @@ function ScriptInit()
                              --"rep_inf_ep3_officer",
                              --"rep_inf_ep2_engineer",
                              --"rep_hero_macewindu",
-                             "rep_walk_atte")
+                             "rep_walk_atte",
+                             "rep_hover_fightertank",
+                             "rep_hover_barcspeeder")
                              
     ReadDataFile("SIDE\\cis.lvl",
                              "cis_fly_droidfighter_dome",
@@ -95,12 +97,15 @@ function ScriptInit()
                              --"cis_hero_countdooku",
                              --"cis_inf_droideka",
                              "cis_tread_hailfire",
+                             "cis_hover_stap",
                              --"cis_hover_stap",
                              "cis_walk_spider")
 
     ReadDataFile("SIDE\\imp.lvl",
             "imp_walk_atst",
-            "imp_walk_atat")
+            "imp_walk_atat",
+            "imp_hover_speederbike",
+            "imp_hover_fightertank")
 
     ReadDataFile("SIDE\\all.lvl",
             "all_hover_combatspeeder")
@@ -118,6 +123,7 @@ function ScriptInit()
     AddWalkerType(0, 3) -- 8 droidekas (special case: 0 leg pairs)
     AddWalkerType(2, 3) -- 2 spider walkers with 2 leg pairs each
     AddWalkerType(3, 0) -- 2 attes with 3 leg pairs each
+    AddWalkerType(1, 3) -- 6 atsts with 1 leg pairs each
     local weaponcnt = 240
     SetMemoryPoolSize("Aimer", 50)
     SetMemoryPoolSize("AmmoCounter", weaponcnt)
