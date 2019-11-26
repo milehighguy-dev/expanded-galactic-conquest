@@ -9,8 +9,8 @@ ScriptCB_DoFile("ObjectiveConquest")
     --local REP = 2;
     --local CIS = 1;
     --  These variables do not change
-    local ATT = 1;
-    local DEF = 2;
+     ATT = 1;
+     DEF = 2;
 ---------------------------------------------------------------------------
 -- FUNCTION:    ScriptInit
 -- PURPOSE:     This function is only run once
@@ -148,11 +148,11 @@ function ScriptInit()
                      		----"cis_bldg_defensegridturret")
 ReadDataFile("SIDE\\tur.lvl",
 						"tur_bldg_chaingun_roof",
-						"tur_weap_built_gunturret")	
-
-   SetAttackingTeam(ATT)
+						"tur_weap_built_gunturret")
 
     addDynamicSides("default")
+
+    SetAttackingTeam(ATT)
 --SetupTeams{
 --    rep = {
 --        team = REP,

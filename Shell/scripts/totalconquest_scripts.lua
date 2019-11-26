@@ -130,7 +130,10 @@ ifs_freeform_main.Enter = function(this, bFwd)
 
     gIFShellScreenTemplate_fnEnter(this, bFwd)
 
+    print("ifs_freeform_main.Enter 2")
     if bFwd then
+
+        print("ifs_freeform_main.Enter 3")
         -- stop any playing movie
         ifelem_shellscreen_fnStopMovie()
 
@@ -148,6 +151,8 @@ ifs_freeform_main.Enter = function(this, bFwd)
         -- (does nothing if already loaded)
         this:OneTimeInit(true)
 
+        print("ifs_freeform_main.Enter 4")
+
         ScriptCB_SetShellMusic("metagame_menu_music")
 
         -- set build screens to campaign mode
@@ -156,12 +161,15 @@ ifs_freeform_main.Enter = function(this, bFwd)
 
         -- if metagame state was saved...
         if ScriptCB_IsMetagameStateSaved() then
+            print("ifs_freeform_main.Enter 5")
             -- set the active team
             this:SetActiveTeam(this.playerTeam)
         else
+            print("ifs_freeform_main.Enter 6")
             -- set initial state
             this:Start()
 
+            print("ifs_freeform_main.Enter 7")
             -- get selected planet and fleet for each side
             this.lastSelected = {}
             this.lastFleet = {}
@@ -193,7 +201,47 @@ ifs_freeform_main.Enter = function(this, bFwd)
         if this.soakMode and ScriptCB_IsMetagameStateSaved() then
             winner = math.random(2)
         end
-        if winner > 0 then
+
+        --if the battle was skipped (AI vs AI)
+        if this.battleWasSkipped then
+
+            print("choosing random winner")
+            --choose a random winner --TODO expand on auto resolve. add more factors than just random
+            local teamsInvolved = {
+                [1] = this.attackTeam,
+                [2] = this.defendTeam
+            }
+
+            --choose a random team as winner
+            local winnerIndex = math.random(table.getn(teamsInvolved))
+            winner = teamsInvolved[winnerIndex]
+            --remove winner from table
+            table.remove(teamsInvolved, winnerIndex)
+            --teamsInvolved[winnerIndex] = nil
+            --choose random loser from remaining teams
+            local loserIndex = math.random(table.getn(teamsInvolved))
+            local loser = teamsInvolved[loserIndex]
+
+            print("chose winner team " .. tostring(winner) .. " and loser " .. tostring(loser))
+
+            -- clear this until it is set again
+            this.battleWasSkipped = nil
+
+            --do the normal stuff
+
+            -- apply battle results
+            this:ApplyBattleResult(this.planetNext, winner, loser)
+
+            -- clear battle result
+            ScriptCB_SetLastBattleVictoryValid(false)
+
+            -- go to the result screen
+            ScriptCB_PushScreen("ifs_freeform_result")
+
+            -- trigger save request on next turn
+            this.requestSave = true
+
+        elseif winner > 0 then
 
             local loser = 1
             if winner == 1 then
@@ -885,6 +933,7 @@ ifs_freeform_main.SaveState = function(this)
             this.recentPlanets,
             this.planetResources,
             this.battleResources,
+            this.battleWasSkipped,
             this.soakMode
     )
 end
@@ -926,6 +975,7 @@ ifs_freeform_main.LoadState = function(this)
     this.recentPlanets,
     this.planetResources,
     this.battleResources,
+    this.battleWasSkipped,
     this.soakMode
     = ScriptCB_LoadMetagameState()
 
@@ -1292,17 +1342,38 @@ ifs_freeform_battle_card.Next = function(this)
         -- restore split screen
         ScriptCB_SetSplitscreen(ifs_freeform_main.wasSplit)
 
-        -- save state
-        ifs_freeform_main:SaveState()
-
         -- save mission setup
         ifs_freeform_main:SaveMissionSetup()
 
-        -- if in soak mode...
-        if ifs_freeform_main.soakMode then
+        --TODO this condition is not right
+        if not ifs_freeform_main.teamController[ifs_freeform_main.attackTeam] and not ifs_freeform_main.teamController[ifs_freeform_main.defendTeam] then
+
+            --if there are no human players do not enter a mission
+            ifs_freeform_main.battleWasSkipped = true
+
+            -- save state
+            ifs_freeform_main:SaveState()
+
+            print("MHG: attack team is " .. tostring(ifs_freeform_main.attackTeam) .. " defend team is " .. tostring(ifs_freeform_main.defendTeam))
+            print("MHG: attack team controller is " .. tostring(ifs_freeform_main.teamController[ifs_freeform_main.attackTeam]) .. " defend team controller is " .. tostring(ifs_freeform_main.teamController[ifs_freeform_main.defendTeam]))
+            print("MHG: joystick is " .. tostring(ifs_freeform_main.joystick))
+            print("MHG: detected no human players TEST")
+
+            ScriptCB_PushScreen("ifs_freeform_main")
+
+        elseif ifs_freeform_main.soakMode then
+
+            -- save state
+            ifs_freeform_main:SaveState()
+
+            -- if in soak mode...
             -- enter the selected mission as a demo
             ScriptCB_LaunchDemo(ifs_freeform_main.launchMission)
         else
+
+            -- save state
+            ifs_freeform_main:SaveState()
+
             -- enter the selected mission
             ScriptCB_EnterMission()
         end
