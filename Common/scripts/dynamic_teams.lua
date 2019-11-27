@@ -162,6 +162,25 @@ function AddSide(teamNumber, teamName, environmentName)
                                  "all_hero_luke_jedi",
                                  "all_hover_combatspeeder"}
                 }
+            },
+            space = {
+                setup_team = {
+                    team = teamNumber,
+                    units = 32,
+                    reinforcements = -1,
+                    pilot    = { "all_inf_pilot",25},
+                    marine   = { "all_inf_marine",8},
+                },
+
+                lvl = {
+                    file = "SIDE\\all.lvl",
+                    children = { "all_inf_pilot",
+                                 "all_inf_marine",
+                                 "all_fly_xwing_sc",
+                                 "all_fly_ywing_sc",
+                                 "all_fly_awing",
+                                 "all_fly_gunship_sc"}
+                }
             }
         },
         imp = {
@@ -214,6 +233,24 @@ function AddSide(teamNumber, teamName, environmentName)
                                 "imp_hero_darthvader",
                                 "imp_walk_atat",
                                 "imp_walk_atst_snow"}
+                }
+            },
+            space = {
+                setup_team = {
+                    team = teamNumber,
+                    units = 32,
+                    reinforcements = -1,
+                    pilot    = { "imp_inf_pilot",25},
+                    marine   = { "imp_inf_marine",8},
+                },
+                lvl = {
+                    file = "SIDE\\imp.lvl",
+                    children = {"imp_inf_pilot",
+                                "imp_inf_marine",
+                                "imp_fly_tiefighter_sc",
+                                "imp_fly_tiebomber_sc",
+                                "imp_fly_tieinterceptor",
+                                "imp_fly_trooptrans"}
                 }
             }
         },
@@ -270,6 +307,27 @@ function AddSide(teamNumber, teamName, environmentName)
                                 "rep_hero_macewindu",
                                 "rep_walk_atte"}
                 }
+            },
+            space = {
+                setup_team = {
+                    team = teamNumber,
+                    units = 32,
+                    reinforcements = -1,
+                    pilot    = { "rep_inf_ep3_pilot",26},
+                    marine   = { "rep_inf_ep3_marine",6}
+                },
+                lvl = {
+                    file = "SIDE\\rep.lvl",
+                    children = {"rep_inf_ep3_pilot",
+                                "rep_inf_ep3_marine",
+                                "rep_fly_assault_dome",
+                                "rep_fly_anakinstarfighter_sc",
+                                "rep_fly_arc170fighter_sc",
+                                "rep_veh_remote_terminal",
+                                "rep_fly_gunship_sc",
+                                "rep_fly_arc170fighter_dome",
+                                "rep_fly_vwing"}
+                }
             }
         },
         cis = {
@@ -298,6 +356,26 @@ function AddSide(teamNumber, teamName, environmentName)
                                 "cis_inf_droideka",
                                 "cis_tread_hailfire",
                                 "cis_walk_spider" }
+                }
+            },
+            space = {
+                setup_team = {
+                    team = teamNumber,
+                    units = 32,
+                    reinforcements = -1,
+                    pilot    = { "cis_inf_pilot",26},
+                    marine   = { "cis_inf_marine",6},
+                },
+                lvl = {
+                    file ="SIDE\\cis.lvl",
+                    children = {"cis_inf_pilot",
+                                "cis_inf_marine",
+                                "cis_fly_fedlander_dome",
+                                "cis_fly_droidfighter_sc",
+                                "cis_fly_droidfighter_dome",
+                                "cis_fly_greviousfighter",
+                                "cis_fly_droidgunship",
+                                "cis_fly_tridroidfighter" }
                 }
             }
         }
@@ -345,13 +423,26 @@ function SetupSounds(attackingTeamName, defendingTeamName, planetName )
         OpenAudioStream("sound\\global.lvl",  "gcw_music")
     end
 
-    voiceSlow = OpenAudioStream("sound\\global.lvl", defendingTeamName .. "_unit_vo_slow")
-    AudioStreamAppendSegments("sound\\global.lvl", attackingTeamName .. "_unit_vo_slow", voiceSlow)
-    AudioStreamAppendSegments("sound\\global.lvl", "global_vo_slow", voiceSlow)
+    if planetName == "spa" then
 
-    voiceQuick = OpenAudioStream("sound\\global.lvl",  defendingTeamName .. "_unit_vo_quick")
-    AudioStreamAppendSegments("sound\\global.lvl",  attackingTeamName .. "_unit_vo_quick", voiceQuick)
+        voiceSlow = OpenAudioStream("sound\\global.lvl", "spa1_objective_vo_slow")
+        AudioStreamAppendSegments("sound\\global.lvl", defendingTeamName .. "_unit_vo_slow", voiceSlow)
+        AudioStreamAppendSegments("sound\\global.lvl", attackingTeamName .. "_unit_vo_slow", voiceSlow)
+        AudioStreamAppendSegments("sound\\global.lvl", "global_vo_slow", voiceSlow)
 
+        voiceQuick = OpenAudioStream("sound\\global.lvl",  "spa1_objective_vo_slow")
+        AudioStreamAppendSegments("sound\\global.lvl",  defendingTeamName .. "_unit_vo_quick", voiceSlow)
+        AudioStreamAppendSegments("sound\\global.lvl",  attackingTeamName .. "_unit_vo_quick", voiceQuick)
+
+    else
+        voiceSlow = OpenAudioStream("sound\\global.lvl", defendingTeamName .. "_unit_vo_slow")
+        AudioStreamAppendSegments("sound\\global.lvl", attackingTeamName .. "_unit_vo_slow", voiceSlow)
+        AudioStreamAppendSegments("sound\\global.lvl", "global_vo_slow", voiceSlow)
+
+        voiceQuick = OpenAudioStream("sound\\global.lvl",  defendingTeamName .. "_unit_vo_quick")
+        AudioStreamAppendSegments("sound\\global.lvl",  attackingTeamName .. "_unit_vo_quick", voiceQuick)
+
+    end
     SetBleedingVoiceOver(2, 2, defendingTeamName .. "_off_com_report_us_overwhelmed", 1)
     SetBleedingVoiceOver(2, 1, defendingTeamName .. "_off_com_report_enemy_losing",   1)
     SetBleedingVoiceOver(1, 2, attackingTeamName .. "_off_com_report_enemy_losing",   1)
@@ -397,6 +488,33 @@ function addDynamicSides(environmentName)
     print("addDynamicSides, added team 2")
 
     SetupSounds(attackingTeamName, defendingTeamName, worldName)
+    print("addDynamicSides, loaded sounds")
+
+end
+
+function addDynamicSidesSpace()
+
+    local attackingTeamName = nil
+    local defendingTeamName = nil
+    local worldName = nil
+    if ScriptCB_IsMissionSetupSaved() then
+        local missionSetup = ScriptCB_LoadMissionSetup()
+        teamItems = missionSetup.units
+        attackingTeamName = missionSetup.teams.attackerName
+        defendingTeamName = missionSetup.teams.defenderName
+        worldName = missionSetup.world
+    end
+
+    print("addDynamicSides, loaded mission setup")
+    print("attacker is " .. tostring(attackingTeamName) .. " defender is " .. tostring(defendingTeamName))
+
+    --for mission scripts attacker is 1 and defender 2
+    AddSide(1, attackingTeamName, "space")
+    print("addDynamicSides, added team 1")
+    AddSide(2, defendingTeamName, "space")
+    print("addDynamicSides, added team 2")
+
+    SetupSounds(attackingTeamName, defendingTeamName, "spa")
     print("addDynamicSides, loaded sounds")
 
 end

@@ -4,11 +4,9 @@
 --- DateTime: 11/18/2019 7:30 PM
 ---
 
-
---TODO update planetFleet references to new object
---TODO fix bug where it crashes if no team is human. force team or skip battle?
---and update 3 - team references to how they are in overrides.lua
-
+--TODO make space battle dynamic team
+--TODO revisit battle cards
+--TODO make next turn iterate through alive teams not all teams
 
 ---------------------------
 --  begin global variables

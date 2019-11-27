@@ -96,7 +96,7 @@ ifs_freeform_init_gdb = function(this, REP, CIS, ALL, IMP)
 
 		-- mission(s) to launch for each planet
 		this.spaceMission = {
-			["con"] = { "spa3c_ass", "spa6c_ass", "spa7c_ass" }
+			["con"] = "spa3tc_ass"
 		}
 		this.planetMission = {
 			["cor"] = {
