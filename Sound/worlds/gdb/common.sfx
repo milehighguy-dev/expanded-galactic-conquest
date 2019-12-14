@@ -1001,3 +1001,136 @@ effects/avalanc2.WAV -resample ps2 10000
 ..\..\global\effects\wpn_forceLightning_lp_Sml.wav  lightning_small -resample ps2 16000 xbox 16000 pc 44100
 ..\..\global\effects\wpn_forceLightning_lp_med.wav  lightning_med   -alias ps2 lightning_small -resample xbox 16000 pc 44100
 ..\..\global\effects\wpn_forceLightning_lp_long.wav  lightning_large -alias ps2 lightning_small -resample xbox 16000 pc 44100
+
+
+
+// Space stuff
+
+// Global Engines------------------------------------------------------------------------
+
+
+// Generic Shift Up
+..\..\global\effects\veh_generic_accel_01.wav   shift_up    -resample ps2 16000 xbox 22050 pc 22050
+// Generic Damage Chop
+..\..\global\effects\eng_chop_a_loop.wav            -resample ps2 16000 xbox 22050 pc 22050
+
+// Soft Startup
+..\..\global\effects\eng_genericStartup_01.wav  startup_soft    -resample ps2 16000 xbox 22050 pc 22050
+
+// Hard Startup
+..\..\global\effects\eng_genericStartup_02.wav  startup_hard    -alias ps2 startup_soft -resample xbox 22050 pc 22050
+
+// Soft Shutdown
+..\..\global\effects\eng_genericShutdown_01.wav shutdown_soft   -resample ps2 16000 xbox 22050 pc 22050
+// Hard Shutdown
+..\..\global\effects\eng_genericShutdown_02.wav shutdown_hard   -alias ps2 shutdown_soft -resample xbox 22050 pc 22050
+// Airbrakes
+..\..\global\effects\sfx_pod_airbrakes_off.wav      -resample ps2 11025 xbox 22050 pc 22050
+..\..\global\effects\sfx_pod_airbrakes_on.wav       -resample ps2 11025 xbox 22050 pc 22050
+
+// R2 Common to Xwing Ywing Vwing AnakinFighter Jedifighter Naboostarfighter -------------------------------------------------------------
+..\..\global\effects\droid_r2_chatter_01.wav -resample ps2 16000 xbox 22050 pc 22050
+..\..\global\effects\droid_r2_chatter_02.wav -alias ps2 droid_r2_chatter_01 -resample xbox 22050 pc 22050
+..\..\global\effects\Ifc_LowShield03.wav     -resample ps2 16000 xbox 22050 pc 22050
+..\..\global\effects\Ifc_LowHealth02.wav     -alias ps2 Ifc_LowShield03 -resample xbox 22050 pc 22050
+..\..\global\effects\droid_r2_damage.wav     -resample ps2 16000 xbox 22050 pc 22050
+..\..\global\effects\droid_r2_death.wav      -alias ps2 droid_r2_damage -resample xbox 22050 pc 22050
+
+#ifplatform xbox pc
+//Heavy Shiftup
+..\..\global\effects\sfx_pod_ani_shift1.wav         -resample ps2 16000 xbox 22050 pc 22050
+// Race Car Shift Down
+//..\..\global\effects\sfx_pod_ani_shift5.wav         -resample ps2 16000 xbox 22050 pc 22050
+// Ignition Start
+..\..\global\effects\sfx_pod_ani_thrusters_a.wav thrusters_boost -resample ps2 16000 xbox 22050 pc 22050
+// Clunk Ignition Start
+//..\..\global\effects\sfx_pod_ani_thrusters_b.wav loop_boost -resample ps2 16000 xbox 22050 pc 22050
+
+// Soft Shiftup
+//..\..\global\effects\sfx_pod_slide_up.wav           -resample ps2 16000 xbox 22050 pc 22050
+// Soft Shiftdown
+//..\..\global\effects\sfx_pod_slide_down.wav         -resample ps2 16000 xbox 22050 pc 22050
+//..\..\global\effects\sfx_pod_ani_shift3.wav  race_roll01        -resample ps2 16000 xbox 22050 pc 22050
+//..\..\global\effects\sfx_pod_ani_shift4.wav  race_roll02        -resample ps2 16000 xbox 22050 pc 22050
+// Start
+//..\..\global\effects\sfx_start_beep.wav             -resample ps2 16000 xbox 22050 pc 22050
+//..\..\global\effects\sfx_start_game.wav             -resample ps2 16000 xbox 22050 pc 22050
+#endifplatform xbox pc
+
+
+// ------ Common Space Sounds?? --------------
+
+#ifplatform pc
+..\..\global\effects\veh_TriFighter_by_01.wav       tri_flyby               -resample ps2 16000 xbox 22050 pc 22050
+..\..\global\effects\veh_startup_light_01.wav       nsf_startup             -resample ps2 16000 xbox 22050 pc 22050
+..\..\global\effects\veh_startup_light_02.wav       cis_startup             -resample ps2 16000 xbox 22050 pc 22050
+..\..\global\effects\veh_startup_hvy_01.wav         startup_heavy           -resample ps2 16000 xbox 22050 pc 22050
+..\..\global\effects\veh_startup_hvy_02.wav         arc170_startup          -resample ps2 16000 xbox 22050 pc 22050
+//..\..\global\effects\veh_shutdown_light_01.wav
+..\..\global\effects\veh_shutdown_light_02.wav      cw_powerdown            -resample ps2 16000 xbox 22050 pc 22050
+..\..\global\effects\veh_shutdown_hvy_01.wav        heavy_shift_down        -resample ps2 16000 xbox 22050 pc 22050
+..\..\global\effects\veh_shutdown_hvy_02.wav        shutdown_heavy          -resample ps2 16000 xbox 22050 pc 22050
+..\..\global\effects\veh_droidFighter_by_01.wav     droidfighter_by_light   -resample ps2 16000 xbox 22050 pc 22050
+..\..\global\effects\veh_droidFighter_by_02.wav     droidfighter_by         -resample ps2 16000 xbox 22050 pc 22050
+..\..\global\effects\veh_arc170_by_01.wav           cw_flyby                -resample ps2 16000 xbox 22050 pc 22050
+//..\..\global\effects\veh_arc170_by_02.wav
+#endifplatform pc
+
+// Blue Stinger Missiles
+#ifplatform xbox pc
+..\..\cw\effects\wpn_drdFghtr_missile_fire.wav      -resample xbox 22050 pc 44100
+#endifplatform xbox pc
+#ifplatform ps2
+..\..\cw\effects\wp2_drdFghtr_missile_fire.wav      wpn_drdFghtr_missile_fire     -resample ps2 16000
+#endifplatform ps2
+
+// Yellow Stinger Missiles
+#ifplatform xbox pc
+..\..\cw\effects\wpn_hailfire_missile_fire.wav      -resample xbox 22050 pc 44100
+#endifplatform xbox pc
+#ifplatform ps2
+..\..\cw\effects\wp2_hailfire_missile_fire.wav      wpn_hailfire_missile_fire       -resample ps2 16000
+#endifplatform ps2
+
+// Proton Torpedo
+#ifplatform xbox pc
+..\..\gcw\effects\wpn_ywing_torpedo_fire.wav    -resample xbox 22050 pc 44100
+#endifplatform xbox pc
+#ifplatform ps2
+..\..\gcw\effects\wp2_ywing_torpedo_fire.wav    wpn_ywing_torpedo_fire     -resample ps2 16000
+#endifplatform ps2
+
+// Bomb
+#ifplatform xbox pc
+..\..\gcw\effects\wpn_tie_bombLauncher_fire.wav -resample xbox 22050 pc 44100
+#endifplatform xbox pc
+#ifplatform ps2
+..\..\gcw\effects\wp2_tie_bombLauncher_fire.wav    wpn_tie_bombLauncher_fire     -resample ps2 16000
+#endifplatform ps2
+
+// Beam Weapon Turrets
+#ifplatform xbox pc
+..\..\cw\effects\wpn_gunship_laser_fire.wav       -resample xbox 22050 pc 44100
+..\..\cw\effects\wp2_gunship_laser_lp.wav         wpn_gunship_laser_lp -resample xbox 22050 pc 44100
+#endifplatform xbox pc
+#ifplatform ps2
+..\..\cw\effects\wp2_gunship_laser_fire.wav       wpn_gunship_laser_fire      -resample ps2 16000
+..\..\cw\effects\wp2_gunship_laser_lp.wav         wpn_gunship_laser_lp        -resample ps2 8000
+#endifplatform ps2
+
+// Scout Lasers
+#ifplatform xbox pc
+..\..\cw\effects\wpn_jediStrftr_blaster_fire.wav    -resample xbox 22050 pc 44100
+#endifplatform xbox pc
+#ifplatform ps2
+..\..\cw\effects\wp2_jediStrftr_blaster_fire.wav    wpn_jediStrftr_blaster_fire     -resample ps2 16000
+#endifplatform ps2
+
+// Turret and Vehicle Chaingun
+..\..\cw\effects\shipGun2a-01.wav   vehicle_chaingun_fire   -resample ps2 14000 xbox 22050 pc 22050
+..\..\global\effects\chain_wind_lp.WAV  wpn_chaingun_spin   -resample ps2 16000 xbox 22050 pc 22050
+
+// Shock Gun
+..\..\global\effects\rcflak.wav             -resample ps2 14000 xbox 22050 pc 22050
+
+//-----------------------------------------------------------------------------------------

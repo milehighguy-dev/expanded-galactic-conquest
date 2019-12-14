@@ -57,6 +57,14 @@
 // * Uses All Thermal Detonators
 
 
+// ----- Imperial ----- Space Intercom
+..\..\gcw\effects\IICOM416.wav -resample ps2 5000 xbox 16000 pc 22050
+..\..\gcw\effects\IICOM417.wav -resample ps2 5000 xbox 16000 pc 22050
+..\..\gcw\effects\IICOM418.wav -resample ps2 5000 xbox 16000 pc 22050
+..\..\gcw\effects\IICOM419.wav -resample ps2 5000 xbox 16000 pc 22050
+..\..\gcw\effects\IICOM420.wav -resample ps2 6000 xbox 16000 pc 22050
+..\..\gcw\effects\IICOM421.wav -resample ps2 5000 xbox 16000 pc 22050
+
 // Unit Pain Chatter VO -----------------------------------------------------------------------------------------
 
 // ----- Imperial -----
@@ -220,3 +228,42 @@
 //..\..\global\effects\wp2_IFT_missile_fire.wav       wpn_IFT_missile_fire            -resample ps2 16000
 ..\..\cw\effects\wp2_hailfire_missile_fire.wav      wpn_hailfire_missile_fire       -resample ps2 16000
 #endifplatform ps2
+
+// Imperial Troop Transport -------------------------------------------------------------------------------
+//..\..\gcw\effects\eng_shuttle_mid_lp.wav        shuttle_mid         -resample ps2 16000 xbox 22050 pc 22050
+//..\..\gcw\effects\eng_shuttle_low_lp.wav        shuttle_low         -resample ps2 11025 xbox 22050 pc 22050
+..\..\global\effects\veh_impShttl_accel_01.wav  shuttle_shift_up    -alias ps2 shift_up -resample xbox 22050 pc 22050
+
+#ifplatform xbox pc
+..\..\global\effects\veh_impShttl_deccel_01.wav shuttle_shift_down  -resample ps2 16000 xbox 22050 pc 22050
+//..\..\global\effects\veh_impShttl_shpRll_01.wav shuttle_roll        -resample ps2 16000 xbox 22050 pc 22050
+#endifplatform xbox pc
+// ---------------------------------------------------------------------------------------------------------------
+
+// TIE -----------------------------------------------------------------------------------------------------------
+// ----- TIE Common -----
+..\..\global\effects\veh_tie_accel_01.wav           tie_shift_up        -resample ps2 16000 xbox 22050 pc 22050
+..\..\global\effects\veh_tieFightr_shipRll_01.wav   tie_fighter_roll    -resample ps2 16000 xbox 22050 pc 22050
+..\..\global\effects\veh_tieIntr_shpRll_01.wav      tie_int_roll        -alias ps2 tie_fighter_roll -resample xbox 22050 pc 22050
+#ifplatform xbox pc
+..\..\global\effects\veh_tie_deccel_01.wav          tie_shift_down      -resample ps2 16000 xbox 22050 pc 22050
+..\..\gcw\effects\wpn_tie_blaster_long.wav         -resample xbox 22050 pc 44100
+..\..\gcw\effects\eng_tieFighter_hi_lp.wav         -resample xbox 22050 pc 22050
+..\..\gcw\effects\eng_tieBomber_mid_lp.wav         -resample xbox 22050 pc 22050
+..\..\gcw\effects\eng_tieFighter_mid_lp.wav        -resample xbox 22050 pc 22050
+#endifplatform xbox pc
+#ifplatform ps2
+..\..\gcw\effects\wp2_tie_blaster_long.wav           wpn_tie_blaster_long          -resample ps2 16000
+//..\..\gcw\effects\eP2_tieFtrAndBomber_low_lp.wav   eng_tieFtrAndBomber_low_lp    -resample ps2 3000
+//..\..\gcw\effects\eP2_tieBomber_hi_lp.wav          eng_tieBomber_hi_lp           -resample ps2 16000
+..\..\gcw\effects\eP2_tieFighter_hi_lp.wav           eng_tieFighter_hi_lp          -resample ps2 16000
+..\..\gcw\effects\eP2_tieBomber_mid_lp.wav           eng_tieBomber_mid_lp          -resample ps2 20000
+..\..\gcw\effects\ep2_tieFighter_mid_lp.wav          eng_tieFighter_mid_lp         -resample ps2 20000
+#endifplatform ps2
+
+// ---------------------------------------------------------------------------------------------------------------
+// ----- TIE Bomber -----
+..\..\global\effects\veh_tieBmbr_shipRll_01.wav tie_bomber_roll -alias ps2 tie_fighter_roll -resample xbox 22050 pc 22050
+// ---------------------------------------------------------------------------------------------------------------
+
+

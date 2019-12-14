@@ -19,5 +19,9 @@ ucft
         "imp_hover_fightertank"
         "imp_hover_speederbike"
         "imp_walk_atst"
+        "imp_walk_atat"
+        "imp_fly_tie"
+        "imp_fly_tiebomber"
+        "imp_fly_trooptrans"
 	}
  }

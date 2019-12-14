@@ -306,3 +306,94 @@
 ..\..\gcw\effects\eP2_snowspeeder_mid_lp.wav         eng_snowspeeder_mid_lp         -resample ps2 16000
 #endifplatform ps2
 // ---------------------------------------------------------------------------------------------------------------
+
+
+// ----- Alliance ----- Space Intercom
+..\..\gcw\effects\AICOM401.wav -resample ps2 14000 xbox 20000 pc 22050
+..\..\gcw\effects\AICOM402.wav -resample ps2 14000 xbox 20000 pc 22050
+..\..\gcw\effects\AICOM403.wav -resample ps2 14000 xbox 20000 pc 22050
+..\..\gcw\effects\AICOM404.wav -resample ps2 14000 xbox 20000 pc 22050
+..\..\gcw\effects\AICOM405.wav -resample ps2 14000 xbox 20000 pc 22050
+..\..\gcw\effects\AICOM406.wav -resample ps2 14000 xbox 20000 pc 22050
+
+
+// Alliance Gunship -------------------------------------------------------------------------------------------------
+..\..\cw\effects\eng_takeoff_gunship01.wav        -resample ps2 16000 xbox 16000 pc 44100
+..\..\cw\effects\eng_takeoff_gunship02.wav        -alias ps2 eng_takeoff_gunship01 -resample xbox 16000 pc 44100
+..\..\cw\effects\R_LAAT_land01.WAV                -resample ps2 16000 xbox 16000 pc 44100
+#ifplatform xbox pc
+//..\..\cw\effects\wpn_gunship_blaster_fire.wav     -resample xbox 22050 pc 44100
+//..\..\cw\effects\wpn_gunship_laser_fire.wav       -resample xbox 22050 pc 44100
+//..\..\cw\effects\wp2_gunship_laser_lp.wav         -resample xbox 22050 pc 44100
+//..\..\cw\effects\wpn_gunship_rocket_fire.wav      -resample xbox 22050 pc 44100
+..\..\cw\effects\eng_repGunship_hi_lp.wav         -resample xbox 22050 pc 22050
+..\..\cw\effects\eng_repGunship_low_lp.wav        -resample xbox 16000 pc 22050
+..\..\cw\effects\eng_repGunship_mid_lp.wav        -resample xbox 16000 pc 22050
+#endifplatform xbox pc
+#ifplatform ps2
+//..\..\cw\effects\wp2_gunship_blaster_fire.wav     wpn_gunship_blaster_fire    -resample ps2 16000
+//..\..\cw\effects\wp2_gunship_laser_fire.wav       wpn_gunship_laser_fire      -resample ps2 16000
+//..\..\cw\effects\wp2_gunship_laser_lp.wav         wpn_gunship_laser_lp        -resample ps2 8000
+//..\..\cw\effects\wp2_gunship_rocket_fire.wav      wpn_gunship_rocket_fire     -resample ps2 16000
+..\..\cw\effects\eP2_repGunship_hi_lp.wav         eng_repGunship_hi_lp        -resample ps2 16000
+..\..\cw\effects\eP2_repGunship_low_lp.wav        eng_repGunship_low_lp       -resample ps2 3000
+..\..\cw\effects\eP2_repGunship_mid_lp.wav        eng_repGunship_mid_lp       -resample ps2 6000
+#endifplatform ps2
+// ---------------------------------------------------------------------------------------------------------------
+
+// Awing --------------------------------------------------------------------------------------------
+//..\..\gcw\effects\wpn_awing_fire01.wav         -resample ps2 16000 xbox 22050 pc 44100
+//..\..\gcw\effects\wpn_awing_fire02.wav         -resample ps2 16000 xbox 22050 pc 44100
+//..\..\gcw\effects\wpn_awing_torpedo.wav         -resample ps2 16000 xbox 22050 pc 44100
+..\..\gcw\effects\eng_awing_hi_lp.wav           awing_hi            -resample ps2 16000 xbox 22050 pc 22050
+..\..\gcw\effects\eng_awing_mid_lp.wav          awing_mid           -resample ps2 16000 xbox 22050 pc 22050
+..\..\gcw\effects\eng_awing_low_lp.wav          awing_low           -resample ps2 11025 xbox 22050 pc 22050
+..\..\global\effects\veh_awing_shpRll_01.wav    awing_roll          -resample ps2 16000 xbox 22050 pc 22050
+..\..\global\effects\veh_awing_accel_01.wav     awing_shift_up      -alias ps2 shift_up -resample xbox 22050 pc 22050
+#ifplatform xbox pc
+..\..\global\effects\veh_awing_deccel_01.wav    awing_shift_down    -resample xbox 22050 pc 22050
+#endifplatform xbox pc
+
+// --------------------------------------------------------------------------------------------------
+
+// Xwing ----------------------------------------------------------------------------------------------
+..\..\global\effects\veh_xwing_shpRll_01.wav    xwing_roll          -resample ps2 16000 xbox 22050 pc 22050
+..\..\global\effects\veh_xwing_accel_01.wav     xwing_shift_up      -alias ps2 shift_up -resample xbox 22050 pc 22050
+#ifplatform xbox pc
+..\..\global\effects\veh_xwing_deccel_01.wav    xwing_shift_down    -resample ps2 16000 xbox 22050 pc 22050
+..\..\gcw\effects\wpn_xwing_blaster_fire.wav    -resample xbox 22050 pc 44100
+//..\..\gcw\effects\wpn_xwing_torpedo_fire.wav    -resample pc 44100
+..\..\gcw\effects\eng_xwing_hi_lp.wav           -resample xbox 22050 pc 22050
+..\..\gcw\effects\eng_xwing_low_lp.wav          -resample xbox 11025 pc 22050
+..\..\gcw\effects\eng_xwing_med_lp.wav          -resample xbox 11025 pc 22050
+#endifplatform xbox pc
+#ifplatform ps2
+..\..\gcw\effects\wp2_xwing_blaster_fire.wav    wpn_xwing_blaster_fire     -resample ps2 16000
+//..\..\gcw\effects\wp2_xwing_torpedo_fire.wav    wpn_xwing_torpedo_fire     -resample ps2 16000
+..\..\gcw\effects\eP2_xwing_hi_lp.wav           eng_xwing_hi_lp            -resample ps2 20000
+..\..\gcw\effects\eP2_xwing_low_lp.wav          eng_xwing_low_lp           -resample ps2 2000
+..\..\gcw\effects\eP2_xwing_med_lp.wav          eng_xwing_med_lp           -resample ps2 5000
+#endifplatform ps2
+// ---------------------------------------------------------------------------------------------------------------
+
+// Ywing ----------------------------------------------------------------------------------------------
+..\..\global\effects\veh_ywing_shpRll_01.wav    ywing_roll          -resample ps2 16000 xbox 22050 pc 22050
+..\..\global\effects\veh_ywing_accel_01.wav     ywing_shift_up      -alias ps2 shift_up -resample xbox 22050 pc 22050
+#ifplatform xbox pc
+..\..\global\effects\veh_ywing_deccel_01.wav    ywing_shift_down    -resample ps2 16000 xbox 22050 pc 22050
+..\..\gcw\effects\wpn_ywing_blaster_fire.wav     -resample xbox 22050 pc 44100
+//..\..\gcw\effects\wpn_ywing_ionCannon_fire.wav   -resample pc 22050
+//..\..\gcw\effects\wpn_ywing_torpedo_fire.wav     -resample xbox 22050 pc 44100
+..\..\gcw\effects\eng_ywing_hi_lp.wav            -resample xbox 22050 pc 22050
+..\..\gcw\effects\eng_ywing_low_lp.wav           -resample xbox 11025 pc 22050
+..\..\gcw\effects\eng_ywing_mid_lp.wav           -resample xbox 22050 pc 22050
+#endifplatform xbox pc
+#ifplatform ps2
+..\..\gcw\effects\wp2_ywing_blaster_fire.wav    wpn_ywing_blaster_fire     -resample ps2 18000
+//..\..\gcw\effects\wp2_ywing_ionCannon_fire.wav  wpn_ywing_ionCannon_fire   -resample ps2 20000
+//..\..\gcw\effects\wp2_ywing_torpedo_fire.wav    wpn_ywing_torpedo_fire     -resample ps2 16000
+..\..\gcw\effects\eP2_ywing_hi_lp.wav           eng_ywing_hi_lp            -resample ps2 20000
+..\..\gcw\effects\eP2_ywing_low_lp.wav          eng_ywing_low_lp           -resample ps2 3000
+..\..\gcw\effects\eP2_ywing_mid_lp.wav          eng_ywing_mid_lp           -resample ps2 3000
+#endifplatform ps2
+// ---------------------------------------------------------------------------------------------------------------

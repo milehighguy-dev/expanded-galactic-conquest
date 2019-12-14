@@ -22,5 +22,11 @@ ucft
         "wok_foley_metal_config"
         "wok_foley_metal"
         "all_hover_combatspeeder"
+        "imp_hover_speederbike"
+        "all_fly_awing"
+        "all_fly_gunship"
+        "all_fly_xwing"
+        "all_fly_ywing"
+        "rep_fly_gunship"
 	}
  }
