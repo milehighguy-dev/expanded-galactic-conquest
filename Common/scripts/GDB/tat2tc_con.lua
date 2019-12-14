@@ -70,7 +70,7 @@ DEF = 2
 	SetMaxPlayerFlyHeight(40)
 
     ReadDataFile("sound\\tat.lvl;tat2cw")
-    ReadDataFile("sound\\tat.lvl;tat2gcw")
+    --ReadDataFile("sound\\tat.lvl;tat2gcw")
 
     --ReadDataFile("SIDE\\rep.lvl",
     --                    "rep_inf_ep3_rocketeer",
@@ -97,7 +97,7 @@ DEF = 2
 						"tur_bldg_tat_barge",	
 						"tur_bldg_laser")	
 
-    SetAttackingTeam(ATT)
+    --SetAttackingTeam(ATT)
 
     print("tat2tc_con: about to add sides")
     addDynamicSides("default")
@@ -224,7 +224,7 @@ DEF = 2
     SetSoundEffect("SpawnDisplayBack",             "shell_menu_exit")
 
 
-    SetAttackingTeam(ATT)
+    --SetAttackingTeam(ATT)
 
     --  Camera Stats
     --Tat2 Mos Eisley

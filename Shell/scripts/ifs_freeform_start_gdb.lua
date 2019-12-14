@@ -52,8 +52,9 @@ function ifs_freeform_start_gdb(this)
 	ifs_freeform_init_gdb(this, REP, CIS, ALL, IMP)
 
 	-- set to versus play
-	ifs_freeform_controllers(this, { [0] = REP, [1] = CIS, [2] = REP, [3] = CIS })
+	--ifs_freeform_controllers(this, { [0] = REP, [1] = CIS, [2] = REP, [3] = CIS })
 
+	ifs_freeform_controllers(this, { [0] = ALL, [1] = CIS, [2] = REP, [3] = CIS })
 	-- balanced CW start
 	this.Start = function(this)
 

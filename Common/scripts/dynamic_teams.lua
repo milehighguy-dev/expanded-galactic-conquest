@@ -407,6 +407,12 @@ end
 
 function SetupSounds(attackingTeamName, defendingTeamName, planetName )
 
+    -- load common sounds, attacking team sounds, and defending team sounds
+    -- hopefully they contain everything we need!
+    --ReadDataFile("dc:sound\\gdb.lvl;commonsound")
+    ReadDataFile("dc:sound\\gdb.lvl;" .. attackingTeamName)
+    ReadDataFile("dc:sound\\gdb.lvl;" .. defendingTeamName)
+
     -- example values "imp", "all", "yav"
     -- attacker is 1 defender is 2
     -- this assumes all sound streams have the same naming conventions (which they do in the stock maps)
@@ -508,13 +514,15 @@ function addDynamicSidesSpace()
     print("addDynamicSides, loaded mission setup")
     print("attacker is " .. tostring(attackingTeamName) .. " defender is " .. tostring(defendingTeamName))
 
+    SetupSounds(attackingTeamName, defendingTeamName, "spa")
+    print("addDynamicSides, loaded sounds")
+
     --for mission scripts attacker is 1 and defender 2
     AddSide(1, attackingTeamName, "space")
     print("addDynamicSides, added team 1")
     AddSide(2, defendingTeamName, "space")
     print("addDynamicSides, added team 2")
 
-    SetupSounds(attackingTeamName, defendingTeamName, "spa")
-    print("addDynamicSides, loaded sounds")
+
 
 end

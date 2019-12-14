@@ -103,7 +103,7 @@ function ScriptInit()
     
     
     ReadDataFile("sound\\pol.lvl;pol1cw")
-    ReadDataFile("sound\\pol.lvl;pol1gcw")
+    --ReadDataFile("sound\\pol.lvl;pol1gcw")
     --ReadDataFile("SIDE\\rep.lvl",
     --            "rep_inf_ep3_rifleman",
     --            "rep_inf_ep3_rocketeer",

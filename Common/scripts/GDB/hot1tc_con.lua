@@ -77,7 +77,7 @@ function ScriptInit()
     --local ATT = 1
     --local DEF = 2
 
-    SetAttackingTeam(ATT)
+    --SetAttackingTeam(ATT)
 
 
     SetMaxFlyHeight(70)

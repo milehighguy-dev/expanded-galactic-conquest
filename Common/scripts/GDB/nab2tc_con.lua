@@ -80,7 +80,9 @@ function ScriptInit()
 
     --load all the sounds so no team is missing sounds
     ReadDataFile("sound\\nab.lvl;nab2cw")
-    ReadDataFile("sound\\nab.lvl;nab2gcw")
+    --ReadDataFile("sound\\nab.lvl;nab2gcw")
+
+    addDynamicSides("default")
 
      ReadDataFile("SIDE\\rep.lvl",
                 --"rep_inf_ep3_rifleman",
@@ -106,7 +108,7 @@ function ScriptInit()
                 "tur_bldg_laser")
 
 
-    addDynamicSides("default")
+
 
     --  Level Stats
     ClearWalkers()

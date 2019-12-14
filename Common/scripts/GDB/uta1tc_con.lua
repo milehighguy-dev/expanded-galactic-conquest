@@ -58,7 +58,7 @@ function ScriptInit()
     SetTeamAggressiveness(2, 0.95)
 
     ReadDataFile("sound\\uta.lvl;uta1cw")
-    ReadDataFile("sound\\uta.lvl;uta1gcw")
+    --ReadDataFile("sound\\uta.lvl;uta1gcw")
 
     ReadDataFile("SIDE\\rep.lvl",
                 --"rep_inf_ep3_rifleman",

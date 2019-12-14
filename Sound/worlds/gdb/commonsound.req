@@ -14,5 +14,7 @@ ucft
         "global_vo"
         "exp_obj"
         "exp_obj_large"
+        "exp_obj_huge"
+        "exp_obj_water"
 	}
  }

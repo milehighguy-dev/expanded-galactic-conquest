@@ -57,14 +57,6 @@
 // * Uses All Thermal Detonators
 
 
-// ----- Imperial ----- Space Intercom
-..\..\gcw\effects\IICOM416.wav -resample ps2 5000 xbox 16000 pc 22050
-..\..\gcw\effects\IICOM417.wav -resample ps2 5000 xbox 16000 pc 22050
-..\..\gcw\effects\IICOM418.wav -resample ps2 5000 xbox 16000 pc 22050
-..\..\gcw\effects\IICOM419.wav -resample ps2 5000 xbox 16000 pc 22050
-..\..\gcw\effects\IICOM420.wav -resample ps2 6000 xbox 16000 pc 22050
-..\..\gcw\effects\IICOM421.wav -resample ps2 5000 xbox 16000 pc 22050
-
 // Unit Pain Chatter VO -----------------------------------------------------------------------------------------
 
 // ----- Imperial -----

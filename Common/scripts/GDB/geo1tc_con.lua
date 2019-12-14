@@ -238,7 +238,7 @@ function ScriptInit()
     -- OpenAudioStream("sound\\global.lvl",  "global_vo_quick")
     -- OpenAudioStream("sound\\global.lvl",  "global_vo_slow")
     OpenAudioStream("sound\\geo.lvl",  "geo1cw")
-    OpenAudioStream("sound\\geo.lvl",  "geo1cw")
+    --OpenAudioStream("sound\\geo.lvl",  "geo1cw")
 
     --SetBleedingVoiceOver(REP, REP, "rep_off_com_report_us_overwhelmed", 1)
     --SetBleedingVoiceOver(REP, CIS, "rep_off_com_report_enemy_losing",   1)
@@ -280,7 +280,7 @@ function ScriptInit()
     --ActivateBonus(CIS, "SNEAK_ATTACK")
     --ActivateBonus(REP, "SNEAK_ATTACK")
 
-    SetAttackingTeam(ATT)
+    --SetAttackingTeam(ATT)
 
     --Opening Satalite Shot
     --Geo

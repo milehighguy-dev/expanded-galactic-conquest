@@ -59,7 +59,7 @@ function ScriptInit()
 
 
     ReadDataFile("sound\\fel.lvl;fel1cw")
-    ReadDataFile("sound\\fel.lvl;fel1gcw")
+    --ReadDataFile("sound\\fel.lvl;fel1gcw")
 
     SetMaxFlyHeight(53)
     SetMaxPlayerFlyHeight (53)
@@ -96,7 +96,7 @@ function ScriptInit()
 
     addDynamicSides("jungle")
 
-    SetAttackingTeam(ATT)
+    --SetAttackingTeam(ATT)
 --SetupTeams{
 --    rep = {
 --        team = REP,

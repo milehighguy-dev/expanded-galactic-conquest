@@ -173,7 +173,7 @@ function ScriptInit()
     SetMaxFlyHeight(70)
 
     ReadDataFile("sound\\kas.lvl;kas2cw")
-    ReadDataFile("sound\\kas.lvl;kas2gcw")
+    --ReadDataFile("sound\\kas.lvl;kas2gcw")
 
     ReadDataFile("SIDE\\rep.lvl",
                                 -- "rep_inf_ep3_rifleman",
@@ -362,7 +362,7 @@ function ScriptInit()
     SetSoundEffect("SpawnDisplaySpawnPointAccept", "shell_menu_enter")
     SetSoundEffect("SpawnDisplayBack",             "shell_menu_exit")
 
-    SetAttackingTeam(ATT)
+    --SetAttackingTeam(ATT)
 
 
     --Kas2 Docks

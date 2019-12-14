@@ -66,7 +66,7 @@ function ScriptInit()
     ReadDataFile("ingame.lvl")
 
    ReadDataFile("sound\\myg.lvl;myg1cw")
-    ReadDataFile("sound\\myg.lvl;myg1gcw")
+    --ReadDataFile("sound\\myg.lvl;myg1gcw")
 
         ReadDataFile("SIDE\\rep.lvl",
                              --"rep_fly_assault_dome",

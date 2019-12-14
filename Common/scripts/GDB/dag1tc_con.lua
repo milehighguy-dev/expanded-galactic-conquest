@@ -56,7 +56,7 @@ ScriptCB_DoFile("setup_teams")
     ReadDataFile("ingame.lvl")
     
     ReadDataFile("sound\\dag.lvl;dag1cw")
-    ReadDataFile("sound\\dag.lvl;dag1gcw")
+    --ReadDataFile("sound\\dag.lvl;dag1gcw")
 
     SetMaxFlyHeight(20)
     SetMaxPlayerFlyHeight (20)

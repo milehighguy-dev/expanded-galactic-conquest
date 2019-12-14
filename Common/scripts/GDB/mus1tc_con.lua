@@ -101,7 +101,7 @@ function ScriptInit()
     AISnipeSuitabilityDist(30)
 
     ReadDataFile("sound\\mus.lvl;mus1cw")
-    ReadDataFile("sound\\mus.lvl;mus1gcw")
+    --ReadDataFile("sound\\mus.lvl;mus1gcw")
 
     --ReadDataFile("SIDE\\rep.lvl",
     --                         "rep_inf_ep3_rifleman",
@@ -122,7 +122,7 @@ function ScriptInit()
     --                         "cis_inf_droideka")
                              ----"cis_bldg_defensegridturret")
 
-    SetAttackingTeam(ATT)
+    --SetAttackingTeam(ATT)
 
 
     addDynamicSides("urban")

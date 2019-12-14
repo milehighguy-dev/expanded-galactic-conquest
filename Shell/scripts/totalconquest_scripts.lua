@@ -4,9 +4,12 @@
 --- DateTime: 11/18/2019 7:30 PM
 ---
 
---TODO make space battle dynamic team
+--TODO make space battle map dynamic team with correct ships
 --TODO revisit battle cards
 --TODO make next turn iterate through alive teams not all teams
+--TODO BUG: game crashes on AI turn after fleet battle - > planet invasion. cannot destroy fleet after invasion (already destroyed)
+--TODO BUG: planetFleetInfo sometimes empty when shouldn't be.
+--TODO BUG: shell script for flashy text stack overflow
 
 ---------------------------
 --  begin global variables
@@ -243,18 +246,43 @@ ifs_freeform_main.Enter = function(this, bFwd)
 
         elseif winner > 0 then
 
+            print("=============== WINNER/ LOSER ==============")
+            print("loaded winner " .. tostring(winner) .. " from last battle")
+            print(" attacking team maps to 1 defending team maps to 2")
+            print(" attacking team is " .. tostring(this.attackTeam) .. " " .. tostring(this.teamCode[this.attackTeam]))
+            print(" defending team is " .. tostring(this.defendTeam) .. " " .. tostring(this.teamCode[this.defendTeam]))
             local loser = 1
-            if winner == 1 then
-                winner = this.attackTeam
-                loser = this.defendTeam
-            elseif winner == 2 then
-                loser = this.attackTeam
-                winner = this.defendTeam
+
+            if this.teamController[this.defendTeam] then
+
+                --do opposite if player is the defender to address weird quirk with ScriptCB_GetLastBattleVictory
+                if winner == 2 then
+                    winner = this.attackTeam
+                    loser = this.defendTeam
+                elseif winner == 1 then
+                    loser = this.attackTeam
+                    winner = this.defendTeam
+                else
+                    print("ERROR could not determine winning/losing teams")
+                end
+
             else
-                print("ERROR could not determine winning/losing teams")
+
+                if winner == 1 then
+                    winner = this.attackTeam
+                    loser = this.defendTeam
+                elseif winner == 2 then
+                    loser = this.attackTeam
+                    winner = this.defendTeam
+                else
+                    print("ERROR could not determine winning/losing teams")
+                end
+
             end
 
+            print("mapped winner/ loser")
             print("winner is " .. tostring(winner) .. " loser is " .. tostring(loser))
+            print("================= END WINNER/LOSER ===============")
 
             -- apply battle results
             this:ApplyBattleResult(this.planetNext, winner, loser)
@@ -440,8 +468,8 @@ ifs_freeform_main.OneTimeInit = function(this, showLoadDisplay)
             this.modelMatrix[planet] = {}
             this.modelMatrix[planet][1] = GetEntityMatrix(planet .. "_fleet1") or this.planetMatrix[planet][1]
             this.modelMatrix[planet][2] = GetEntityMatrix(planet .. "_fleet2") or this.planetMatrix[planet][2]
-            this.modelMatrix[planet][3] = GetEntityMatrix(planet .. "_fleet3") or this.planetMatrix[planet][3]
-            this.modelMatrix[planet][4] = GetEntityMatrix(planet .. "_fleet4") or this.planetMatrix[planet][4]
+            this.modelMatrix[planet][3] = GetEntityMatrix(planet .. "_fleet1") or this.planetMatrix[planet][3]
+            this.modelMatrix[planet][4] = GetEntityMatrix(planet .. "_fleet2") or this.planetMatrix[planet][4]
         end
 
         -- show side setup screen?
@@ -462,7 +490,7 @@ ifs_freeform_main.CreateFleet = function(this, team, planet)
     end
 
     -- add fleet info
-    if this.planetFleetInfo[planet] == nil then
+    if this.planetFleetInfo[planet] == nil or table.getn(this.planetFleetInfo[planet]) == 0 then
         this.planetFleetInfo[planet] = {}
     end
     table.insert(this.planetFleetInfo[planet], this.fleet:makeNewFleet(nil, team))
@@ -479,13 +507,21 @@ end
 -- destroy a fleet with the specified team on the specified planet
 ifs_freeform_main.DestroyFleet = function(this, team, planet)
 
+    --TODO this logic is not quite right. Deletes everything from planetfleetinfo sometimes
+
+    print("DEBUG ================= PRINTING FLEET INFO:")
+    tprint(this.planetFleetInfo)
+
     local otherTeam = nil
     --removes all fleet info from planet that matches team. get the other team at the planet
     for fleetIndex, fleetObj in ipairs(this.planetFleetInfo[planet]) do
         if fleetObj.team == team then
             this.planetFleetInfo[planet][fleetIndex] = nil
+            print("DEBUG ================ DELETING FLEET ON PLANET " .. tostring(planet) .. "  FOR TEAM " .. tostring(team))
+            --fleetIndex = nil
         else
             otherTeam = fleetObj.team
+            print("DEBUG =============== OTHER TEAM IS " .. tostring(otherTeam))
         end
     end
     -- if it is just and empty table delete it to remove clutter
@@ -512,7 +548,7 @@ ifs_freeform_main.MoveFleet = function(this, team, start, next)
 
     local myFleet = nil
     local otherTeam = nil
-    print("about to remove fleet object from begin planet")
+    print("about to remove fleet object from begin planet " .. tostring(start))
     --removes all fleet info from planet that match team
     for fleetIndex, fleetObj in ipairs(this.planetFleetInfo[start]) do
         print("fleet index is " .. tostring(fleetIndex))
@@ -531,8 +567,9 @@ ifs_freeform_main.MoveFleet = function(this, team, start, next)
         this.planetFleetInfo[start] = nil
     end
 
+    print("adding fleet info to next planet")
     -- add the fleet info to the next planet
-    if this.planetFleetInfo[next] == nil then
+    if this.planetFleetInfo[next] == nil or table.getn(this.planetFleetInfo[next]) == 0 then
         this.planetFleetInfo[next] = {}
     end
     table.insert(this.planetFleetInfo[next], myFleet)
@@ -664,6 +701,7 @@ ifs_freeform_main.ApplyBattleResult = function(this, planet, winner, loser)
     if this.fleetBattle or this.planetFleet[planet] == loser then
         AttachEffectToMatrix(CreateEffect(this.fleetExplosion[loser]), this.modelMatrix[planet][loser])
     end
+    print("DEBUG ========= DESTROYING FLEET ON PLANET " .. tostring(planet) .. " FOR TEAM " .. tostring(loser))
     this:DestroyFleet(loser, planet)
 
     -- add the planet to the battle list (for AI)
@@ -1345,7 +1383,6 @@ ifs_freeform_battle_card.Next = function(this)
         -- save mission setup
         ifs_freeform_main:SaveMissionSetup()
 
-        --TODO this condition is not right
         if not ifs_freeform_main.teamController[ifs_freeform_main.attackTeam] and not ifs_freeform_main.teamController[ifs_freeform_main.defendTeam] then
 
             --if there are no human players do not enter a mission

@@ -222,7 +222,7 @@ function ScriptInit()
 	SetSoundEffect("SpawnDisplaySpawnPointAccept", "shell_menu_enter")
 	SetSoundEffect("SpawnDisplayBack",			"shell_menu_exit")
 
-	SetAttackingTeam(ATT)
+	--SetAttackingTeam(ATT)
 
 	--Endor
 	--Shield Bunker

@@ -79,7 +79,7 @@ function ScriptInit()
 
     
     ReadDataFile("sound\\yav.lvl;yav1cw")
-    ReadDataFile("sound\\yav.lvl;yav1gcw")
+    --ReadDataFile("sound\\yav.lvl;yav1gcw")
     ReadDataFile("SIDE\\rep.lvl",
                              --"rep_inf_ep3_rifleman",
                              --"rep_inf_ep3_rocketeer",
@@ -257,7 +257,7 @@ function ScriptInit()
     SetSoundEffect("SpawnDisplayBack",             "shell_menu_exit")
 
 
-    SetAttackingTeam(ATT)
+    --SetAttackingTeam(ATT)
     --Yav 1 - Temple
     --Fountain
 	AddCameraShot(0.660400, -0.059877, -0.745465, -0.067590, 143.734436, -55.725388, 7.761997);

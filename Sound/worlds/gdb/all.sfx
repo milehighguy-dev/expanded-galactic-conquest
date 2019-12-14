@@ -308,15 +308,6 @@
 // ---------------------------------------------------------------------------------------------------------------
 
 
-// ----- Alliance ----- Space Intercom
-..\..\gcw\effects\AICOM401.wav -resample ps2 14000 xbox 20000 pc 22050
-..\..\gcw\effects\AICOM402.wav -resample ps2 14000 xbox 20000 pc 22050
-..\..\gcw\effects\AICOM403.wav -resample ps2 14000 xbox 20000 pc 22050
-..\..\gcw\effects\AICOM404.wav -resample ps2 14000 xbox 20000 pc 22050
-..\..\gcw\effects\AICOM405.wav -resample ps2 14000 xbox 20000 pc 22050
-..\..\gcw\effects\AICOM406.wav -resample ps2 14000 xbox 20000 pc 22050
-
-
 // Alliance Gunship -------------------------------------------------------------------------------------------------
 ..\..\cw\effects\eng_takeoff_gunship01.wav        -resample ps2 16000 xbox 16000 pc 44100
 ..\..\cw\effects\eng_takeoff_gunship02.wav        -alias ps2 eng_takeoff_gunship01 -resample xbox 16000 pc 44100

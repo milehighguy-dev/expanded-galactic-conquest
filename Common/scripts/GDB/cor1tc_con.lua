@@ -129,7 +129,7 @@ function ScriptInit()
     
           
     ReadDataFile("sound\\cor.lvl;cor1cw")
-    ReadDataFile("sound\\cor.lvl;cor1gcw")
+    --ReadDataFile("sound\\cor.lvl;cor1gcw")
 
     ReadDataFile("SIDE\\rep.lvl",
                 --"rep_inf_ep3_rifleman",
