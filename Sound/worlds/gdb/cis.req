@@ -1,0 +1,29 @@
+ucft
+{
+	REQN
+	{
+		"bnk"
+		"align=2048"
+		"cis"
+	}
+
+	REQN
+	{
+		"config"
+		"cw_foley_stone_config"
+        "cw_foley_stone"
+        "cw_foley_metal_config"
+        "cw_foley_metal"
+		"cis_unit_vo"
+		"cis_unit"
+		"cis_unit_space"
+		"cis_hover_aat"
+		"cis_hover_stap"
+        "cis_tread_hailfire"
+        "cis_walk_spider"
+		"cis_fly_grievousfighter"
+        "cis_fly_tridroidfighter"
+        "cis_fly_droidfighter"
+        "cis_fly_gunship"
+	}
+ }

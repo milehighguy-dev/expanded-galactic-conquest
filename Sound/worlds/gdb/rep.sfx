@@ -1,0 +1,177 @@
+// Common CW Weapons Start //////////////////////////////////////////////////////////////////////////
+// CW Common Rocket Launcher Used by CIS and Rep
+#ifplatform xbox pc
+..\..\cw\effects\wpn_cis_rcktlauncher_fire.wav  -resample xbox 22050 pc 44100
+#endifplatform xbox pc
+#ifplatform ps2
+..\..\cw\effects\wp2_cis_rcktlauncher_fire.wav  wpn_cis_rcktlauncher_fire   -resample ps2 20000
+#endifplatform ps2
+// Common CW Weapons End ///////////////////////////////////////////////////////////////////////////
+
+// Start Republic Units //////////////////////////////////////////////////////////////////////////////////////////////
+// Unit VO Effects
+..\..\cw\effects\RICOM401.wav    -resample ps2 6000 xbox 16000 pc 22050
+..\..\cw\effects\RICOM402.wav    -resample ps2 7000 xbox 16000 pc 22050
+..\..\cw\effects\RICOM403.wav    -resample ps2 5000 xbox 16000 pc 22050
+..\..\cw\effects\RICOM404.wav    -resample ps2 5000 xbox 16000 pc 22050
+..\..\cw\effects\RICOM405.wav    -resample ps2 7000 xbox 16000 pc 22050
+..\..\cw\effects\RICOM406.wav    -resample ps2 6000 xbox 16000 pc 22050
+//temp
+..\..\global\effects\malechoke.wav -alias ps2 RICOM401 -resample xbox 22050 pc 22050
+
+// Rep Rifleman /////////////////////////////////////////////////////////////////////////////////
+// rep_weap_inf_pistol rep_weap_inf_rifle rep_weap_inf_thermaldetonator
+// * Thermal Detonator uses All Thermal Detonators
+#ifplatform xbox pc
+..\..\cw\effects\wpn_rep_blaster_fire.wav         -resample xbox 22050 pc 44100
+..\..\cw\effects\wpn_rep_pistol_fire.wav          -resample xbox 22050 pc 44100
+#endifplatform xbox pc
+#ifplatform ps2
+..\..\cw\effects\wp2_rep_blaster_fire.wav         wpn_rep_blaster_fire        -resample ps2 16000
+..\..\cw\effects\wp2_rep_pistol_fire.wav          wpn_rep_pistol_fire         -resample ps2 20000
+#endifplatform ps2
+
+
+// Rep Rocketeer ///////////////////////////////////////////////////////////////////////////////////////////
+//rep_weap_inf_mine_dispenser rep_weap_inf_pistol rep_weap_inf_rocket_launcher rep_weap_inf_thermaldetonator
+// * Uses All Mine Dispensers
+// * Uses Rifleman pistol
+// * Uses CW Rocket Launchers
+// * Uses All Thermal Detonators
+
+// Rep Sniper //////////////////////////////////////////////////
+// rep_weap_inf_pistol rep_weap_inf_remotedroid rep_weap_inf_sniper_rifle rep_weap_inf_thermaldetonator
+
+// Rep Pilot rep_weap_inf_commando_pistol rep_weap_inf_fusioncutter rep_weap_inf_timebomb 
+
+// Rep Engineer rep_weap_inf_autoturret_dispenser rep_weap_inf_detpack rep_weap_inf_fusioncutter rep_weap_inf_shotgun
+// * Uses common/All for each weapon
+// Rep  Jettrooper rep_weap_inf_commando_pistol rep_weap_inf_emp_launcher rep_weap_inf_thermaldetonator 
+// * Uses All Commando Pistols
+
+// Rep Officer: Buff Defense, Chaingun, Pistol, Powerup Dispenser
+// Chaingun Rep Officer
+..\..\global\effects\chain_wind_lp.WAV  wpn_chaingun_spin   -resample ps2 16000 xbox 22050 pc 22050
+..\..\cw\effects\ChainGun01.wav         wpn_chaingun_fire01 -resample ps2 16000 xbox 22050 pc 22050
+// All Buff Fire
+..\..\global\effects\sfx_pod_binder_activate_a.wav  com_buff_fire   -resample ps2 16000 xbox 22050 pc 22050
+
+// Buff Rally ALL REP
+..\..\global\effects\sfx_start_beep.wav    buff_rally_effect   -resample ps2 16000 xbox 22050 pc 22050
+
+
+// Buff Rage ALL IMP CIS
+..\..\global\effects\ui_mountedWeap_overheat_lp.wav   buff_rage_fire    -resample ps2 16000 xbox 22050 pc 22050
+..\..\global\effects\ui_boost.wav                     buff_rage_effect  -alias ps2 buff_rage_fire -resample xbox 22050 pc 22050
+
+
+// End Officers -----------------------------------------------------------------------------------------------------
+
+
+// AT Walker Engine ATAT ATST ATTE
+#ifplatform ps2
+//..\..\global\effects\eP2_walker_hi_lp.wav eng_walker_hi_lp -resample ps2 20000
+//..\..\global\effects\eP2_walker_low_lp.wav eng_walker_low_lp -resample ps2 3000
+//..\..\global\effects\eP2_walker_mid_lp.wav eng_walker_mid_lp -resample ps2 12000
+//..\..\global\effects\hyd_walker01.wav atst_leg_up01  -resample ps2 16000
+//..\..\global\effects\hyd_walker02.wav atst_leg_up02  -resample ps2 16000
+//..\..\global\effects\hyd_walker03.wav atst_leg_up03  -resample ps2 16000
+//..\..\global\effects\hyd_walker04.wav atst_leg_up04  -resample ps2 16000
+//..\..\global\effects\hyd_walker05.wav atst_leg_up05  -resample ps2 16000
+//..\..\global\effects\hyd_walker06.wav atst_leg_up06  -resample ps2 16000
+#endifplatform
+#ifplatform xbox pc
+//..\..\global\effects\eng_walker_hi_lp.wav   -resample xbox 22050 pc 22050
+//..\..\global\effects\eng_walker_mid_lp.wav  -resample xbox 12000 pc 16000
+//..\..\global\effects\eng_walker_low_lp.wav  -resample xbox 12000 pc 11025
+//..\..\global\effects\hyd_walker01.wav atst_leg_up01  -resample xbox 22050 pc 22050
+//..\..\global\effects\hyd_walker02.wav atst_leg_up02  -resample xbox 22050 pc 22050
+//..\..\global\effects\hyd_walker03.wav atst_leg_up03  -resample xbox 22050 pc 22050
+//..\..\global\effects\hyd_walker04.wav atst_leg_up04  -resample xbox 22050 pc 22050
+//..\..\global\effects\hyd_walker05.wav atst_leg_up05  -resample xbox 22050 pc 22050
+//..\..\global\effects\hyd_walker06.wav atst_leg_up06  -resample xbox 22050 pc 22050
+#endifplatform xbox pc
+
+// AT Walker footsteps PS2 ATTE ATAT ATST
+#ifplatform ps2
+..\..\global\effects\fs_walker_ps201.wav atst_step01    -resample ps2 16000
+..\..\global\effects\fs_walker_ps202.wav atst_step02    -resample ps2 16000
+..\..\global\effects\fs_walker_ps203.wav atst_step03    -resample ps2 16000
+..\..\global\effects\fs_walker_ps204.wav atst_step04    -alias ps2 atst_step03
+..\..\global\effects\fs_walker_ps205.wav atst_step05    -alias ps2 atst_step01
+..\..\global\effects\fs_walker_ps206.wav atst_step06    -alias ps2 atst_step02
+#endifplatform ps2
+
+// AT Walker Footsteps XBOX and PC ATTE ATAT ATST
+#ifplatform xbox pc
+..\..\global\effects\fs_walker_layerA01.wav -resample xbox 22050 pc 22050
+..\..\global\effects\fs_walker_layerA02.wav -resample xbox 22050 pc 22050
+..\..\global\effects\fs_walker_layerA03.wav -resample xbox 22050 pc 22050
+..\..\global\effects\fs_walker_layerA04.wav -resample xbox 22050 pc 22050
+..\..\global\effects\fs_walker_layerA05.wav -resample xbox 22050 pc 22050
+..\..\global\effects\fs_walker_layerA06.wav -resample xbox 22050 pc 22050
+
+..\..\global\effects\fs_walker_layerB01.wav -resample xbox 22050 pc 22050
+..\..\global\effects\fs_walker_layerB02.wav -resample xbox 22050 pc 22050
+..\..\global\effects\fs_walker_layerB03.wav -resample xbox 22050 pc 22050
+..\..\global\effects\fs_walker_layerB04.wav -resample xbox 22050 pc 22050
+..\..\global\effects\fs_walker_layerB05.wav -resample xbox 22050 pc 22050
+..\..\global\effects\fs_walker_layerB06.wav -resample xbox 22050 pc 22050
+
+..\..\global\effects\fs_walker_layerC01.wav -resample xbox 22050 pc 22050
+..\..\global\effects\fs_walker_layerC02.wav -resample xbox 22050 pc 22050
+..\..\global\effects\fs_walker_layerC03.wav -resample xbox 22050 pc 22050
+..\..\global\effects\fs_walker_layerC04.wav -resample xbox 22050 pc 22050
+..\..\global\effects\fs_walker_layerC05.wav -resample xbox 22050 pc 22050
+..\..\global\effects\fs_walker_layerC06.wav -resample xbox 22050 pc 22050
+
+..\..\global\effects\fs_walker_low01.wav  -resample xbox 22050 pc 22050
+..\..\global\effects\fs_walker_low02.wav  -resample xbox 22050 pc 22050
+..\..\global\effects\fs_walker_low03.wav  -resample xbox 22050 pc 22050
+#endifplatform xbox pc
+
+// ATTE Weapons -----------------------------------------------------------------------------------
+..\..\cw\effects\shipGun2a-01.wav   vehicle_chaingun_fire   -resample ps2 14000 xbox 22050 pc 22050
+#ifplatform xbox pc
+..\..\cw\effects\wpn_ATTE_trtBlaster_fire.wav    -resample xbox 16000 pc 44100
+..\..\cw\effects\wpn_ATTE_frontBlaster_fire.wav  -resample xbox 22050 pc 44100
+#endifplatform xbox pc
+#ifplatform ps2
+..\..\cw\effects\wpn_ATTE_trtBlaster_fire.wav    wpn_ATTE_trtBlaster_fire    -resample ps2 12000
+..\..\cw\effects\wpn_ATTE_frontBlaster_fire.wav  wpn_ATTE_frontBlaster_fire  -resample ps2 18000
+#endifplatform ps2
+//-----------------------------------------------------------------------------------------------
+
+
+// IFT-RFT -------------------------------------------------------------------------------------------------
+#ifplatform xbox pc
+..\..\global\effects\wpn_IFT_blaster_fire.wav         -resample xbox 22050 pc 44100
+..\..\global\effects\wpn_IFT_missile_fire.wav         -resample xbox 22050 pc 44100
+//..\..\global\effects\wpn_IFT_trtBlaster_fire.wav      -resample xbox 22050 pc 22050
+..\..\global\effects\eng_interceptorTank_low_lp.wav   -resample xbox 11025 pc 22050
+..\..\global\effects\eng_interceptorTank_mid_lp.wav   -resample xbox 11025 pc 22050
+..\..\global\effects\eng_interceptorTank_hi_lp.wav    -resample xbox 22050 pc 22050
+#endifplatform xbox pc
+#ifplatform ps2
+
+..\..\global\effects\wp2_IFT_blaster_fire.wav         wpn_IFT_blaster_fire          -resample ps2 16000
+..\..\global\effects\wp2_IFT_missile_fire.wav         wpn_IFT_missile_fire          -resample ps2 16000
+//..\..\global\effects\wp2_IFT_trtBlaster_fire.wav      wpn_IFT_trtBlaster_fire       -resample ps2 16000
+..\..\global\effects\eP2_interceptorTank_low_lp.wav   eng_interceptorTank_low_lp    -resample ps2 3000
+..\..\global\effects\eP2_interceptorTank_mid_lp.wav   eng_interceptorTank_mid_lp    -resample ps2 6000
+..\..\global\effects\eP2_interceptorTank_hi_lp.wav    eng_interceptorTank_hi_lp     -resample ps2 16000
+#endifplatform ps2
+// Beam Weapon Turrets
+#ifplatform xbox pc
+..\..\cw\effects\wpn_gunship_laser_fire.wav       -resample xbox 22050 pc 44100
+..\..\cw\effects\wp2_gunship_laser_lp.wav         wpn_gunship_laser_lp -resample xbox 22050 pc 44100
+#endifplatform xbox pc
+#ifplatform ps2
+..\..\cw\effects\wp2_gunship_laser_fire.wav       wpn_gunship_laser_fire      -resample ps2 11025
+..\..\cw\effects\wp2_gunship_laser_lp.wav         wpn_gunship_laser_lp        -resample ps2 8000
+#endifplatform ps2
+
+
+//---------------------------------------------------------------------------------------------------------------
+
+

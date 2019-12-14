@@ -1,0 +1,32 @@
+ucft
+{
+	REQN
+	{
+		"bnk"
+		"align=2048"
+		"rep"
+	}
+
+	REQN
+	{
+		"config"
+        "rep_unit_vo"
+        "rep_unit"
+		"rep_unit_space"
+        "cw_foley_stone_config"
+        "cw_foley_stone"
+        "cw_foley_metal_config"
+        "cw_foley_metal"
+        "rep_hover_fightertank"
+        "rep_hover_speederbike"
+		"rep_hover_combatspeeder"
+        "rep_walk_atrt"
+		"rep_walk_atte"
+        "rep_fly_gunship"
+		"rep_fly_arc170"
+		"rep_fly_arc170"
+		"rep_fly_jedifighter"
+		"rep_fly_vwing"
+		"rep_fly_anakinfighter"
+	}
+ }

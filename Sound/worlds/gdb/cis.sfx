@@ -1,0 +1,456 @@
+// Common CW Weapons Start //////////////////////////////////////////////////////////////////////////
+// CW Common Rocket Launcher Used by CIS and Rep
+#ifplatform xbox pc
+..\..\cw\effects\wpn_cis_rcktlauncher_fire.wav  -resample xbox 22050 pc 44100
+#endifplatform xbox pc
+#ifplatform ps2
+..\..\cw\effects\wp2_cis_rcktlauncher_fire.wav  wpn_cis_rcktlauncher_fire   -resample ps2 20000
+#endifplatform ps2
+// Common CW Weapons End ///////////////////////////////////////////////////////////////////////////
+
+// Common CIS Weapons Start ///////////////////////////////////////////////////////////////////////
+// Rifle, Pistol, Rocket Launcher
+#ifplatform xbox pc
+..\..\cw\effects\wpn_cis_blaster_fire.wav       -resample xbox 22050 pc 44100
+..\..\cw\effects\wpn_cis_pistol_fire.wav        -resample xbox 22050 pc 44100
+#endifplatform xbox pc
+#ifplatform ps2
+..\..\cw\effects\wp2_cis_blaster_fire.wav       wpn_cis_blaster_fire        -resample ps2 18000
+..\..\cw\effects\wp2_cis_pistol_fire.wav        wpn_cis_pistol_fire         -resample ps2 18000
+#endifplatform ps2
+// ----- CW Unit Lockon -----
+..\..\gcw\effects\wp2_all_vehicle_lockon_lp.wav   com_tracking_loop   -resample ps2 11025 xbox 20000 pc 22050
+
+
+// Common CIS Weapons End ////////////////////////////////////////////////////////////////////////
+
+// CIS Units Start //////////////////////////////////////////////////////////////////////////////////
+// Unit VO Effects
+..\..\cw\effects\CICOM401.wav    -resample ps2 5000 xbox 16000 pc 22050
+..\..\cw\effects\CICOM408.wav    -resample ps2 6000 xbox 16000 pc 22050
+..\..\cw\effects\CICOM409.wav    -resample ps2 14000 xbox 16000 pc 22050
+
+// BDroid Death Explosions ------------------------------------------------------
+..\..\cw\effects\drd_droid_hit_01.wav    -resample ps2 16000 xbox 22050 pc 22050
+..\..\cw\effects\drd_droid_hit_02.wav    -alias ps2 drd_droid_hit_01 -resample xbox 22050 pc 22050
+..\..\cw\effects\drd_droid_hit_03.wav    -resample ps2 16000 xbox 22050 pc 22050
+..\..\cw\effects\drd_droid_hit_04.wav    -alias ps2 drd_droid_hit_03 -resample xbox 22050 pc 22050
+..\..\cw\effects\drd_droid_hit_05.wav    -alias ps2 drd_droid_hit_01 -resample xbox 22050 pc 22050
+..\..\cw\effects\drd_droid_hit_06.wav    -resample ps2 16000 xbox 22050 pc 22050
+
+// CIS Rifleman/Super Battle Droid //////////////////////////
+// Wrist_blaster, Wrist_rocket, wrist_trishot
+// * Uses CIS Common Blaster
+// * Uses CW Common Rocket Launcher
+// All Tri-bursts
+..\..\global\effects\rcnewtriburst.wav   com_weap_triburst_fire -resample ps2 16000 xbox 22050 pc 22050
+#ifplatform xbox pc
+..\..\cw\effects\wpn_wristRocket_reload.wav     -resample xbox 22050 pc 22050
+#endifplatform xbox pc
+#ifplatform ps2
+..\..\cw\effects\wp2_wristRocket_reload.wav     wpn_wristRocket_reload  -resample ps2 16000
+#endifplatform ps2
+
+// CIS Rocketeer ///////////////////////////////////////////
+// mine_dispenser, pistol, rocket_launcher, thermaldetonator
+// * Uses Common All Mine Dispensers
+// * Uses Common CIS Pistol
+// * Uses Common CW Rocket Fire
+// * Uses Common All Thermal Detonators
+
+// CIS Sniper //////////////////////////////////////////////
+// pistol remotedroid sniper_rifle thermaldetonator
+// * Uses Common CIS Pistol
+// * Uses Common All Remote Droids
+// * Uses Common All Sniper Rifles
+// * Uses Common All Thermal Detonators
+
+// CIS Officer/Magna Guard /////////////////////////////////
+// Buff Damage, Bulldog, Mortar Launcher, PowerUp Dispenser
+// -- Buff Damage Offense Chewie CIS Officer
+// -- Buff Damage Powerup Han CIS Rep Officer
+// -- Bulldog CIS Officer
+..\..\global\effects\gren_dioxis_explo_01.wav bulldog_fire -resample ps2 16000 xbox 22050 pc 22050  
+// Buff Poison
+..\..\global\effects\sfx_pod_coolant_spray_on.wav     buff_poison_fire     -resample ps2 16000 xbox 22050 pc 22050
+..\..\global\effects\ui_shock_heartbeat_lp.wav          buff_poison_effect  -resample ps2 16000 xbox 22050 pc 22050
+// -- Mortar Launcher - fires green gas grenades, also used by Imp Officer mortar launcher  
+#ifplatform xbox pc
+..\..\cw\effects\wpn_rep_grenadelaunch_fire.wav     -resample xbox 22050 pc 44100
+..\..\global\effects\exp_ord_bouncingBetty.wav      com_weap_inf_gas_exp    -resample xbox 22050 pc 44100
+#endifplatform xbox pc
+#ifplatform ps2
+..\..\cw\effects\wp2_rep_grenadelaunch_fire.wav   wpn_rep_grenadelaunch_fire    -resample ps2 16000
+..\..\global\effects\ex2_ord_bouncingBetty.wav    com_weap_inf_gas_exp          -resample ps2 14000 
+#endifplatform ps2
+// -- Powerup Dispenser
+// * Uses Common All Throw
+
+
+// CIS Droideka
+// Repeater, Shield, Roll, Jump, Fold, Unfold
+// Footsteps
+..\..\cw\effects\fs_droideka_01.wav -resample ps2 16000 xbox 22050 pc 22050
+..\..\cw\effects\fs_droideka_02.wav -resample ps2 16000 xbox 22050 pc 22050
+..\..\cw\effects\fs_droideka_03.wav -alias ps2 fs_droideka_01   -resample xbox 22050 pc 22050
+..\..\cw\effects\fs_droideka_04.wav -alias ps2 fs_droideka_01   -resample xbox 22050 pc 22050
+..\..\gcw\effects\wpn_snowSpder_towCable_rls.wav    -resample ps2 16000 xbox 22050 pc 22050
+#ifplatform xbox pc
+..\..\cw\effects\wpn_droideka_blaster_fire.wav  -resample xbox 20000 pc 44100
+..\..\cw\effects\drd_droideka_fold.wav          -resample xbox 20000 pc 22050
+..\..\cw\effects\drd_droideka_unfold.wav        -resample xbox 22050 pc 22050
+..\..\cw\effects\drd_droideka_roll_lp.wav       -resample xbox 20000 pc 22050
+..\..\cw\effects\drd_droideka_shield_on.wav     -resample xbox 20000 pc 22050
+#endifplatform xbox pc
+#ifplatform ps2
+..\..\cw\effects\wp2_droideka_blaster_fire.wav  wpn_droideka_blaster_fire     -resample ps2 18000
+..\..\cw\effects\dr2_droideka_fold.wav          drd_droideka_fold             -resample ps2 18000
+..\..\cw\effects\dr2_droideka_unfold.wav        drd_droideka_unfold           -resample ps2 20000
+..\..\cw\effects\dr2_droideka_roll_lp.wav       drd_droideka_roll_lp          -resample ps2 17000
+..\..\cw\effects\dr2_droideka_shield_on.wav     drd_droideka_shield_on        -resample ps2 17000
+#endifplatform ps2
+
+
+
+// End CIS Units //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// BDroid Foley Effects -------------------------------------------------------
+// Terrain Independent Foley
+#ifplatform xbox pc
+..\..\cw\effects\mvt_BDroid_squat.wav          -resample xbox 22050 pc 22050
+#endifplatform xbox pc
+#ifplatform ps2
+..\..\cw\effects\mv2_BDroid_squat.wav   mvt_BDroid_squat    -alias ps2 mvt_trooper_squat
+#endifplatform ps2
+
+//-- Dirt - Walkways etc.
+#ifplatform xbox pc
+//..\..\cw\effects\mvt_BDroid_getup_Dirt.wav         -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_jump_Dirt.wav          -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_land_Dirt.wav          -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_Dirt_smBF.wav        -resample xbox 22050 pc 22050
+//..\..\cw\effects\mvt_BDroid_lie_Dirt.wav           -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_roll_Dirt.wav          -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Dirt_L01.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Dirt_L02.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Dirt_L03.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Dirt_L04.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Dirt_R01.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Dirt_R02.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Dirt_R03.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Dirt_R04.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Dirt_L01.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Dirt_L02.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Dirt_L03.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Dirt_L04.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Dirt_R01.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Dirt_R02.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Dirt_R03.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Dirt_R04.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_stop_Dirt.wav          -resample xbox 22050 pc 22050
+#endifplatform xbox pc
+
+#ifplatform ps2
+//..\..\cw\effects\mv2_BDroid_getup_Dirt.wav          mvt_BDroid_getup_Dirt         -alias ps2 mvt_trooper_getup_Dirt
+..\..\cw\effects\mv2_BDroid_jump_Dirt.wav           mvt_BDroid_jump_Dirt          -resample ps2 16000
+..\..\cw\effects\mv2_BDroid_land_Dirt.wav           mvt_BDroid_land_Dirt          -resample ps2 16000
+..\..\cw\effects\mv2_BDroid_Dirt_smBF.wav           mvt_BDroid_Dirt_smBF          -resample ps2 16000
+//..\..\cw\effects\mv2_BDroid_lie_Dirt.wav            mvt_BDroid_lie_Dirt           -alias ps2 mvt_trooper_lie_Dirt
+..\..\cw\effects\mv2_BDroid_roll_Dirt.wav           mvt_BDroid_roll_Dirt          -alias ps2 mvt_trooper_roll_Dirt
+..\..\cw\effects\mv2_BDroid_run_Dirt_L01.wav        mvt_BDroid_run_Dirt_L01       -resample ps2 16000
+..\..\cw\effects\mv2_BDroid_run_Dirt_L02.wav        mvt_BDroid_run_Dirt_L02       -resample ps2 16000
+..\..\cw\effects\mv2_BDroid_run_Dirt_L03.wav        mvt_BDroid_run_Dirt_L03       -alias ps2 mvt_BDroid_run_Dirt_L01
+..\..\cw\effects\mv2_BDroid_run_Dirt_L04.wav        mvt_BDroid_run_Dirt_L04       -alias ps2 mvt_BDroid_run_Dirt_L02
+..\..\cw\effects\mv2_BDroid_run_Dirt_R01.wav        mvt_BDroid_run_Dirt_R01       -resample ps2 16000
+..\..\cw\effects\mv2_BDroid_run_Dirt_R02.wav        mvt_BDroid_run_Dirt_R02       -resample ps2 16000
+..\..\cw\effects\mv2_BDroid_run_Dirt_R03.wav        mvt_BDroid_run_Dirt_R03       -alias ps2 mvt_BDroid_run_Dirt_R01
+..\..\cw\effects\mv2_BDroid_run_Dirt_R04.wav        mvt_BDroid_run_Dirt_R04       -alias ps2 mvt_BDroid_run_Dirt_R02
+..\..\cw\effects\mv2_BDroid_walk_Dirt_L01.wav       mvt_BDroid_walk_Dirt_L01      -alias ps2 mvt_BDroid_run_Dirt_L01
+..\..\cw\effects\mv2_BDroid_walk_Dirt_L02.wav       mvt_BDroid_walk_Dirt_L02      -alias ps2 mvt_BDroid_run_Dirt_L02
+..\..\cw\effects\mv2_BDroid_walk_Dirt_L03.wav       mvt_BDroid_walk_Dirt_L03      -alias ps2 mvt_BDroid_run_Dirt_L01
+..\..\cw\effects\mv2_BDroid_walk_Dirt_L04.wav       mvt_BDroid_walk_Dirt_L04      -alias ps2 mvt_BDroid_run_Dirt_L02
+..\..\cw\effects\mv2_BDroid_walk_Dirt_R01.wav       mvt_BDroid_walk_Dirt_R01      -alias ps2 mvt_BDroid_run_Dirt_R01
+..\..\cw\effects\mv2_BDroid_walk_Dirt_R02.wav       mvt_BDroid_walk_Dirt_R02      -alias ps2 mvt_BDroid_run_Dirt_R02
+..\..\cw\effects\mv2_BDroid_walk_Dirt_R03.wav       mvt_BDroid_walk_Dirt_R03      -alias ps2 mvt_BDroid_run_Dirt_R01
+..\..\cw\effects\mv2_BDroid_walk_Dirt_R04.wav       mvt_BDroid_walk_Dirt_R04      -alias ps2 mvt_BDroid_run_Dirt_R02
+..\..\cw\effects\mv2_BDroid_stop_Dirt.wav           mvt_BDroid_stop_Dirt          -resample ps2 16000
+#endifplatform ps2
+
+//-- Stone - Walkways etc.
+#ifplatform xbox pc
+//..\..\cw\effects\mvt_BDroid_getup_Stone.wav         -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_jump_Stone.wav          -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_land_Stone.wav          -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_Stone_smBF.wav        -resample xbox 22050 pc 22050
+//..\..\cw\effects\mvt_BDroid_lie_Stone.wav           -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_roll_Stone.wav          -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Stone_L01.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Stone_L02.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Stone_L03.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Stone_L04.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Stone_R01.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Stone_R02.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Stone_R03.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Stone_R04.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Stone_L01.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Stone_L02.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Stone_L03.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Stone_L04.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Stone_R01.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Stone_R02.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Stone_R03.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Stone_R04.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_stop_Stone.wav          -resample xbox 22050 pc 22050
+#endifplatform xbox pc
+#ifplatform ps2
+//..\..\cw\effects\mv2_BDroid_getup_Stone.wav          mvt_BDroid_getup_Stone         -alias ps2 mvt_BDroid_getup_Dirt
+..\..\cw\effects\mv2_BDroid_jump_Stone.wav           mvt_BDroid_jump_Stone          -alias ps2 mvt_BDroid_jump_Dirt
+..\..\cw\effects\mv2_BDroid_land_Stone.wav           mvt_BDroid_land_Stone          -alias ps2 mvt_BDroid_land_Dirt
+..\..\cw\effects\mv2_BDroid_Stone_smBF.wav           mvt_BDroid_Stone_smBF          -alias ps2 mvt_BDroid_Dirt_smBF
+//..\..\cw\effects\mv2_BDroid_lie_Stone.wav            mvt_BDroid_lie_Stone           -alias ps2 mvt_BDroid_lie_Dirt
+..\..\cw\effects\mv2_BDroid_roll_Stone.wav           mvt_BDroid_roll_Stone          -alias ps2 mvt_BDroid_roll_Dirt
+..\..\cw\effects\mv2_BDroid_run_Stone_L01.wav        mvt_BDroid_run_Stone_L01       -resample ps2 16000
+..\..\cw\effects\mv2_BDroid_run_Stone_L02.wav        mvt_BDroid_run_Stone_L02       -resample ps2 16000
+..\..\cw\effects\mv2_BDroid_run_Stone_L03.wav        mvt_BDroid_run_Stone_L03       -alias ps2 mvt_BDroid_run_Dirt_L01
+..\..\cw\effects\mv2_BDroid_run_Stone_L04.wav        mvt_BDroid_run_Stone_L04       -alias ps2 mvt_BDroid_run_Dirt_L02
+..\..\cw\effects\mv2_BDroid_run_Stone_R01.wav        mvt_BDroid_run_Stone_R01       -resample ps2 16000
+..\..\cw\effects\mv2_BDroid_run_Stone_R02.wav        mvt_BDroid_run_Stone_R02       -resample ps2 16000
+..\..\cw\effects\mv2_BDroid_run_Stone_R03.wav        mvt_BDroid_run_Stone_R03       -alias ps2 mvt_BDroid_run_Dirt_R01
+..\..\cw\effects\mv2_BDroid_run_Stone_R04.wav        mvt_BDroid_run_Stone_R04       -alias ps2 mvt_BDroid_run_Dirt_R02
+..\..\cw\effects\mv2_BDroid_walk_Stone_L01.wav       mvt_BDroid_walk_Stone_L01      -alias ps2 mvt_BDroid_run_Dirt_L01
+..\..\cw\effects\mv2_BDroid_walk_Stone_L02.wav       mvt_BDroid_walk_Stone_L02      -alias ps2 mvt_BDroid_run_Dirt_L02
+..\..\cw\effects\mv2_BDroid_walk_Stone_L03.wav       mvt_BDroid_walk_Stone_L03      -alias ps2 mvt_BDroid_run_Dirt_L01
+..\..\cw\effects\mv2_BDroid_walk_Stone_L04.wav       mvt_BDroid_walk_Stone_L04      -alias ps2 mvt_BDroid_run_Dirt_L02
+..\..\cw\effects\mv2_BDroid_walk_Stone_R01.wav       mvt_BDroid_walk_Stone_R01      -alias ps2 mvt_BDroid_run_Dirt_R01
+..\..\cw\effects\mv2_BDroid_walk_Stone_R02.wav       mvt_BDroid_walk_Stone_R02      -alias ps2 mvt_BDroid_run_Dirt_R02
+..\..\cw\effects\mv2_BDroid_walk_Stone_R03.wav       mvt_BDroid_walk_Stone_R03      -alias ps2 mvt_BDroid_run_Dirt_R01
+..\..\cw\effects\mv2_BDroid_walk_Stone_R04.wav       mvt_BDroid_walk_Stone_R04      -alias ps2 mvt_BDroid_run_Dirt_R02
+..\..\cw\effects\mv2_BDroid_stop_Stone.wav           mvt_BDroid_stop_Stone          -alias ps2 mvt_BDroid_stop_Dirt
+#endifplatform ps2
+
+//-- Metal - Walkways etc.
+#ifplatform xbox pc
+//..\..\cw\effects\mvt_BDroid_getup_Metal.wav         -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_jump_Metal.wav          -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_land_Metal.wav          -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_Metal_smBF.wav          -resample xbox 22050 pc 22050
+//..\..\cw\effects\mvt_BDroid_lie_Metal.wav           -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_roll_Metal.wav          -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Metal_L01.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Metal_L02.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Metal_L03.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Metal_L04.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Metal_R01.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Metal_R02.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Metal_R03.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_run_Metal_R04.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Metal_L01.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Metal_L02.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Metal_L03.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Metal_L04.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Metal_R01.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Metal_R02.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Metal_R03.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_walk_Metal_R04.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_BDroid_stop_Metal.wav          -resample xbox 22050 pc 22050
+#endifplatform xbox pc
+
+#ifplatform ps2
+//..\..\cw\effects\mv2_BDroid_getup_Metal.wav        mvt_BDroid_getup_Metal         -alias ps2 mvt_BDroid_getup_Dirt
+..\..\cw\effects\mv2_BDroid_jump_Metal.wav         mvt_BDroid_jump_Metal          -alias ps2 mvt_BDroid_jump_Dirt
+..\..\cw\effects\mv2_BDroid_land_Metal.wav         mvt_BDroid_land_Metal          -alias ps2 mvt_BDroid_land_Dirt
+..\..\cw\effects\mv2_BDroid_Metal_smBF.wav         mvt_BDroid_Metal_smBF          -alias ps2 mvt_BDroid_Dirt_smBF
+//..\..\cw\effects\mv2_BDroid_lie_Metal.wav          mvt_BDroid_lie_Metal           -alias ps2 mvt_BDroid_lie_Dirt
+..\..\cw\effects\mv2_BDroid_roll_Metal.wav         mvt_BDroid_roll_Metal          -alias ps2 mvt_BDroid_roll_Dirt
+..\..\cw\effects\mv2_BDroid_run_Metal_L01.wav      mvt_BDroid_run_Metal_L01       -alias ps2 mvt_BDroid_run_Dirt_L01
+..\..\cw\effects\mv2_BDroid_run_Metal_L02.wav      mvt_BDroid_run_Metal_L02       -alias ps2 mvt_BDroid_run_Dirt_L02
+..\..\cw\effects\mv2_BDroid_run_Metal_L03.wav      mvt_BDroid_run_Metal_L03       -alias ps2 mvt_BDroid_run_Dirt_L01
+..\..\cw\effects\mv2_BDroid_run_Metal_L04.wav      mvt_BDroid_run_Metal_L04       -alias ps2 mvt_BDroid_run_Dirt_L02
+..\..\cw\effects\mv2_BDroid_run_Metal_R01.wav      mvt_BDroid_run_Metal_R01       -alias ps2 mvt_BDroid_run_Dirt_R01
+..\..\cw\effects\mv2_BDroid_run_Metal_R02.wav      mvt_BDroid_run_Metal_R02       -alias ps2 mvt_BDroid_run_Dirt_R02
+..\..\cw\effects\mv2_BDroid_run_Metal_R03.wav      mvt_BDroid_run_Metal_R03       -alias ps2 mvt_BDroid_run_Dirt_R01
+..\..\cw\effects\mv2_BDroid_run_Metal_R04.wav      mvt_BDroid_run_Metal_R04       -alias ps2 mvt_BDroid_run_Dirt_R02
+..\..\cw\effects\mv2_BDroid_walk_Metal_L01.wav     mvt_BDroid_walk_Metal_L01      -alias ps2 mvt_BDroid_walk_Dirt_L01
+..\..\cw\effects\mv2_BDroid_walk_Metal_L02.wav     mvt_BDroid_walk_Metal_L02      -alias ps2 mvt_BDroid_walk_Dirt_L02
+..\..\cw\effects\mv2_BDroid_walk_Metal_L03.wav     mvt_BDroid_walk_Metal_L03      -alias ps2 mvt_BDroid_walk_Dirt_L01
+..\..\cw\effects\mv2_BDroid_walk_Metal_L04.wav     mvt_BDroid_walk_Metal_L04      -alias ps2 mvt_BDroid_walk_Dirt_L02
+..\..\cw\effects\mv2_BDroid_walk_Metal_R01.wav     mvt_BDroid_walk_Metal_R01      -alias ps2 mvt_BDroid_walk_Dirt_R01
+..\..\cw\effects\mv2_BDroid_walk_Metal_R02.wav     mvt_BDroid_walk_Metal_R02      -alias ps2 mvt_BDroid_walk_Dirt_R02
+..\..\cw\effects\mv2_BDroid_walk_Metal_R03.wav     mvt_BDroid_walk_Metal_R03      -alias ps2 mvt_BDroid_walk_Dirt_R01
+..\..\cw\effects\mv2_BDroid_walk_Metal_R04.wav     mvt_BDroid_walk_Metal_R04      -alias ps2 mvt_BDroid_walk_Dirt_R02
+..\..\cw\effects\mv2_BDroid_stop_Metal.wav         mvt_BDroid_stop_Metal          -alias ps2 mvt_BDroid_stop_Dirt
+#endifplatform ps2
+
+// SBDroid Foley Effects -------------------------------------------------------
+// Terrain Independent Foley
+#ifplatform xbox pc
+..\..\cw\effects\mvt_SBDroid_squat.wav          -resample xbox 22050 pc 22050
+#endifplatform xbox pc
+
+#ifplatform xbox pc
+//..\..\cw\effects\mvt_SBDroid_getup_Dirt.wav         -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_jump_Dirt.wav          -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_land_Dirt.wav          -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_lgBF_Dirt.wav        -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_smBF_Dirt.wav        -alias xbox mvt_SBDroid_lgBF_Dirt -resample pc 22050
+//..\..\cw\effects\mvt_SBDroid_lie_Dirt.wav           -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_roll_Dirt.wav          -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Dirt_L01.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Dirt_L02.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Dirt_L03.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Dirt_L04.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Dirt_R01.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Dirt_R02.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Dirt_R03.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Dirt_R04.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Dirt_L01.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Dirt_L02.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Dirt_L03.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Dirt_L04.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Dirt_R01.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Dirt_R02.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Dirt_R03.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Dirt_R04.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_stop_Dirt.wav          -resample xbox 22050 pc 22050
+#endifplatform xbox pc
+#ifplatform xbox pc
+//..\..\cw\effects\mvt_SBDroid_getup_Stone.wav         -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_jump_Stone.wav          -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_land_Stone.wav          -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_lgBF_Stone.wav        -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_smBF_Stone.wav        -alias xbox mvt_SBDroid_lgBF_Stone -resample pc 22050
+//..\..\cw\effects\mvt_SBDroid_lie_Stone.wav           -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_roll_Stone.wav          -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Stone_L01.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Stone_L02.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Stone_L03.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Stone_L04.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Stone_R01.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Stone_R02.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Stone_R03.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Stone_R04.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Stone_L01.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Stone_L02.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Stone_L03.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Stone_L04.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Stone_R01.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Stone_R02.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Stone_R03.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Stone_R04.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_stop_Stone.wav          -resample xbox 22050 pc 22050
+#endifplatform xbox pc
+#ifplatform xbox pc
+//..\..\cw\effects\mvt_SBDroid_getup_Metal.wav         -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_jump_Metal.wav          -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_land_Metal.wav          -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_lgBF_Metal.wav          -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_smBF_Metal.wav          -alias xbox mvt_SBDroid_lgBF_Metal -resample pc 22050
+//..\..\cw\effects\mvt_SBDroid_lie_Metal.wav           -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_roll_Metal.wav          -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Metal_L01.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Metal_L02.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Metal_L03.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Metal_L04.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Metal_R01.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Metal_R02.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Metal_R03.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_run_Metal_R04.wav       -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Metal_L01.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Metal_L02.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Metal_L03.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Metal_L04.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Metal_R01.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Metal_R02.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Metal_R03.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_walk_Metal_R04.wav      -resample xbox 22050 pc 22050
+..\..\cw\effects\mvt_SBDroid_stop_Metal.wav          -resample xbox 22050 pc 22050
+#endifplatform xbox pc
+
+// Geonosian --------
+// Geonosian Sonic Blaster
+..\..\cw\effects\wpn_cis_sonicBlaster_fire.wav  -resample ps2 16000 xbox 22050 pc 44100
+// ------------------
+
+
+// Spider Walker -------------------------------------------------------------------------------------------------
+#ifplatform xbox pc
+..\..\cw\effects\wpn_spderWalker_laser_fire.wav    -resample xbox 22050 pc 44100
+..\..\cw\effects\wpn_spderWalker_laser_lp.wav      -resample xbox 22050 pc 44100
+..\..\cw\effects\fs_spiderWalker_01.wav            -resample xbox 22050 pc 22050
+..\..\cw\effects\fs_spiderWalker_02.wav            -resample xbox 22050 pc 22050
+..\..\cw\effects\fs_spiderWalker_03.wav            -resample xbox 22050 pc 22050
+..\..\cw\effects\hyd_spiderWalker_01.wav           -resample xbox 22050 pc 22050
+..\..\cw\effects\hyd_spiderWalker_02.wav           -resample xbox 22050 pc 22050
+..\..\cw\effects\hyd_spiderWalker_03.wav           -resample xbox 22050 pc 22050
+..\..\cw\effects\hyd_spiderWalker_04.wav           -resample xbox 22050 pc 22050
+..\..\cw\effects\eng_spiderWalker_mid_lp.wav       -resample xbox 11025 pc 22050
+..\..\cw\effects\eng_spiderWalker_low_lp.wav       -resample xbox 11025 pc 22050
+..\..\cw\effects\eng_spiderWalker_hi_lp.wav        -resample xbox 22050 pc 22050
+#endifplatform xbox pc
+#ifplatform ps2
+..\..\cw\effects\wp2_spderWalker_laser_fire.wav    wpn_spderWalker_laser_fire     -resample ps2 16000
+..\..\cw\effects\wp2_spderWalker_laser_lp.wav      wpn_spderWalker_laser_lp       -resample ps2 16000
+..\..\cw\effects\f2_spiderWalker_01.wav            fs_spiderWalker_01             -resample ps2 16000
+..\..\cw\effects\f2_spiderWalker_02.wav            fs_spiderWalker_02             -resample ps2 16000
+..\..\cw\effects\f2_spiderWalker_03.wav            fs_spiderWalker_03             -alias ps2 fs_spiderWalker_01
+..\..\cw\effects\hy2_spiderWalker_01.wav           hyd_spiderWalker_01            -resample ps2 16000
+..\..\cw\effects\hy2_spiderWalker_02.wav           hyd_spiderWalker_02            -resample ps2 16000
+..\..\cw\effects\hy2_spiderWalker_03.wav           hyd_spiderWalker_03            -resample ps2 16000
+..\..\cw\effects\hyd_spiderWalker_04.wav           hyd_spiderWalker_04            -alias ps2 hyd_spiderWalker_02
+..\..\cw\effects\eP2_spiderWalker_mid_lp.wav       eng_spiderWalker_mid_lp        -resample ps2 8000
+..\..\cw\effects\eP2_spiderWalker_low_lp.wav       eng_spiderWalker_low_lp        -resample ps2 3000
+..\..\cw\effects\eP2_spiderWalker_hi_lp.wav        eng_spiderWalker_hi_lp         -resample ps2 20000
+#endifplatform ps2
+// ---------------------------------------------------------------------------------------------------------------
+
+// Hailfire Droid -------------------------------------------------------------------------------------------
+#ifplatform xbox pc
+..\..\cw\effects\wpn_hailfire_missile_fire.wav    -resample xbox 22050 pc 44100
+..\..\cw\effects\eng_hailfire_hi_lp.wav           -resample xbox 22050 pc 22050
+..\..\cw\effects\eng_hailfire_low_lp.wav          -resample xbox 11025 pc 22050
+..\..\cw\effects\eng_hailfire_mid_lp.wav          -resample xbox 11025 pc 22050
+#endifplatform xbox pc
+#ifplatform ps2
+..\..\cw\effects\wp2_hailfire_missile_fire.wav    wpn_hailfire_missile_fire     -resample ps2 16000
+..\..\cw\effects\eP2_hailfire_hi_lp.wav           eng_hailfire_hi_lp            -resample ps2 20000
+..\..\cw\effects\eP2_hailfire_low_lp.wav          eng_hailfire_low_lp           -resample ps2 3000
+..\..\cw\effects\eP2_hailfire_mid_lp.wav          eng_hailfire_mid_lp           -resample ps2 6000
+#endifplatform ps2
+// ---------------------------------------------------------------------------------------------------------------
+
+// STAP ----------------------------------------------------------------------------------------------------------
+#ifplatform xbox pc
+..\..\cw\effects\wpn_stap_blaster_fire.wav   -resample xbox 22050 pc 44100
+..\..\cw\effects\eng_stap_hi_lp.wav          -resample xbox 32000 pc 22050
+..\..\cw\effects\eng_stap_low_lp.wav         -resample xbox 11025 pc 22050
+..\..\cw\effects\eng_stap_mid_lp.wav         -resample xbox 16000 pc 22050
+#endifplatform xbox pc
+#ifplatform ps2
+..\..\cw\effects\wp2_stap_blaster_fire.wav   wpn_stap_blaster_fire     -resample ps2 16000
+..\..\cw\effects\eP2_stap_hi_lp.wav          eng_stap_hi_lp            -resample ps2 16000
+..\..\cw\effects\eP2_stap_low_lp.wav         eng_stap_low_lp           -resample ps2 3000
+..\..\cw\effects\eP2_stap_mid_lp.wav         eng_stap_mid_lp           -resample ps2 6000
+#endifplatform ps2
+// ---------------------------------------------------------------------------------------------------------------
+
+
+// Geonosian --------------------------------------------------------------------------------------------
+effects\geo_inf_fly.wav     -resample ps2 16000 xbox 22050 pc 22050
+#ifplatform xbox pc
+//effects\crtr_geonosian_chatter_01.wav    -resample xbox 22050 pc 22050
+//effects\crtr_geonosian_chatter_02.wav    -resample xbox 22050 pc 22050
+//effects\crtr_geonosian_chatter_03.wav    -resample xbox 22050 pc 22050
+effects\crtr_geonosian_chatter_04.wav    -resample xbox 22050 pc 22050
+effects\crtr_geonosian_death.wav         -resample xbox 22050 pc 22050
+effects\crtr_geonosian_hurt.wav          -resample xbox 22050 pc 22050
+#endifplatform xbox pc
+#ifplatform ps2
+//effects\crt2_geonosian_chatter_01.wav    crtr_geonosian_chatter_01    -resample ps2 16000
+//effects\crt2_geonosian_chatter_02.wav    crtr_geonosian_chatter_02    -resample ps2 16000
+//effects\crt2_geonosian_chatter_03.wav    crtr_geonosian_chatter_03    -resample ps2 16000
+effects\crt2_geonosian_chatter_04.wav    crtr_geonosian_chatter_04    -resample ps2 16000
+effects\crt2_geonosian_death.wav         crtr_geonosian_death         -resample ps2 12000
+effects\crt2_geonosian_hurt.wav          crtr_geonosian_hurt          -resample ps2 12000
+#endifplatform ps2
+

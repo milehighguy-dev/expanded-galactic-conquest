@@ -1,0 +1,26 @@
+ucft
+{
+	REQN
+	{
+		"bnk"
+		"align=2048"
+		"all"
+	}
+
+	REQN
+	{
+		"config"
+		"all_unit_vo"
+		"wok_vo"
+		"all_unit"
+		"gcw_foley_stone_config"
+        "gcw_foley_stone"
+        "gcw_foley_metal_config"
+        "gcw_foley_metal"
+        "wok_foley_stone_config"
+        "wok_foley_stone"
+        "wok_foley_metal_config"
+        "wok_foley_metal"
+        "all_hover_combatspeeder"
+	}
+ }

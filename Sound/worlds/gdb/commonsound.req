@@ -1,0 +1,18 @@
+ucft
+{
+	REQN
+	{
+		"bnk"
+		"align=2048"
+		"common"
+	}
+
+	REQN
+	{
+		"config"
+		"global_world"
+        "global_vo"
+        "exp_obj"
+        "exp_obj_large"
+	}
+ }

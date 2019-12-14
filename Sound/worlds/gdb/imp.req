@@ -1,0 +1,23 @@
+ucft
+{
+	REQN
+	{
+		"bnk"
+		"align=2048"
+		"imp"
+	}
+
+	REQN
+	{
+		"config"
+        "imp_unit_vo"
+        "imp_unit"
+        "gcw_foley_stone_config"
+        "gcw_foley_stone"
+        "gcw_foley_metal_config"
+        "gcw_foley_metal"
+        "imp_hover_fightertank"
+        "imp_hover_speederbike"
+        "imp_walk_atst"
+	}
+ }
