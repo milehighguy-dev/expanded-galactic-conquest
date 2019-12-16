@@ -4,7 +4,38 @@
 --- DateTime: 11/21/2019 5:02 PM
 ---
 
-print("table length is " .. #{})
+function getn(v)
+    local v_type = type(v);
+    if v_type == "table" then
+        return table.getn(v);
+    elseif v_type == "string" then
+        return string.len(v);
+    else
+        return;
+    end
+end
+
+function string.starts(str, Start)
+    return string.sub(str, 1, getn(Start)) == Start;
+end
+
+function tprint(t, indent)
+    if not indent then indent = 1, print(tostring(t) .. " {") end
+    if t then
+        for key,value in pairs(t) do
+            if not string.starts(tostring(key), "__") then
+                local formatting = string.rep("    ", indent) .. tostring(key) .. ": ";
+                if value and type(value) == "table" then
+                    print(formatting .. tostring(value) .. " {")
+                    tprint(value, indent+1);
+                else
+                    print(formatting .. tostring(value))
+                end
+            end
+        end
+        print(string.rep("    ", indent - 1) .. "}")
+    end
+end
 
 fleet = {
     id = 0,
@@ -40,6 +71,94 @@ fleet = {
 
 }
 
+-- destroy a fleet with the specified team on the specified planet
+DestroyFleet = function( team, planet)
+
+    --print("DEBUG ================= PRINTING FLEET INFO:")
+    --tprint(planetFleetInfo)
+
+    local otherTeam = nil
+    local fleetIndexToRemove = nil
+    --removes all fleet info from planet that matches team. get the other team at the planet
+    for fleetIndex, fleetObj in ipairs(planetFleetInfo[planet]) do
+        if fleetObj.team == team then
+            fleetIndexToRemove = fleetIndex
+            print("DEBUG ================ DELETING FLEET ON PLANET " .. tostring(planet) .. "  FOR TEAM " .. tostring(team))
+        else
+            otherTeam = fleetObj.team
+            print("DEBUG =============== OTHER TEAM IS " .. tostring(otherTeam))
+        end
+    end
+    table.remove(planetFleetInfo[planet], fleetIndexToRemove)
+
+    -- hacky thing to ensure it gets deleted... sorry. replace it if you can
+    --local deletePlanet = true
+    --for fleetIndex, fleetObj in ipairs(planetFleetInfo[planet]) do
+    --    if fleetIndex ~= nil then
+    --        deletePlanet = false
+    --    end
+    --end
+    -- if it is just and empty table delete it to remove clutter
+    if table.getn(planetFleetInfo[planet]) == 0 then
+        print("================ DELETING FOR PLANET " .. planet)
+        planetFleetInfo[planet] = nil
+    end
+
+    -- remove the fleet from the planet. Decide which team to leave it to
+    if planetFleet[planet] == 0 then
+        planetFleet[planet] = otherTeam
+    elseif planetFleet[planet] == team then
+        planetFleet[planet] = nil
+    end
+    
+end
+
+MoveFleet = function( team, start, next)
+
+    local myFleet = nil
+    local otherTeam = nil
+    print("about to remove fleet object from begin planet " .. tostring(start))
+    --removes all fleet info from planet that match team
+    for fleetIndex, fleetObj in ipairs(planetFleetInfo[start]) do
+        print("fleet index is " .. tostring(fleetIndex))
+        print("fleet object is " .. tostring(fleetObj))
+        if fleetObj.team == team then
+            myFleet = planetFleetInfo[start][fleetIndex]
+            planetFleetInfo[start][fleetIndex] = nil
+        else
+            otherTeam = fleetObj.team
+        end
+    end
+    print("after remove fleet object from begin planet")
+
+    -- if it is just and empty table delete it to remove clutter
+    if planetFleetInfo[start] == {} or table.getn(planetFleetInfo[start]) == 0 then
+        planetFleetInfo[start] = nil
+    end
+
+    print("adding fleet info to next planet")
+    -- add the fleet info to the next planet
+    if planetFleetInfo[next] == nil or table.getn(planetFleetInfo[next]) == 0 then
+        planetFleetInfo[next] = {}
+    end
+    table.insert(planetFleetInfo[next], myFleet)
+
+    --decide what team the start planet gets
+    if planetFleet[start] == 0 then
+        planetFleet[start] = otherTeam
+    elseif planetFleet[start] == team then
+        planetFleet[start] = nil
+    end
+
+    --decide what team the next planet gets
+    if not planetFleet[next] then
+        planetFleet[next] = team
+    elseif planetFleet[next] ~= team and planetFleet[next] ~= 0 and planetFleet[next] ~= nil then
+        planetFleet[next] = 0
+    end
+
+end
+
 -- assigned teams
 local REP = 1
 local CIS = 2
@@ -50,50 +169,80 @@ local ALL = 3
 local IMP = 4
 
 planetFleet = {
-    ["kam"] = {
-        fleet:makeNewFleet(nil, REP)
-    },
-    ["geo"] = {
-        fleet:makeNewFleet(nil, CIS)
-    },
-
-    ["hot"] = {
-        fleet:makeNewFleet(nil, ALL)
-    },
-    ["cor"] = {
-        fleet:makeNewFleet(nil, IMP)
-    },
-    ["dag"] = {}
+    ["tat"] = REP,
+    ["fel"] = CIS,
+    ["hot"] = ALL,
+    ["cor"] = IMP
 }
 
-print("length of planetFleet " .. #planetFleet)
+-- create starting fleet information for each team
+planetFleetInfo = {
+    ["tat"] = {fleet:makeNewFleet(nil,REP)},
+    ["fel"] = {fleet:makeNewFleet(nil,CIS)},
+    ["hot"] = {fleet:makeNewFleet(nil,ALL)},
+    ["cor"] = {fleet:makeNewFleet(nil,IMP)}
+}
 
---planetFleet.myfunc = function()
---    print("hello")
---end
+print("before move fleet \n")
 
-print("length of planetFleet with function" .. #planetFleet)
+--tprint(planetFleet)
+--tprint(planetFleetInfo)
 
-table.insert(planetFleet['geo'], fleet:makeNewFleet(nil, REP))
+--print("team on tat is " .. tostring(planetFleet["tat"]))
+--print("team on fel is " .. tostring(planetFleet["fel"]))
 
-table.insert(planetFleet['dag'], fleet:makeNewFleet(nil, REP))
+tprint(planetFleet)
+tprint(planetFleetInfo)
+--tprint(planetFleetInfo["tat"])
+--tprint(planetFleetInfo["fel"])
 
-print("dagobah fleet name is " .. tostring(planetFleet['dag'][1].name))
+print("\n")
 
-fleetPtr = { [1] = {}, [2] = {}, [3] = {}, [4] = {} }
-for planet, fleetList in pairs(planetFleet) do
-    for fleetNumber, fleetObject in ipairs(fleetList) do
-        if #fleetList > 1 then
-            fleetPtr[fleetObject.team][planet] = "a"
-        else
-            fleetPtr[fleetObject.team][planet] = "x"
-        end
-    end
-end
+MoveFleet(1,"tat", "new")
 
-print("after loop")
+print("\n")
+print("after move fleet \n")
 
-print("testing planetFleet geo length " .. tostring(#planetFleet['geo']))
+--print("team on tat is " .. tostring(planetFleet["tat"]))
+--print("team on fel is " .. tostring(planetFleet["fel"]))
 
-print(fleetPtr[1]['geo'])
-print(fleetPtr[2]['geo'])
+tprint(planetFleet)
+tprint(planetFleetInfo)
+--print("tat info " .. tostring(planetFleetInfo["tat"]))
+--tprint(planetFleetInfo["tat"])
+--print("fel info")
+--tprint(planetFleetInfo["fel"])
+
+print("\n")
+
+DestroyFleet(1, "new")
+
+print("\n")
+print("after destroy fleet \n")
+
+tprint(planetFleet)
+tprint(planetFleetInfo)
+
+--print("\n length " .. tostring(table.getn(planetFleetInfo["new"])))
+--print("\n literal " .. tostring(planetFleetInfo["new"][1]))
+
+--tprint(planetFleetInfo["new"][1])
+--print("\njust deleted it")
+--planetFleetInfo["new"] = nil
+--tprint(planetFleetInfo)
+
+MoveFleet(2,"fel", "cor")
+
+print("\n")
+print("after move fleet \n")
+
+tprint(planetFleet)
+tprint(planetFleetInfo)
+
+DestroyFleet(2, "cor")
+
+print("\n")
+print("after destroy fleet \n")
+
+tprint(planetFleet)
+tprint(planetFleetInfo)

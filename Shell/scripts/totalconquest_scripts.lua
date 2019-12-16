@@ -8,7 +8,8 @@
 --TODO revisit battle cards
 --TODO make next turn iterate through alive teams not all teams
 --TODO BUG: game crashes on AI turn after fleet battle - > planet invasion. cannot destroy fleet after invasion (already destroyed)
---TODO BUG: planetFleetInfo sometimes empty when shouldn't be.
+--TODO BUG: planetFleetInfo sometimes empty when shouldn't be. I THINK FIXED
+--TODO BUG: DestroyFleet destroyed both fleets after AI space battle
 --TODO BUG: shell script for flashy text stack overflow
 
 ---------------------------
@@ -232,6 +233,8 @@ ifs_freeform_main.Enter = function(this, bFwd)
 
             --do the normal stuff
 
+            print(" ================== BATTLE WAS AI BATTLE ================")
+            print(" winner " .. tostring(winner) .. " loser " .. tostring(loser))
             -- apply battle results
             this:ApplyBattleResult(this.planetNext, winner, loser)
 
@@ -242,7 +245,7 @@ ifs_freeform_main.Enter = function(this, bFwd)
             ScriptCB_PushScreen("ifs_freeform_result")
 
             -- trigger save request on next turn
-            this.requestSave = true
+            --this.requestSave = true
 
         elseif winner > 0 then
 
@@ -464,12 +467,12 @@ ifs_freeform_main.OneTimeInit = function(this, showLoadDisplay)
             this.planetMatrix[planet][2] = CreateMatrix(2.25, 0.0, 1.0, 0.0, -10.0, 4.0, -8.0, planetMatrix)
             this.planetMatrix[planet][3] = CreateMatrix(0.0, 0.0, 0.0, 0.0, 0.0, 16.0, 0.0, planetMatrix)
             this.planetMatrix[planet][4] = CreateMatrix(0.0, 0.0, 0.0, 0.0, 0.0, 16.0, 0.0, planetMatrix)
-            --modelMatrix is what the fleet icon looks like
+            --modelMatrix is what the fleet model looks like and position
             this.modelMatrix[planet] = {}
             this.modelMatrix[planet][1] = GetEntityMatrix(planet .. "_fleet1") or this.planetMatrix[planet][1]
-            this.modelMatrix[planet][2] = GetEntityMatrix(planet .. "_fleet2") or this.planetMatrix[planet][2]
+            this.modelMatrix[planet][2] = GetEntityMatrix(planet .. "_fleet1") or this.planetMatrix[planet][2]
             this.modelMatrix[planet][3] = GetEntityMatrix(planet .. "_fleet1") or this.planetMatrix[planet][3]
-            this.modelMatrix[planet][4] = GetEntityMatrix(planet .. "_fleet2") or this.planetMatrix[planet][4]
+            this.modelMatrix[planet][4] = GetEntityMatrix(planet .. "_fleet1") or this.planetMatrix[planet][4]
         end
 
         -- show side setup screen?
@@ -511,21 +514,24 @@ ifs_freeform_main.DestroyFleet = function(this, team, planet)
 
     print("DEBUG ================= PRINTING FLEET INFO:")
     tprint(this.planetFleetInfo)
+    tprint(this.planetFleet)
 
     local otherTeam = nil
+    local fleetIndexToRemove = nil
     --removes all fleet info from planet that matches team. get the other team at the planet
     for fleetIndex, fleetObj in ipairs(this.planetFleetInfo[planet]) do
         if fleetObj.team == team then
-            this.planetFleetInfo[planet][fleetIndex] = nil
+            fleetIndexToRemove = fleetIndex
             print("DEBUG ================ DELETING FLEET ON PLANET " .. tostring(planet) .. "  FOR TEAM " .. tostring(team))
-            --fleetIndex = nil
         else
             otherTeam = fleetObj.team
             print("DEBUG =============== OTHER TEAM IS " .. tostring(otherTeam))
         end
     end
-    -- if it is just and empty table delete it to remove clutter
-    if this.planetFleetInfo[planet] == {} or table.getn(this.planetFleetInfo[planet]) == 0 then
+    table.remove(this.planetFleetInfo[planet], fleetIndexToRemove)
+
+    -- if it is just and empty table (size = 0) delete it to remove clutter
+    if table.getn(this.planetFleetInfo[planet]) == 0 then
         this.planetFleetInfo[planet] = nil
     end
 
@@ -548,22 +554,27 @@ ifs_freeform_main.MoveFleet = function(this, team, start, next)
 
     local myFleet = nil
     local otherTeam = nil
+    local fleetIndexToRemove = nil
     print("about to remove fleet object from begin planet " .. tostring(start))
+    tprint(this.planetFleet)
+    tprint(this.planetFleetInfo)
     --removes all fleet info from planet that match team
     for fleetIndex, fleetObj in ipairs(this.planetFleetInfo[start]) do
         print("fleet index is " .. tostring(fleetIndex))
         print("fleet object is " .. tostring(fleetObj))
         if fleetObj.team == team then
             myFleet = this.planetFleetInfo[start][fleetIndex]
-            this.planetFleetInfo[start][fleetIndex] = nil
+            fleetIndexToRemove = fleetIndex
+
         else
             otherTeam = fleetObj.team
         end
     end
+    table.remove(this.planetFleetInfo[start], fleetIndexToRemove)
     print("after remove fleet object from begin planet")
 
     -- if it is just and empty table delete it to remove clutter
-    if this.planetFleetInfo[start] == {} or table.getn(this.planetFleetInfo[start]) == 0 then
+    if table.getn(this.planetFleetInfo[start]) == 0 then
         this.planetFleetInfo[start] = nil
     end
 
@@ -700,9 +711,10 @@ ifs_freeform_main.ApplyBattleResult = function(this, planet, winner, loser)
     -- remove the loser's fleet, if any
     if this.fleetBattle or this.planetFleet[planet] == loser then
         AttachEffectToMatrix(CreateEffect(this.fleetExplosion[loser]), this.modelMatrix[planet][loser])
+        print("APPLYBATTLERESULT DEBUG ========= DESTROYING FLEET ON PLANET " .. tostring(planet) .. " FOR TEAM " .. tostring(loser))
+        this:DestroyFleet(loser, planet)
     end
-    print("DEBUG ========= DESTROYING FLEET ON PLANET " .. tostring(planet) .. " FOR TEAM " .. tostring(loser))
-    this:DestroyFleet(loser, planet)
+
 
     -- add the planet to the battle list (for AI)
     this.recentPlanets = this.recentPlanets or {}
@@ -1271,27 +1283,27 @@ end
 ---------------------------
 
 ifs_freeform_battle_card.Enter = function(this, bFwd)
-    gIFShellScreenTemplate_fnEnter(this, bFwd) -- call default enter function
+    --gIFShellScreenTemplate_fnEnter(this, bFwd) -- call default enter function
 
     this.PrevButton = nil
 
     local team = ifs_freeform_main.playerTeam
 
-    ifs_freeform_SetButtonVis( this, "back", nil )
-    ifs_freeform_SetButtonVis( this, "help", nil )
-    ifs_freeform_SetButtonName( this, "misc", "ifs.freeform.skipbonus")
-    ifs_freeform_SetButtonVis( this, "misc", ifs_freeform_main.joystick )
-    ifs_freeform_SetButtonName( this, "accept", "ifs.freeform.pickbonus")
-    ifs_freeform_SetButtonVis( this, "accept", ifs_freeform_main.joystick )
+    --ifs_freeform_SetButtonVis( this, "back", nil )
+    --ifs_freeform_SetButtonVis( this, "help", nil )
+    --ifs_freeform_SetButtonName( this, "misc", "ifs.freeform.skipbonus")
+    --ifs_freeform_SetButtonVis( this, "misc", ifs_freeform_main.joystick )
+    --ifs_freeform_SetButtonName( this, "accept", "ifs.freeform.pickbonus")
+    --ifs_freeform_SetButtonVis( this, "accept", ifs_freeform_main.joystick )
 
-    IFText_fnSetString(this.title.text, "ifs.freeform.usecard")
+    --IFText_fnSetString(this.title.text, "ifs.freeform.usecard")
 
     --TODO figure out why certain cards crash
 
     -- map usable cards into slots
-    --this.useActive = { }
-    --local count = 0
-    --local active = nil
+    this.useActive = { }
+    local count = 0
+    local active = nil
     --for i, using in ipairs(ifs_purchase_tech_using[team]) do
     --    local item = this.useItems[i]
     --    item.slot = i
@@ -1366,9 +1378,41 @@ ifs_freeform_battle_card.Enter = function(this, bFwd)
         this:Next()
     --end
 
-    ifs_freeform_main:UpdatePlayerText(this.player)
+    --ifs_freeform_main:UpdatePlayerText(this.player)
+    --
+    --this:UpdateAction()
+end
 
-    this:UpdateAction()
+function ifs_freeform_battle_card_GetMouseUseItem( this, x, y )
+    -- values measured from 800x600 screenshot
+    local item_x = 341
+    local item_y = 176
+    local width =  120
+    local height = 132
+    local offset_x = 130
+
+    -- get item offset
+    local count = table.getn(this.useActive)
+    for i, item in pairs(this.useActive) do
+        local new_item_x = item_x + (i - count * 0.5 - 0.5) * offset_x
+
+        if( ( x >= ( new_item_x - width ) ) and ( x <= ( new_item_x + width ) ) and
+                ( y >= ( item_y - height ) ) and ( y <= ( item_y + height ) ) ) then
+            return i
+        end
+    end
+
+    -- mouse not on anyone
+    return nil
+end
+
+ifs_freeform_battle_card.HandleMouse = function(this, x, y)
+    gIFShellScreenTemplate_fnHandleMouse(this, x, y)
+
+    this.rollover = ifs_freeform_battle_card_GetMouseUseItem( this, x, y )
+    if this.rollover and this.useItems[this.rollover].weight <= 0 then
+        this.rollover = nil
+    end
 end
 
 ifs_freeform_battle_card.Next = function(this)
@@ -2085,6 +2129,16 @@ ifs_freeform_purchase_unit.Enter = function(this, bFwd)
     this.bDoubleClicked = nil
     this.iMouse_x = nil
     this.iMouse_y = nil
+end
+
+ifs_freeform_purchase_unit.SetFreeformMode = function(this)
+    this.main = ifs_freeform_main
+    this.SetActiveSide = function(this)
+        local side = this.main.playerSide
+        ifs_purchase_unit_table = ifs_purchase_team_table[side].classes
+    end
+    this.miscScreen = "ifs_freeform_summary"
+    this.menuScreen = "ifs_freeform_menu"
 end
 
 ifs_freeform_purchase_tech.Enter = function(this, bFwd)
