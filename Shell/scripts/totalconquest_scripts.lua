@@ -5,11 +5,8 @@
 ---
 
 --TODO make space battle map dynamic team with correct ships
---TODO revisit battle cards
 --TODO make next turn iterate through alive teams not all teams
 --TODO BUG: game crashes on AI turn after fleet battle - > planet invasion. cannot destroy fleet after invasion (already destroyed)
---TODO BUG: planetFleetInfo sometimes empty when shouldn't be. I THINK FIXED
---TODO BUG: DestroyFleet destroyed both fleets after AI space battle
 --TODO BUG: shell script for flashy text stack overflow
 
 ---------------------------
@@ -509,12 +506,11 @@ end
 
 -- destroy a fleet with the specified team on the specified planet
 ifs_freeform_main.DestroyFleet = function(this, team, planet)
+    print("ifs_freeform_main.DestroyFleet")
 
-    --TODO this logic is not quite right. Deletes everything from planetfleetinfo sometimes
-
-    print("DEBUG ================= PRINTING FLEET INFO:")
-    tprint(this.planetFleetInfo)
-    tprint(this.planetFleet)
+    --print("DEBUG ================= PRINTING FLEET INFO:")
+    --tprint(this.planetFleetInfo)
+    --tprint(this.planetFleet)
 
     local otherTeam = nil
     local fleetIndexToRemove = nil
@@ -522,10 +518,10 @@ ifs_freeform_main.DestroyFleet = function(this, team, planet)
     for fleetIndex, fleetObj in ipairs(this.planetFleetInfo[planet]) do
         if fleetObj.team == team then
             fleetIndexToRemove = fleetIndex
-            print("DEBUG ================ DELETING FLEET ON PLANET " .. tostring(planet) .. "  FOR TEAM " .. tostring(team))
+            --print("DEBUG ================ DELETING FLEET ON PLANET " .. tostring(planet) .. "  FOR TEAM " .. tostring(team))
         else
             otherTeam = fleetObj.team
-            print("DEBUG =============== OTHER TEAM IS " .. tostring(otherTeam))
+            --print("DEBUG =============== OTHER TEAM IS " .. tostring(otherTeam))
         end
     end
     table.remove(this.planetFleetInfo[planet], fleetIndexToRemove)
@@ -551,17 +547,18 @@ end
 
 -- move a fleet with the specified planet from the start planet to the next planet
 ifs_freeform_main.MoveFleet = function(this, team, start, next)
+    print("ifs_freeform_main.MoveFleet")
 
     local myFleet = nil
     local otherTeam = nil
     local fleetIndexToRemove = nil
-    print("about to remove fleet object from begin planet " .. tostring(start))
-    tprint(this.planetFleet)
-    tprint(this.planetFleetInfo)
+    --print("about to remove fleet object from begin planet " .. tostring(start))
+    --tprint(this.planetFleet)
+    --tprint(this.planetFleetInfo)
     --removes all fleet info from planet that match team
     for fleetIndex, fleetObj in ipairs(this.planetFleetInfo[start]) do
-        print("fleet index is " .. tostring(fleetIndex))
-        print("fleet object is " .. tostring(fleetObj))
+        --print("fleet index is " .. tostring(fleetIndex))
+        --print("fleet object is " .. tostring(fleetObj))
         if fleetObj.team == team then
             myFleet = this.planetFleetInfo[start][fleetIndex]
             fleetIndexToRemove = fleetIndex
@@ -571,14 +568,14 @@ ifs_freeform_main.MoveFleet = function(this, team, start, next)
         end
     end
     table.remove(this.planetFleetInfo[start], fleetIndexToRemove)
-    print("after remove fleet object from begin planet")
+    --print("after remove fleet object from begin planet")
 
     -- if it is just and empty table delete it to remove clutter
     if table.getn(this.planetFleetInfo[start]) == 0 then
         this.planetFleetInfo[start] = nil
     end
 
-    print("adding fleet info to next planet")
+    --print("adding fleet info to next planet")
     -- add the fleet info to the next planet
     if this.planetFleetInfo[next] == nil or table.getn(this.planetFleetInfo[next]) == 0 then
         this.planetFleetInfo[next] = {}
@@ -587,7 +584,7 @@ ifs_freeform_main.MoveFleet = function(this, team, start, next)
 
     -- save the fleet object
     local fleetPtr = this.fleetPtr[team][start]
-    print("moving fleetPtr for team ".. tostring(team) .. " planet " .. tostring(start) .. " is " .. tostring(fleetPtr))
+    --print("moving fleetPtr for team ".. tostring(team) .. " planet " .. tostring(start) .. " is " .. tostring(fleetPtr))
     -- remove the fleet from the start planet
     this.fleetPtr[team][start] = nil
 
@@ -626,6 +623,7 @@ ifs_freeform_main.SetActiveTeam = function(this, team)
     --this.joystick_other = this.teamController[3 - team]
     ScriptCB_SetHotController((this.joystick or this.joystick_other or 0)+1)
 
+    print("ifs_freeform_main.SetActiveTeam ========= CALLING SetActiveSide")
     -- update dependent values
     ifs_freeform_purchase_unit:SetActiveSide()
 end
@@ -729,12 +727,14 @@ ifs_freeform_main.NextTurn = function(this)
     print("ifs_freeform_main.NextTurn")
     -- clear the screen stack
     ScriptCB_PopScreen("ifs_freeform_main")
+    print("popped the screen")
 
     -- update metagame victory result
     if this.CheckVictory then
         this.teamVictory = this:CheckVictory()
     end
 
+    print("ifs_freeform_main.NextTurn 1")
     -- on victory...
     if this.teamVictory then
         -- go to the end screen
@@ -760,20 +760,24 @@ ifs_freeform_main.NextTurn = function(this)
             end
         end
 
+        print("ifs_freeform_main.NextTurn 2")
         -- switch teams
         this.lastSelected[this.playerTeam] = this.planetNext
         this:SetActiveTeam(nextTeam)
         this:SelectPlanet(nil, this.lastSelected[this.playerTeam])
 
+        print("ifs_freeform_main.NextTurn 3")
         -- clear state
         this.launchMission = nil
         this.activeBonus = {}
 
         -- if the team has a human player...
         if this.joystick then
+            print("ifs_freeform_main.NextTurn 4 HUMAN TURN")
             -- go to the fleet screen
             ScriptCB_PushScreen("ifs_freeform_fleet")
         else
+            print("ifs_freeform_main.NextTurn 4 AI TURN")
             -- go to ai move
             ScriptCB_PushScreen("ifs_freeform_ai")
         end
@@ -1034,6 +1038,8 @@ ifs_freeform_main.LoadState = function(this)
 
     -- if loading a mission... (HACK)
     if ScriptCB_GetLastBattleVictory() < 0 then
+        print("ifs_freeform_main.LoadState HACK")
+
         -- set mission name
         if this.launchMission then
             ScriptCB_SetMissionNames(this.launchMission, nil)
@@ -1041,7 +1047,8 @@ ifs_freeform_main.LoadState = function(this)
 
         -- activate team bonuses
         for team, bonus in pairs(this.activeBonus) do
-            ActivateBonus(team, bonus)
+            print("ifs_freeform_main.LoadState HACK loading bonus for team " .. tostring(team))
+            --ActivateBonus(team, bonus) --TODO come back to this
         end
     end
 
@@ -1224,6 +1231,7 @@ end
 --  begin ifs_freeform_battle_mode
 ---------------------------
 ifs_freeform_battle_mode.Enter = function(this, bFwd)
+    print("ifs_freeform_battle_mode.Enter")
     gIFShellScreenTemplate_fnEnter(this, bFwd) -- call default enter function
 
     ifs_freeform_SetButtonVis( this, "back", nil )
@@ -1242,12 +1250,15 @@ ifs_freeform_battle_mode.Enter = function(this, bFwd)
         ifs_freeform_main:SetActiveTeam(ifs_freeform_main.defendTeam)
     end
 
+    print("ifs_freeform_battle_mode.Enter BATTLE MODES:")
+    tprint(this.modes)
     -- skip if there is only one mode
     local count = 0
     for mode, mission in pairs(this.modes) do
         count = count + 1
     end
     if count <= 1 then
+        print("ifs_freeform_battle_mode.Enter ONLY ONE MODE -> MOVING ON")
         this:Input_Accept()
         return
     end
@@ -1265,6 +1276,7 @@ ifs_freeform_battle_mode.Enter = function(this, bFwd)
 
     ifs_freeform_main:UpdatePlayerText(this.player)
 
+    print("ifs_freeform_battle_mode.Enter SHOWING GAME MODES")
     -- show only buttons corresponding to game modes
     for _, desc in ipairs(ifs_freeform_battle_vbutton_layout.buttonlist) do
         this.buttons[desc.tag].hidden = not this.modes[desc.tag]
@@ -1283,104 +1295,143 @@ end
 ---------------------------
 
 ifs_freeform_battle_card.Enter = function(this, bFwd)
-    --gIFShellScreenTemplate_fnEnter(this, bFwd) -- call default enter function
+    print("ifs_freeform_battle_card.Enter")
+    gIFShellScreenTemplate_fnEnter(this, bFwd) -- call default enter function
 
     this.PrevButton = nil
 
     local team = ifs_freeform_main.playerTeam
 
-    --ifs_freeform_SetButtonVis( this, "back", nil )
-    --ifs_freeform_SetButtonVis( this, "help", nil )
-    --ifs_freeform_SetButtonName( this, "misc", "ifs.freeform.skipbonus")
-    --ifs_freeform_SetButtonVis( this, "misc", ifs_freeform_main.joystick )
-    --ifs_freeform_SetButtonName( this, "accept", "ifs.freeform.pickbonus")
-    --ifs_freeform_SetButtonVis( this, "accept", ifs_freeform_main.joystick )
+    ifs_freeform_SetButtonVis( this, "back", nil )
+    ifs_freeform_SetButtonVis( this, "help", nil )
+    ifs_freeform_SetButtonName( this, "misc", "ifs.freeform.skipbonus")
+    ifs_freeform_SetButtonVis( this, "misc", ifs_freeform_main.joystick )
+    ifs_freeform_SetButtonName( this, "accept", "ifs.freeform.pickbonus")
+    ifs_freeform_SetButtonVis( this, "accept", ifs_freeform_main.joystick )
 
-    --IFText_fnSetString(this.title.text, "ifs.freeform.usecard")
-
-    --TODO figure out why certain cards crash
+    IFText_fnSetString(this.title.text, "ifs.freeform.usecard")
 
     -- map usable cards into slots
     this.useActive = { }
     local count = 0
     local active = nil
-    --for i, using in ipairs(ifs_purchase_tech_using[team]) do
-    --    local item = this.useItems[i]
-    --    item.slot = i
-    --    item.using = using
-    --    if using > 0 then
-    --        local tech = ifs_purchase_tech_table[using]
-    --
-    --        item.weight = 0
-    --        for _, hint in ipairs(tech.hints) do
-    --            if string.find(ifs_freeform_main.launchMission, hint[1]) then
-    --                item.weight = hint[2]
-    --                print(tech.name, item.weight)
-    --                break
-    --            end
-    --        end
-    --
-    --        item.name = tech.name
-    --        item.bonus = tech.bonus
-    --        count = count + 1
-    --        this.useActive[count] = item
-    --        IFModel_fnSetMsh(item, tech.mesh)
-    --        IFObj_fnSetVis(item, 1)
-    --
-    --        if not active and item.weight > 0 then
-    --            active = count
-    --        end
-    --    else
-    --        IFObj_fnSetVis(item, nil)
-    --    end
-    --end
+    for i, using in ipairs(ifs_purchase_tech_using[team]) do
+        local item = this.useItems[i]
+        item.slot = i
+        item.using = using
+        if using > 0 then
+            local tech = ifs_purchase_tech_table[using]
+
+            item.weight = 0
+            for _, hint in ipairs(tech.hints) do
+                if string.find(ifs_freeform_main.launchMission, hint[1]) then
+                    item.weight = hint[2]
+                    print(tech.name, item.weight)
+                    break
+                end
+            end
+
+            item.name = tech.name
+            item.bonus = tech.bonus
+            count = count + 1
+            this.useActive[count] = item
+            IFModel_fnSetMsh(item, tech.mesh)
+            IFObj_fnSetVis(item, 1)
+
+            if not active and item.weight > 0 then
+                active = count
+            end
+        else
+            IFObj_fnSetVis(item, nil)
+        end
+    end
+
+    local ifs_freeform_battle_card_spacing = 6.0
+    local ifs_freeform_battle_card_x_offset = 0
+    local ifs_freeform_battle_card_y = 0
+    local ifs_freeform_battle_card_z = -25
 
     -- position the usable cards
-    --for i, item in pairs(this.useActive) do
-    --    IFModel_fnSetTranslation(item,
-    --            ifs_freeform_battle_card_x_offset + (i - count * 0.5 - 0.5) * ifs_freeform_battle_card_spacing,
-    --            ifs_freeform_battle_card_y, ifs_freeform_battle_card_z)
-    --    IFObj_fnSetAlpha(item, item.weight > 0 and 0.5 or 0.125)
-    --end
-    --this.selected = nil
-
+    for i, item in pairs(this.useActive) do
+        IFModel_fnSetTranslation(item,
+                ifs_freeform_battle_card_x_offset + (i - count * 0.5 - 0.5) * ifs_freeform_battle_card_spacing,
+                ifs_freeform_battle_card_y, ifs_freeform_battle_card_z)
+        IFObj_fnSetAlpha(item, item.weight > 0 and 0.5 or 0.125)
+    end
+    this.selected = nil
 
     -- if any cards are available...
-    --if count > 0 then
-    --    -- if this is a player...
-    --    if ifs_freeform_main.joystick then
-    --        -- select the first available card
-    --        this:SetSelected(active)
-    --        ifs_freeform_SetButtonVis( this, "accept", this.selected )
-    --        ifs_freeform_main:PlayVoice(string.format(ifs_battle_card_enter_sound, ifs_freeform_main.playerSide))
-    --    else
-    --        -- pick a card based on weight
-    --        this.selected = nil
-    --        local totalWeight = 2
-    --        for i, item in ipairs(this.useActive) do
-    --            totalWeight = totalWeight + item.weight
-    --        end
-    --        local randomWeight = math.random() * totalWeight
-    --        print ("scaled weight:", totalWeight, randomWeight)
-    --        for i, item in ipairs(this.useActive) do
-    --            randomWeight = randomWeight - item.weight
-    --            if randomWeight <= 0 then
-    --                this:SetSelected(i)
-    --                break
-    --            end
-    --        end
-    --
-    --        ifelm_shellscreen_fnPlaySound(this.acceptSound)
-    --        this:AcceptBonus()
-    --    end
-    --else
+    if count > 0 then
+        -- if this is a player...
+        if ifs_freeform_main.joystick then
+            -- select the first available card
+            this:SetSelected(active)
+            ifs_freeform_SetButtonVis( this, "accept", this.selected )
+            ifs_freeform_main:PlayVoice(string.format(ifs_battle_card_enter_sound, ifs_freeform_main.playerSide))
+        else
+            -- pick a card based on weight
+            this.selected = nil
+            local totalWeight = 2
+            for i, item in ipairs(this.useActive) do
+                totalWeight = totalWeight + item.weight
+            end
+            local randomWeight = math.random() * totalWeight
+            print ("scaled weight:", totalWeight, randomWeight)
+            for i, item in ipairs(this.useActive) do
+                randomWeight = randomWeight - item.weight
+                if randomWeight <= 0 then
+                    this:SetSelected(i)
+                    break
+                end
+            end
+
+            ifelm_shellscreen_fnPlaySound(this.acceptSound)
+            this:AcceptBonus()
+        end
+    else
         -- auto-skip
         this:Next()
-    --end
+    end
 
-    --ifs_freeform_main:UpdatePlayerText(this.player)
-    --
-    --this:UpdateAction()
+    ifs_freeform_main:UpdatePlayerText(this.player)
+
+    this:UpdateAction()
+end
+
+ifs_freeform_battle_card.AcceptBonus = function(this)
+    print("ifs_freeform_battle_card.AcceptBonus")
+
+    -- if there is a selected card...
+    local item = this.useActive[this.selected]
+    if item then
+
+        --TODO not sure if this helped crashing on SetActiveSide
+        --TODO pretty sure this code doesnt give to the correct side
+        --TODO need to wipe out bonus after use. How?
+
+        --choose the team for the bonus. Can only be attacking or defending team (team 1 or 2)
+        local team = ifs_freeform_main.playerTeam
+        if team == ifs_freeform_main.attackTeam then
+            team = 1
+        else
+            team = 2
+        end
+        print("using bonus " .. tostring(item.bonus) .. " for team " .. tostring(team))
+
+        -- activate the selected card
+        ifs_freeform_main.activeBonus[1] = item.bonus
+        --ActivateBonus(team, "team_bonus_" .. item.bonus) --TODO come back to this
+        ifs_freeform_main:PlayVoice(string.format(ifs_battle_card_play_us_sound, ifs_freeform_main.playerSide, item.bonus))
+
+        -- expend the card
+        ifs_purchase_tech_using[ifs_freeform_main.playerTeam][item.slot] = 0
+
+        -- start a delay timer
+        this.displayTimer = 3.0
+    else
+        -- start a short delay timer
+        this.displayTimer = 0.5
+    end
 end
 
 function ifs_freeform_battle_card_GetMouseUseItem( this, x, y )
@@ -1416,9 +1467,11 @@ ifs_freeform_battle_card.HandleMouse = function(this, x, y)
 end
 
 ifs_freeform_battle_card.Next = function(this)
+    print("ifs_freeform_battle_card.Next")
     if this.defending then
         -- switch to the attacker
         this.defending = nil
+        print("switching to attacker " .. tostring(ifs_freeform_main.attackTeam))
         ifs_freeform_main:SetActiveTeam(ifs_freeform_main.attackTeam)
 
         -- restore split screen
@@ -1461,6 +1514,7 @@ ifs_freeform_battle_card.Next = function(this)
     else
         -- switch to the defender
         this.defending = true
+        print("switching to defender " .. tostring(ifs_freeform_main.defendTeam))
         ifs_freeform_main:SetActiveTeam(ifs_freeform_main.defendTeam)
 
         -- re-enter as the defender
@@ -2134,8 +2188,13 @@ end
 ifs_freeform_purchase_unit.SetFreeformMode = function(this)
     this.main = ifs_freeform_main
     this.SetActiveSide = function(this)
+        print("ifs_freeform_main.SetActiveSide ================")
         local side = this.main.playerSide
+        print("side is " .. tostring(side))
+        print("ifs_freeform_main.SetActiveSide ================ 1")
         ifs_purchase_unit_table = ifs_purchase_team_table[side].classes
+        print("ifs_freeform_main.SetActiveSide ================ 2")
+        return
     end
     this.miscScreen = "ifs_freeform_summary"
     this.menuScreen = "ifs_freeform_menu"
