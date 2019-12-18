@@ -9,6 +9,10 @@
 --TODO BUG: game crashes on AI turn after fleet battle - > planet invasion. cannot destroy fleet after invasion (already destroyed)
 --TODO BUG: shell script for flashy text stack overflow
 
+ScriptCB_PopScreen2 = function(string)
+    originalPopScreen = ScriptCB_PopScreen()
+end
+
 ---------------------------
 --  begin global variables
 ---------------------------
@@ -625,7 +629,9 @@ ifs_freeform_main.SetActiveTeam = function(this, team)
 
     print("ifs_freeform_main.SetActiveTeam ========= CALLING SetActiveSide")
     -- update dependent values
-    ifs_freeform_purchase_unit:SetActiveSide()
+    --ifs_freeform_purchase_unit:SetActiveSide()
+    -- the below is all that SetActiveSide does. And it was freezing before
+    ifs_purchase_unit_table = ifs_purchase_team_table[this.playerSide].classes
 end
 
 -- save mission setup. Will send info to the mission about units, team, etc
@@ -724,9 +730,13 @@ end
 
 -- go to the next turn
 ifs_freeform_main.NextTurn = function(this)
-    print("ifs_freeform_main.NextTurn")
+    print("ifs_freeform_main.NextTurn HEY HEY")
     -- clear the screen stack
+    --if ScriptCB_IsScreenInStack("ifs_freeform_main") then --added this because it was just closing the game at PopScreen
+    print("about to pop the screen PROBLEM AREA")
+    print(debug.traceback())
     ScriptCB_PopScreen("ifs_freeform_main")
+    --end
     print("popped the screen")
 
     -- update metagame victory result
@@ -1286,6 +1296,33 @@ ifs_freeform_battle_mode.Enter = function(this, bFwd)
     this.CurButton = ShowHideVerticalButtons(this.buttons,ifs_freeform_battle_vbutton_layout)
     SetCurButton(this.CurButton)
 end
+
+ifs_freeform_battle_mode.Input_Accept = function(this, joystick)
+
+    --skip all of this because it caused weird behavior
+
+    -- If base class handled this work, then we're done
+    --if(gShellScreen_fnDefaultInputAccept(this)) then
+    --    return
+    --end
+    --
+    --if(gPlatformStr == "PC" and joystick) then
+    --    --print( "this.CurButton = ", this.CurButton )
+    --    if( this.CurButton == "_accept" ) then
+    --        -- fall through
+    --    else
+    --        return
+    --    end
+    --end
+
+    ifelm_shellscreen_fnPlaySound(this.acceptSound)
+
+    -- set the mission to launch
+    ifs_freeform_main:SetLaunchMission(this.modes[this.CurButton])
+
+    -- go to the next screen
+    ScriptCB_PushScreen("ifs_freeform_battle_card")
+end -- Input_Accept
 ---------------------------
 --  end ifs_freeform_battle_mode
 ---------------------------
