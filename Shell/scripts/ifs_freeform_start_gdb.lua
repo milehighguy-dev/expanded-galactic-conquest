@@ -1,4 +1,5 @@
 
+--ScriptCB_DoFile("screen_stack_overrides")
 
 --overrided for more than 2 teams
 ifs_freeform_start_common = function(this)

@@ -9,9 +9,6 @@
 --TODO BUG: game crashes on AI turn after fleet battle - > planet invasion. cannot destroy fleet after invasion (already destroyed)
 --TODO BUG: shell script for flashy text stack overflow
 
-ScriptCB_PopScreen2 = function(string)
-    originalPopScreen = ScriptCB_PopScreen()
-end
 
 ---------------------------
 --  begin global variables
@@ -634,6 +631,19 @@ ifs_freeform_main.SetActiveTeam = function(this, team)
     ifs_purchase_unit_table = ifs_purchase_team_table[this.playerSide].classes
 end
 
+-- set launch mission
+ifs_freeform_main.SetLaunchMission = function(this, mission)
+    print("ifs_freeform_main.SetLaunchMission")
+    -- set the mission to launch
+    if type(mission) == "table" then
+        this.launchMission = mission[math.random(table.getn(mission))]
+    else
+        this.launchMission = mission
+    end
+    ScriptCB_SetMissionNames(this.launchMission, nil)
+    print("ifs_freeform_main.SetLaunchMission mission is " .. tostring( mission) .. " " ..  tostring(this.launchMission))
+end
+
 -- save mission setup. Will send info to the mission about units, team, etc
 ifs_freeform_main.SaveMissionSetup = function(this)
     print("ifs_freeform_main.SaveMissionSetup")
@@ -734,7 +744,6 @@ ifs_freeform_main.NextTurn = function(this)
     -- clear the screen stack
     --if ScriptCB_IsScreenInStack("ifs_freeform_main") then --added this because it was just closing the game at PopScreen
     print("about to pop the screen PROBLEM AREA")
-    print(debug.traceback())
     ScriptCB_PopScreen("ifs_freeform_main")
     --end
     print("popped the screen")
@@ -998,7 +1007,8 @@ ifs_freeform_main.SaveState = function(this)
             this.planetResources,
             this.battleResources,
             this.battleWasSkipped,
-            this.soakMode
+            this.soakMode,
+            this.screenStack
     )
 end
 
@@ -1040,7 +1050,8 @@ ifs_freeform_main.LoadState = function(this)
     this.planetResources,
     this.battleResources,
     this.battleWasSkipped,
-    this.soakMode
+    this.soakMode,
+    this.screenStack
     = ScriptCB_LoadMetagameState()
 
     -- create a blank list if empty
@@ -1242,7 +1253,7 @@ end
 ---------------------------
 ifs_freeform_battle_mode.Enter = function(this, bFwd)
     print("ifs_freeform_battle_mode.Enter")
-    gIFShellScreenTemplate_fnEnter(this, bFwd) -- call default enter function
+    --gIFShellScreenTemplate_fnEnter(this, bFwd) -- call default enter function
 
     ifs_freeform_SetButtonVis( this, "back", nil )
     ifs_freeform_SetButtonVis( this, "misc", nil )
@@ -1321,6 +1332,7 @@ ifs_freeform_battle_mode.Input_Accept = function(this, joystick)
     ifs_freeform_main:SetLaunchMission(this.modes[this.CurButton])
 
     -- go to the next screen
+    ScriptCB_PopScreen() -- added because it hang here sometimes otherwise. I think it fixed it?
     ScriptCB_PushScreen("ifs_freeform_battle_card")
 end -- Input_Accept
 ---------------------------
@@ -1332,8 +1344,8 @@ end -- Input_Accept
 ---------------------------
 
 ifs_freeform_battle_card.Enter = function(this, bFwd)
-    print("ifs_freeform_battle_card.Enter")
-    gIFShellScreenTemplate_fnEnter(this, bFwd) -- call default enter function
+    print("ifs_freeform_battle_card.Enter TEST TEST")
+    --gIFShellScreenTemplate_fnEnter(this, bFwd) -- call default enter function
 
     this.PrevButton = nil
 
@@ -1358,6 +1370,8 @@ ifs_freeform_battle_card.Enter = function(this, bFwd)
         item.using = using
         if using > 0 then
             local tech = ifs_purchase_tech_table[using]
+
+            print(" launch mission is " .. tostring(ifs_freeform_main.launchMission))
 
             item.weight = 0
             for _, hint in ipairs(tech.hints) do
@@ -1442,7 +1456,6 @@ ifs_freeform_battle_card.AcceptBonus = function(this)
     local item = this.useActive[this.selected]
     if item then
 
-        --TODO not sure if this helped crashing on SetActiveSide
         --TODO pretty sure this code doesnt give to the correct side
         --TODO need to wipe out bonus after use. How?
 
@@ -1471,37 +1484,37 @@ ifs_freeform_battle_card.AcceptBonus = function(this)
     end
 end
 
-function ifs_freeform_battle_card_GetMouseUseItem( this, x, y )
-    -- values measured from 800x600 screenshot
-    local item_x = 341
-    local item_y = 176
-    local width =  120
-    local height = 132
-    local offset_x = 130
+--function ifs_freeform_battle_card_GetMouseUseItem( this, x, y )
+--    -- values measured from 800x600 screenshot
+--    local item_x = 341
+--    local item_y = 176
+--    local width =  120
+--    local height = 132
+--    local offset_x = 130
+--
+--    -- get item offset
+--    local count = table.getn(this.useActive)
+--    for i, item in pairs(this.useActive) do
+--        local new_item_x = item_x + (i - count * 0.5 - 0.5) * offset_x
+--
+--        if( ( x >= ( new_item_x - width ) ) and ( x <= ( new_item_x + width ) ) and
+--                ( y >= ( item_y - height ) ) and ( y <= ( item_y + height ) ) ) then
+--            return i
+--        end
+--    end
+--
+--    -- mouse not on anyone
+--    return nil
+--end
 
-    -- get item offset
-    local count = table.getn(this.useActive)
-    for i, item in pairs(this.useActive) do
-        local new_item_x = item_x + (i - count * 0.5 - 0.5) * offset_x
-
-        if( ( x >= ( new_item_x - width ) ) and ( x <= ( new_item_x + width ) ) and
-                ( y >= ( item_y - height ) ) and ( y <= ( item_y + height ) ) ) then
-            return i
-        end
-    end
-
-    -- mouse not on anyone
-    return nil
-end
-
-ifs_freeform_battle_card.HandleMouse = function(this, x, y)
-    gIFShellScreenTemplate_fnHandleMouse(this, x, y)
-
-    this.rollover = ifs_freeform_battle_card_GetMouseUseItem( this, x, y )
-    if this.rollover and this.useItems[this.rollover].weight <= 0 then
-        this.rollover = nil
-    end
-end
+--ifs_freeform_battle_card.HandleMouse = function(this, x, y)
+--    gIFShellScreenTemplate_fnHandleMouse(this, x, y)
+--
+--    this.rollover = ifs_freeform_battle_card_GetMouseUseItem( this, x, y )
+--    if this.rollover and this.useItems[this.rollover].weight <= 0 then
+--        this.rollover = nil
+--    end
+--end
 
 ifs_freeform_battle_card.Next = function(this)
     print("ifs_freeform_battle_card.Next")
@@ -1555,6 +1568,7 @@ ifs_freeform_battle_card.Next = function(this)
         ifs_freeform_main:SetActiveTeam(ifs_freeform_main.defendTeam)
 
         -- re-enter as the defender
+        print("re-entering battle card")
         ScriptCB_PushScreen("ifs_freeform_battle_card")
     end
 end

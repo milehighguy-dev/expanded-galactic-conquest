@@ -8,6 +8,7 @@ ucft
         "ifs_freeform_init_gdb"
         "ifs_freeform_start_gdb"
         "totalconquest_scripts"
+        "screen_stack_overrides"
         "game_testscript"
     }
 
